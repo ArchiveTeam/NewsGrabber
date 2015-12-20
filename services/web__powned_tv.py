@@ -7,4 +7,4 @@ regex = [r'https?:\/\/[^\/]*powned\.tv']
 videoregex = []
 liveregex = []
 
-cookie = None
+

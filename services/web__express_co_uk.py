@@ -7,4 +7,4 @@ regex = [r'^https?:\/\/feedproxy\.google\.com\/',
 videoregex = []
 liveregex = []
 
-cookie = None
+

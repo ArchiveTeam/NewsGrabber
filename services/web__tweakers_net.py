@@ -6,4 +6,4 @@ regex = [r'https?:\/\/[^\/]*tweakers\.net']
 videoregex = [r'https?:\/\/[^\/]*tweakers\.net\/video\/']
 liveregex = []
 
-cookie = None
+

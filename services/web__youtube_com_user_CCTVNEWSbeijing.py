@@ -6,4 +6,3 @@ regex = [r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=']
 videoregex = [r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=']
 liveregex = []
 
-cookie = None

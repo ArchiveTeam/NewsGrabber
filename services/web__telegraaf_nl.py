@@ -6,4 +6,4 @@ regex = [r'https?:\/\/[^\/]*telegraaf\.nl']
 videoregex = []
 liveregex = []
 
-cookie = None
+

@@ -8,4 +8,4 @@ regex = [r'^https?:\/\/[^\/]*sky\.com\/',
 videoregex = []
 liveregex = []
 
-cookie = None
+

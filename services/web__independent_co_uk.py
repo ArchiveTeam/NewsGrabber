@@ -8,4 +8,4 @@ regex = [r'^https?:\/\/[^\/]*feedsportal\.com\/',
 videoregex = []
 liveregex = []
 
-cookie = None
+

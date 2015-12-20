@@ -9,4 +9,4 @@ regex = [r'^https?:\/\/[^\/]*bbc\.co\.uk\/',
 videoregex = []
 liveregex = ["/live/"]
 
-cookie = None
+

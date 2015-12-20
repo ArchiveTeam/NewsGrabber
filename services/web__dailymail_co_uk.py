@@ -6,4 +6,4 @@ regex = [r'^https?:\/\/[^\/]*dailymail\.co\.uk\/']
 videoregex = []
 liveregex = []
 
-cookie = None
+
