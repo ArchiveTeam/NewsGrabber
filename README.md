@@ -35,7 +35,7 @@ Refresh can be any number from 1 to 11 were:
 11 = 172800 seconds
 ```
 ### `version`
-This is the version number of the Python scripts. This should be the date and the count of the updates from that one day, for example:
+This is the version number of the Python script. This should be the date and the count of the updates from that one day, for example:
 ```
 version = 20151215.01
 ```
