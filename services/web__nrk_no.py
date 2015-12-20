@@ -8,11 +8,7 @@ urls = ['http://www.nrk.no/kultur/toppsaker.rss',
         'http://nrk.no/ytring/toppsaker.rss',
         'http://www.nrk.no/sapmi/norsk.rss',
         'http://www.nrk.no/sapmi/oanehaccat.rss',
-        'http://www.nrk.no/17mai/toppsaker.rss',
-        'http://www.nrk.no/drommer/toppsaker.rss',
-        'http://www.nrk.no/finnmarkslopet/toppsaker.rss',
         'http://www.nrk.no/sport/fotball/toppsaker.rss',
-        'http://www.nrk.no/klassequizen/toppsaker.rss',
         'http://www.nrk.no/kultur/litteratur/toppsaker.rss',
         'http://www.nrk.no/mat/aktuelt.rss',
         'http://www.nrk.no/ytring/toppsaker.rss',
@@ -56,4 +52,3 @@ urls = ['http://www.nrk.no/kultur/toppsaker.rss',
 regex = [r'https?:\/\/[^\/]*nrk\.no']
 videoregex = []
 liveregex = []
-
