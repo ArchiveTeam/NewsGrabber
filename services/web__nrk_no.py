@@ -29,7 +29,7 @@ urls = ['http://www.nrk.no/kultur/toppsaker.rss',
         'http://www.nrk.no/finnmark/siste.rss',
         'http://www.nrk.no/ostafjells/buskerud/siste.rss',
         'http://www.nrk.no/nyheter/siste.rss',
-        'http://www.nrk.no/sport/siste.rss'
+        'http://www.nrk.no/sport/siste.rss',
         'http://www.nrk.no/norge/toppsaker.rss',
         'http://www.nrk.no/urix/toppsaker.rss',
         'http://www.nrk.no/sport/toppsaker.rss',
