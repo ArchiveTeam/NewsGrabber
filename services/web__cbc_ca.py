@@ -1,7 +1,8 @@
 refresh = 2
-version = 20151220.01
+version = 20151221.01
 
-urls = ['http://rss.cbc.ca/lineup/world.xml',
+urls = ['http://www.cbc.ca',
+        'http://rss.cbc.ca/lineup/world.xml',
         'http://rss.cbc.ca/lineup/canada.xml',
         'http://rss.cbc.ca/lineup/politics.xml',
         'http://rss.cbc.ca/lineup/business.xml',
