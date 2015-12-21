@@ -7,6 +7,9 @@ import re
 import codecs
 import subprocess
 import services
+import requests.packages.urllib3
+
+requests.packages.urllib3.disable_warnings()
 
 version = 20151218.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
@@ -16,16 +19,20 @@ def checkrefresh():
     while True:
         if os.path.isdir('./services'):
             shutil.rmtree('./services')
-        os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git')
+        os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git > /dev/null 2>&1')
         shutil.copytree('./NewsGrabber/services', './services')
         shutil.rmtree('./NewsGrabber')
         reload(services)
+        print('Updated services.')
         for root, dirs, files in os.walk("./services"):
             for service in files:
                 if service.startswith("web__") and service.endswith(".py"):
                     if not service[:-3] in refresh[int(eval("services." + service[:-3] + ".refresh"))-1]:
+                        for refreshlist in refresh:
+                            while service[:-3] in refreshlist:
+                                refreshlist.remove(service[:-3])
                         refresh[int(eval("services." + service[:-3] + ".refresh"))-1].append(service[:-3])
-                        print('Found service ' + service[:-3])
+                        print('Found service ' + service[:-3] + '.')
         time.sleep(300)
 
 def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
@@ -37,6 +44,8 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
             tries += 1
             with open('exceptions', 'a') as exceptions:
                 exceptions.write(str(version) + ' ' + str(tries) + ' ' + url + '\n' + str(exception) + '\n\n')
+                if tries == 5:
+                    print(str(version) + ' ' + str(tries) + ' ' + url + ' EXCEPTION ' + str(exception))
         try:
             response
         except NameError:
@@ -109,7 +118,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
                                 if not extractedurl in listfile:
                                     listurls.write(extractedurl + '\n')
                         count += 1
-            print('Extracted ' + str(count) + ' URLs from service ' + service)
+            print('Extracted ' + str(count) + ' URLs from service ' + service + ' for URL ' + url + '.')
 
 def refresh_grab(i):
     while True:
@@ -139,11 +148,11 @@ def grab():
         if os.path.isfile('list'):
             os.rename('list', 'list_temp')
             threading.Thread(target=grablist).start()
-            print("Started normal grab")
+            print("Started normal grab.")
         if os.path.isfile('list-videos'):
             os.rename('list-videos', 'list-videos_temp')
             threading.Thread(target=grablistvideos).start()
-            print("Started videos grab")
+            print("Started videos grab.")
 
         time.sleep(3590)
 
@@ -166,7 +175,6 @@ def main():
     threading.Thread(target = dashboard).start()
     threading.Thread(target = processfiles).start()
     for i in range(len(refresh)):
-        print(i)
         threading.Thread(target = refresh_grab, args = (i,)).start()
     threading.Thread(target = grab).start()
 
