@@ -1,4 +1,7 @@
 # NewsGrabber
+
+THIS IS STILL IN BETA
+
 An Archive Team project to save every news article from every newswebsite.
 
 The dashboard of this grab can be viewed here: http://newsgrabber.harrycross.me:29000.
@@ -40,9 +43,9 @@ This is the version number of the Python script. This should be the date and the
 version = 20151215.01
 ```
 ### `urls`
-This is a list of URLs that will be checked for new links. These urls should be pages with a list of the newest articles, like rss feeds, and/or frontpages which have links to the newest articles. For example:
+This is a list of URLs that will be checked for new links. These urls should be pages with a list of the newest articles, like rss feeds, and/or frontpages which have links to the newest articles. As few links as possible should be added, but all new articles should be found. For example:
 ```
-urls = ['http://www.theguardian.com/uk/rss','http://www.theguardian.com/']
+urls = ['http://www.theguardian.com/uk/rss']
 ```
 ### `regex`
 This is a list of regex patterns which will be matched with the links found in the downloaded URLs from `urls`. Links that match with one or more of these regex patterns will be added to the list to be downloaded. Often the regexes will match the main site of the newsarticles. For example:
