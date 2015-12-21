@@ -1,5 +1,5 @@
 refresh = 4
-version = 20151220.01
+version = 20151220.02
 
 urls = ['http://feeds.macrumors.com/MacRumors-All',
         'http://www.macrumors.com']
