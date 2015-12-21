@@ -6,6 +6,7 @@ urls = ['http://feeds.feedburner.com/TechCrunch/',
 regex = [r'^https?:\/\/[^\/]*techcrunch\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = [r'/video/']
-liveregex = []
+liveregex = [r'live-',
+	    r'liveblog-']
 
 

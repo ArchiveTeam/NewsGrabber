@@ -6,6 +6,7 @@ urls = ['http://feeds.macrumors.com/MacRumors-All',
 regex = [r'^https?:\/\/[^\/]*macrumors\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = [r'^https?:\/\/[^\/]*youtube\.com\/']
-liveregex = []
+liveregex = [r'live-coverage',
+	    r'-live']
 
 

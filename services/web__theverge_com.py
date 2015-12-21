@@ -5,6 +5,6 @@ urls = ['http://www.theverge.com/rss/full.xml',
         'http://www.theverge.com']
 regex = [r'^https?:\/\/[^\/]*theverge\.com\/']	
 videoregex = [r'/video/']
-liveregex = []
+liveregex = [r'^https?:\/\/live\.theverge\.com\/']
 
 

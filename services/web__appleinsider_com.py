@@ -5,6 +5,6 @@ urls = ['http://appleinsider.com/appleinsider.rss',
         'http://appleinsider.com']
 regex = [r'^https?:\/\/[^\/]*appleinsider\.com\/']
 videoregex = [r'^https?:\/\/[^\/]*youtube\.com\/']
-liveregex = []
+liveregex = [r'^https?:\/\/live\.appleinsider\.com\/']
 
 
