@@ -1,9 +1,9 @@
 refresh = 10
-version = 20151220.01
+version = 20151221.01
 
 urls = ['https://jeb2016.com/feed/']
 regex = [r'^https?:\/\/[^\/]*jeb2016\.com\/']	
-videoregex = [r'^https?:\/\/[^\/]*youtube\.com\/']
+videoregex = [r'^https?:\/\/(?:www\.)?youtube\.com\/embed\/']
 liveregex = []
 
 
