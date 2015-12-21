@@ -1,5 +1,5 @@
-refresh = 5
-version = 20151221.01
+refresh = 10
+version = 20151221.02
 
 urls = ['https://www.youtube.com/user/arstechnicavideos/videos']
 regex = [r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=']
