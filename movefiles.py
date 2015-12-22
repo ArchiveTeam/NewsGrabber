@@ -57,5 +57,5 @@ for folder in next(os.walk('.'))[1]:
                     shutil.rmtree("./" + folder)
 for root, dirs, files in os.walk("./ready"):
     for file in files:
-        os.rename(os.path.join(root, file), os.path.join(root, re.sub(".*-list(?:-videos)?_temp", "news", file)))
+        os.rename(os.path.join(root, file), os.path.join(root, re.sub(".*-list(?:-videos)?(?:-immediate)?(?:_temp)?(?:[01]\.[0-9]+)?", "news", file)))
 print("All finished WARCs have been moved.")
