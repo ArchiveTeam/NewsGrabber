@@ -2,9 +2,7 @@
 
 THIS IS STILL IN BETA
 
-An Archive Team project to save every news article from every newswebsite.
-
-The dashboard of this grab can be viewed here: http://newsgrabber.harrycross.me:29000.
+An Archive Team project to save every news article from every newswebsite. The dashboard of this grab can be viewed here: http://newsgrabber.harrycross.me:29000.
 
 How does this work?
 -------------------
@@ -16,7 +14,7 @@ Add a new website
 ------------------
 Every new website that is added requires a Python file in `/services/` in order to be grabbed. This Python file should contain:
 ### Filename
-The name of the new Python file should start with `web__` and end with `.py`. The name should contain the name of the website or a description of what part of the websites it holds. For example: `web__skynews_com.py` or `web__rtlnieuws_nl_videos.py`.
+The name of the new Python file should start with `web__` and end with `.py`. The name should contain the name of the website or a description of what part of the websites it holds. The filename should only contain the following characters: `0123456789`, `abcdefghijklmnopqrstuvwxyz`, `ABCDEFGHIJKLMNOPQRSTUVWXYZ` and `-`. For example: `web__skynews_com.py` or `web__rtlnieuws_nl_videos.py`.
 
 ### `refresh`
 This is a number indicating how often the URLs in `urls` should be recrawled for new URLs. When `refresh = 4` the URLs in `urls` will be redownloaded and checked for new URLs every 300 seconds. For example:
