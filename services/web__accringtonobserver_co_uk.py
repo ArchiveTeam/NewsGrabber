@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 8
 version = 20151223.01
 
 urls = ['http://www.accringtonobserver.co.uk/?service=rss']
