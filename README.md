@@ -25,15 +25,15 @@ Refresh can be any number from 1 to 11 were:
 ```
 1 = 5 seconds
 2 = 30 seconds
-3 = 60 seconds
-4 = 300 seconds
-5 = 1800 seconds
-6 = 3600 seconds
-7 = 7200 seconds
-8 = 21600 seconds
-9 = 43200 seconds
-10 = 86400 seconds
-11 = 172800 seconds
+3 = 60 seconds - 1 minute
+4 = 300 seconds - 5 minutes
+5 = 1800 seconds - 30 minutes
+6 = 3600 seconds - 60 minutes - 1 hour
+7 = 7200 seconds - 120 minutes - 2 hours
+8 = 21600 seconds - 360 minutes - 6 hours
+9 = 43200 seconds - 720 minutes - 12 hours
+10 = 86400 seconds - 1,440 minutes - 24 hours
+11 = 172800 seconds - 2,880 minutes - 48 hours - 2 days
 ```
 ### `version`
 This is the version number of the Python script. This should be the date and the count of the updates from that one day, for example:
