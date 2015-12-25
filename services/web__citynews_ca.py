@@ -1,5 +1,5 @@
-refresh = 3
-version = 20151221.01
+refresh = 5
+version = 20151224.01
 
 urls = ['http://www.citynews.ca/feed/']	
 regex = [r'^https?:\/\/[^\/]*citynews\.ca\/']	

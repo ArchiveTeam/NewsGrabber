@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151220.03
+refresh = 6
+version = 20151224.01
 
 urls = ['http://www.theonion.com/feeds/rss',
         'http://www.theonion.com',

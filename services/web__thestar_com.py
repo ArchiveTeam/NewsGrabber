@@ -1,5 +1,5 @@
-refresh = 2
-version = 20151220.01
+refresh = 3
+version = 20151224.01
 
 urls = ['http://www.thestar.com/feeds.articles.rss']
 regex = [r'^https?:\/\/[^\/]*thestar\.com\/']	

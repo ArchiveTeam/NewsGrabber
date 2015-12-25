@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151221.01
+refresh = 6
+version = 20151224.01
 
 urls = ['http://appleinsider.com/appleinsider.rss',
         'http://appleinsider.com']

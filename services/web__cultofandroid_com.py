@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151220.02
+refresh = 5
+version = 20151224.01
 
 urls = ['http://cultofandroid.com.feedsportal.com/c/33880/f/612195/index.rss',
         'http://www.cultofandroid.com']

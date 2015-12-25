@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151220.01
+refresh = 6
+version = 20151224.01
 
 urls = ['http://o.canada.com/feed',
         'http://o.canada.com']

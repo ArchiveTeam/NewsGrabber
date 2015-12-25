@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151224.01
+refresh = 5
+version = 20151224.02
 
 urls = ['http://feeds.feedburner.com/TheBoyGeniusReport']
 regex = [r'^https?:\/\/[^\/]*bgr\.com\/',

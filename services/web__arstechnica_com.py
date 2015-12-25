@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151221.02
+refresh = 5
+version = 20151224.01
 
 urls = ['http://feeds.arstechnica.com/arstechnica/index']
 regex = [r'^https?:\/\/[^\/]*arstechnica\.com\/',

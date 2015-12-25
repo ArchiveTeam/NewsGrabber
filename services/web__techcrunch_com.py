@@ -1,5 +1,5 @@
-refresh = 4
-version = 20151220.02
+refresh = 3
+version = 20151224.01
 
 urls = ['http://feeds.feedburner.com/TechCrunch/',
         'http://techcrunch.com']

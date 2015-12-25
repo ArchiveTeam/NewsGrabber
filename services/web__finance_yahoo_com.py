@@ -1,5 +1,5 @@
-refresh = 2
-version = 20151221.01
+refresh = 4
+version = 20151224.01
 
 urls = ['http://finance.yahoo.com/news/rss/',
         'http://finance.yahoo.com/']
