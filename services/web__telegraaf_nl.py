@@ -1,9 +1,10 @@
-refresh = 6
-version = 20151219.01
+refresh = 4
+version = 20151226.01
 
-urls = ['http://www.telegraaf.nl/']
+urls = ['http://www.telegraaf.nl/',
+	'http://www.telegraaf.nl/rss/']
 regex = [r'https?:\/\/[^\/]*telegraaf\.nl']
-videoregex = []
+videoregex = [r'/tv/']
 liveregex = []
 
 
