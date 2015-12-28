@@ -22,7 +22,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20151228.01
+version = 20151228.02
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
@@ -420,10 +420,6 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
                     if re.search(regex, extractedurl) and not extractedurl in extractedvideourls:
                         extractedvideourls.append(extractedurl)
                         break
-            if os.path.isfile('list'):
-                listfile = codecs.open('list', 'r', 'utf-8').read()
-            else:
-                listfile = 'NOTHING'
             imgrabfiles.append(str(random.random()))
             imgrabfiles.append(str(random.random()))
             for extractedurl in extractedurls:
