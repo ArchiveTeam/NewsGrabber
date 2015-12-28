@@ -22,7 +22,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20151228.02
+version = 20151229.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
@@ -164,7 +164,7 @@ def upload(name, date1):
     if int(itemsize) > 10737418240:
         itemnum  = int(itemnum) + 1
         itemsize = 0
-    itemname = 'newssites-' + str(itemdate) + '-' + '0'*(4-len(str(itemnum))) + str(itemnum)
+    itemname = 'archiveteam_newssites_' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
     itemsize = int(itemsize) + filesize
     with open('last_upload', 'w') as uploadfile:
         uploadfile.write(str(itemsize) + ',' + str(itemnum) + ',' + str(itemdate))
@@ -172,8 +172,6 @@ def upload(name, date1):
     os.remove("./ready/" + name + ".upload")
     if os.path.isfile('./ready/' + name):
         irc_print(irc_channel_bot, name + ' uploaded unsuccessful.')
-    else:
-        print(irc_channel_bot, name + ' uploaded to newssites-' + date + '.')
 
 def check(files, num):
     for file in files:
@@ -331,9 +329,9 @@ def checkrefresh():
                         print('Found service ' + service[:-3] + '.')
         new_count = new_services-service_count
         service_count = new_services
-        if new_services == 1:
+        if new_count == 1:
             irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' service.')
-        elif new_services != 0:
+        elif new_count != 0:
             irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' services.')
         time.sleep(300)
 
@@ -430,7 +428,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
                 except:
                     grablistdone[service] = []
                 if not extractedurl in grablistdone[service]:
-                    for regex in liveregexes:[hH](?:ello|ey|i)
+                    for regex in liveregexes:
                         if re.search(regex, extractedurl):
                             break
                     else:
