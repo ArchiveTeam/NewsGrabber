@@ -450,25 +450,6 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 						if not extractedurl in grablistnormal:
 							grablistnormal.append(extractedurl)
 					count += 1
-#			with codecs.open('./donefiles/' + service, 'r', 'utf-8') as donefile:
-#				with codecs.open('./donefiles/' + service + '-temp', 'a', 'utf-8') as doneurls:
-#					with codecs.open('./donefiles/' + service + '_webpage', 'r', 'utf-8') as pagefile:
-#						page = pagefile.read()
-#						print(page)
-#						for doneurl in donefile:
-#							if doneurl in response.text:
-#								doneurls.write(doneurl + '\n')
-#							if re.match(r'^https?://[^/]+(/.*)', doneurl):
-#								if re.match(r'^https?://[^/]+(/.*)', doneurl).group(1) in page:
-#									print("yessssssssssssss")
-#									doneurls.write(doneurl)
-#							elif re.match(r'^https?(://.*)', doneurl):
-#								if re.match(r'^https?(://.*)', doneurl).group(1) in page:
-#									doneurls.write(doneurl)
-#							#print(re.match(r'^https?://[^/]+(/.*)', doneurl).group(1))
-#							
-#			os.remove('./donefiles/' + service)
-#			os.rename('./donefiles/' + service + '-temp', './donefiles/' + service)
 			if os.path.isfile('list-videos-immediate' + imgrabfiles[0]):
 				listname = 'list-videos-immediate' + imgrabfiles[0]
 				irc_print(irc_channel_bot, 'Started immediate videos grab for service ' + service + '.')
