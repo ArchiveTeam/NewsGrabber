@@ -203,7 +203,7 @@ def movefiles():
                             if firstnum > 0:
                                 break
                         if os.path.isfile("./" + folder + "/" + folder + "-" + (5-len(startnum))*"0" + startnum + ".warc.gz"):
-                            print 'hi'
+                            #print 'hi'
                             if firstnum == None:
                                 firstnum = int(startnum)
                             if not startnum == "0" and not firstnum == int(startnum):
@@ -404,7 +404,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
                 if '?' in extractedurl:
                     oldextractedurls.append(extractedurl.split('?')[0])
                 for extractedurl in oldextractedurls:
-                extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
+                    extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
                 try:
                     extractedurlpercent = re.search(r'^(https?://[^/]+).*$', extractedurl).group(1) + urllib.quote(re.search(r'^https?://[^/]+(.*)$', extractedurl).group(1).encode('utf8'), "!#$&'()*+,/:;=?@[]-._~")
                 except:
