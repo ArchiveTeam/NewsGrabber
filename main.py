@@ -11,6 +11,8 @@ import socket
 import random
 import sys
 import urllib
+import datetime
+import time
 if not os.path.isdir('./services'):
 	os.makedirs('./services')
 if not os.path.isfile('./services/__init__.py'):
@@ -22,7 +24,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20151229.01
+version = 20160102.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
@@ -54,7 +56,8 @@ def irc_bot():
 		with open('irclog', 'a') as file:
 			file.write(irc_message)
 		if 'PING :' in irc_message:
-			irc.send('PONG :\n')
+			message = re.search(r':(.*)$', irc_message).group(1)
+			irc.send('PONG :' + message + '\n')
 		elif re.search(r'^:[^:]+:.*newsbud(?:dy)?', irc_message) and re.search(r'^:[^:]+:.*[hH](?:ello|ey|i)', irc_message):
 			if re.search(r'^:([^!]+)!', irc_message):
 				if not re.search(r'^:([^!]+)!', irc_message).group(1) == 'newsbuddy':
@@ -77,6 +80,11 @@ def irc_bot():
 			writefiles()
 			new_grabs = False
 			irc_print(irc_channel_bot, user + ': No new grabs will be started.')
+		elif re.search(r'^:[^:]+:!start', irc_message):
+			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			writefiles()
+			new_grabs = True
+			irc_print(irc_channel_bot, user + ': New grabs will be started.')
 		elif re.search(r'^:[^:]+:!version', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_print(irc_channel_bot, user + ': I\'m version ' + str(version) + '.')
@@ -154,20 +162,18 @@ def upload(name, date1):
 	itemdate = date
 	itemnum = 0
 	itemsize = 0
-	if os.path.isfile('last_upload'):
-		with open('last_upload', 'r') as uploadfile:
-			itemsize, itemnum, itemdate = uploadfile.read().split(',', 2)
-	if itemdate != date:
-		itemdate = date
-		itemsize = 0
-		itemnum = 0
+	if not os.path.isdir('./last_upload'):
+		os.makedirs('./last_upload')
+	if os.path.isfile('./last_upload/last_upload_' + itemdate):
+		with open('./last_upload/last_upload_' + itemdate, 'r') as uploadfile:
+			itemsize, itemnum = uploadfile.read().split(',', 1)
 	if int(itemsize) > 10737418240:
 		itemnum  = int(itemnum) + 1
 		itemsize = 0
 	itemname = 'archiveteam_newssites_' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
 	itemsize = int(itemsize) + filesize
-	with open('last_upload', 'w') as uploadfile:
-		uploadfile.write(str(itemsize) + ',' + str(itemnum) + ',' + str(itemdate))
+	with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
+		uploadfile.write(str(itemsize) + ',' + str(itemnum))
 	os.system('ia upload {0} ./ready/{1} --metadata="title:{0}" --metadata="mediatype:web" --metadata="collection:opensource" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
 	os.remove("./ready/" + name + ".upload")
 	if os.path.isfile('./ready/' + name):
@@ -194,6 +200,8 @@ def movefiles():
 	for folder in next(os.walk('.'))[1]:
 		if not (folder == 'services' or folder == 'temp' or folder == 'donefiles'):
 			for root, dirs, files in os.walk("./" + folder):
+				if re.search(r'-[0-9a-z]{8}$', folder):
+					writehtmllist(folder)
 				if (check(files, "0") == False or check(files, "1") == True) and not folder == "ready":
 					startnum = "0"
 					firstnum = None
@@ -245,6 +253,7 @@ def loadfiles():
 					print service
 					for url in servicefile.read().splitlines():
 						url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
+						url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
 						try:
 							grablistdone[service]
 						except:
@@ -256,12 +265,14 @@ def loadfiles():
 		with codecs.open('list', 'r', 'utf-8') as listfile:
 			for url in listfile.read().splitlines():
 				url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
+				url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
 				if not url in grablistnormal:
 					grablistnormal.append(url)
 	if os.path.isfile('list-videos'):
 		with codecs.open('list-videos', 'r', 'utf-8') as listfile:
 			for url in listfile.read().splitlines():
 				url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
+				url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
 				if not url in grablistvideos:
 					grablistvideos.append(url)
 	irc_print(irc_channel_bot, 'All files loaded.')
@@ -405,6 +416,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 					oldextractedurls.append(extractedurl.split('?')[0])
         		for extractedurl in oldextractedurls:
 				extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
+				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl).group(1)
 				try:
 					extractedurlpercent = re.search(r'^(https?://[^/]+).*$', extractedurl).group(1) + urllib.quote(re.search(r'^https?://[^/]+(.*)$', extractedurl).group(1).encode('utf8'), "!#$&'()*+,/:;=?@[]-._~")
 				except:
@@ -492,12 +504,13 @@ def processfiles():
 		time.sleep(270)
 
 def grab():
-	while new_grabs:
-		time.sleep(20)
-		if os.path.isfile('list_temp'):
-			os.remove('list_temp')
-		if os.path.isfile('list-videos_temp'):
-			os.remove('list-videos_temp')
+	while True:
+		if new_grabs:
+			time.sleep(20)
+			if os.path.isfile('list_temp'):
+				os.remove('list_temp')
+			if os.path.isfile('list-videos_temp'):
+				os.remove('list-videos_temp')
 		grablistvideostemp = grablistvideos
 		with codecs.open('list-videos_temp', 'a', 'utf-8') as listfile:
 			listfile.write('\n'.join(grablistvideostemp))
@@ -505,9 +518,10 @@ def grab():
 		for url in grablistvideostemp:
 			grablistvideos.remove(url)
 		print(len(grablistvideos))
-		if os.path.isfile('list-videos_temp'):
-			threading.Thread(target=grablist, args=('list-videos_temp',)).start()
-			irc_print(irc_channel_bot, "Started videos grab.")
+		if new_grabs:
+			if os.path.isfile('list-videos_temp'):
+				threading.Thread(target=grablist, args=('list-videos_temp',)).start()
+				irc_print(irc_channel_bot, "Started videos grab.")
 		grablistnormaltemp = grablistnormal
 		with codecs.open('list_temp', 'a', 'utf-8') as listfile:
 			listfile.write('\n'.join(grablistnormaltemp))
@@ -515,10 +529,11 @@ def grab():
 		for url in grablistnormaltemp:
 			grablistnormal.remove(url)
 		print(len(grablistnormal))
-		if os.path.isfile('list_temp'):
-			threading.Thread(target=grablist, args=('list_temp',)).start()
-			irc_print(irc_channel_bot, "Started normal grab.")
-		time.sleep(3230)
+		if new_grabs:
+			if os.path.isfile('list_temp'):
+				threading.Thread(target=grablist, args=('list_temp',)).start()
+				irc_print(irc_channel_bot, "Started normal grab.")
+		time.sleep(3580)
 
 def grablist(listname):
 	videostring = ''
@@ -528,10 +543,40 @@ def grablist(listname):
 	if '-immediate' in listname:
 		os.remove(listname)
 
+def writehtmlindex():
+	if not os.path.isfile('index.html'):
+		with open('index.html', 'w') as file:
+			file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>Date</th>\n    <th>URLs</th>\n    <th>ID</th>\n    <th>YouTube-DL</th>\n    <th>Immediate grab</th>\n  </tr>\n</table>\n\n</body>\n</html>\n')
+
+def writehtmllist(folder):
+	urlslist = []
+	grabid = re.search(r'-([0-9a-z]{8})$', folder).group(1)
+	youtubedl = 'no'
+	imgrab = 'no'
+	if '-videos' in folder:
+		youtubedl = 'yes'
+	if re.search(r'[0-9]\.[0-9]+', folder):
+		imgrab = 'yes'
+	if os.path.isfile('./'+ folder + '/input_file'):
+		with open('./'+ folder + '/input_file', 'r') as file:
+			urlslist = file.read().splitlines()
+		if not os.path.isfile('index.html'):
+			writehtmlindex()
+		if not os.path.isdir('./urllists'):
+			os.makedirs('./urllists')
+		with open('index.html', 'r') as file:
+			newhtml = file.read()
+		if not grabid in newhtml:
+			with open('index.html', 'w') as file:
+				file.write(newhtml.replace('  <tr>\n    <th>Date</th>\n    <th>URLs</th>\n    <th>ID</th>\n    <th>YouTube-DL</th>\n    <th>Immediate grab</th>\n  </tr>\n', '  <tr>\n    <th>Date</th>\n    <th>URLs</th>\n    <th>ID</th>\n    <th>YouTube-DL</th>\n    <th>Immediate grab</th>\n  </tr>\n  <tr>\n    <td><a href="urllists/' + grabid + '.html">' + datetime.datetime.fromtimestamp(os.path.getctime('./' + folder + '/input_file')).strftime("%Y-%m-%d %H:%M") + '</a></td>\n    <td><a href="urllists/' + grabid + '.html">' + str(len(urlslist)) + '</a></td>\n    <td><a href="urllists/' + grabid + '.html">' + grabid + '</a></td>\n    <td><a href="urllists/' + grabid + '.html">' + youtubedl + '</a></td>\n    <td><a href="urllists/' + grabid + '.html">' + imgrab + '</a></td>\n  </tr>\n'))
+			with open('./urllists/' + grabid + '.html', 'w') as file:
+				file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:100%;\n}\ntable#list tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#list tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#list th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="list" align="center">\n  <tr>\n    <th>URL</th>\n  </tr>\n  <tr>\n    <td>' + '</td>\n  </tr>\n  <tr>\n    <td>'.join(urlslist) + '</td>\n  </tr>\n</table>\n\n</body>\n</html>\n')
+
 def main():
-	loadfiles()
-	pause_length = 10
 	threading.Thread(target = irc_bot).start()
+	loadfiles()
+	writehtmlindex()
+	pause_length = 10
 	time.sleep(pause_length*2)
 	irc_print(irc_channel_bot, 'Hello!')
 	irc_print(irc_channel_bot, 'Version ' + str(version) + '.')
