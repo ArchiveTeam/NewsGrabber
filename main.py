@@ -575,16 +575,29 @@ def writehtmllist(folder):
 				file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:100%;\n}\ntable#list tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#list tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#list th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="list" align="center">\n  <tr>\n    <th>URL</th>\n  </tr>\n  <tr>\n    <td>' + '</td>\n  </tr>\n  <tr>\n    <td>'.join(urlslist) + '</td>\n  </tr>\n</table>\n\n</body>\n</html>\n')
 
 def serviceshtml():
+        def make_name(name, m):
+                display_name = name[5:-3].replace('_','.')
+                wikidata = getattr(m, 'wikidata', None)
+                if wikidata:
+                        return '<a href="https://www.wikidata.org/wiki/{}">{}</a>'.format(wikidata, display_name)
+                return display_name
+        def make_multiline(arr, func):
+                return '<br>'.join(map(func, arr))
+        def as_code(s):
+                return '<code>{}</code>'.format(s)
+        def as_url(s):
+                return '<a href="{}">{}</a>'.format(s, s.split('://',1)[1])
         servicemodules = sorted([(service, getattr(services, service[:-3])) for root, dirs, files in os.walk("./services")
                 for service in files if service.startswith("web__") and service.endswith(".py")])
         return '\n'.join(['<tr>{}</tr>'.format(' '.join(['<td>{}</td>'.format(d) for d in [
                 n,
-                name[5:-3].replace('_','.'),
+                make_name(name, m),
+                make_multiline(m.urls, as_url),
                 '<br>'.join('<a href="{}">{}</a>'.format(x, x.split('://',1)[1]) for x in m.urls),
                 refresh_names[m.refresh-1],
-                '<br>'.join('<code>{}</code>'.format(x) for x in m.regex),
-                '<br>'.join('<code>{}</code>'.format(x) for x in m.videoregex),
-                '<br>'.join('<code>{}</code>'.format(x) for x in m.liveregex),
+                make_multiline(m.regex, as_code),
+                make_multiline(m.videoregex, as_code),
+                make_multiline(m.liveregex, as_code),
                 m.version,
                 ]])) for (n, (name, m)) in enumerate(servicemodules)])
 
