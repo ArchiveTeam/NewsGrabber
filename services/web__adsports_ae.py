@@ -10,5 +10,5 @@ videoregex = [r'video']
 liveregex = []
 
 
-wikidata=Q2055675
+wikidata = Q2055675
 
