@@ -26,6 +26,7 @@ requests.packages.urllib3.disable_warnings()
 
 version = 20160102.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
+refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
 service_urls = {}
@@ -276,7 +277,7 @@ def loadfiles():
 				if not url in grablistvideos:
 					grablistvideos.append(url)
 	irc_print(irc_channel_bot, 'All files loaded.')
-	
+
 
 def writefiles():
 	global grablistdone
@@ -314,7 +315,7 @@ def writefiles():
 	shutil.rmtree('./temp')
 	writing = False
 	irc_print(irc_channel_bot, 'All files written.')
-			
+
 
 def checkrefresh():
 	global refresh
@@ -328,6 +329,7 @@ def checkrefresh():
 		shutil.copytree('./NewsGrabber/services', './services')
 		shutil.rmtree('./NewsGrabber')
 		reload(services)
+                writehtmlserviceslist()
 		for root, dirs, files in os.walk("./services"):
 			for service in files:
 				if service.startswith("web__") and service.endswith(".py"):
@@ -546,7 +548,7 @@ def grablist(listname):
 def writehtmlindex():
 	if not os.path.isfile('index.html'):
 		with open('index.html', 'w') as file:
-			file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>Date</th>\n    <th>URLs</th>\n    <th>ID</th>\n    <th>YouTube-DL</th>\n    <th>Immediate grab</th>\n  </tr>\n</table>\n\n</body>\n</html>\n')
+			file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<div><a href="services.html">Services</a></div><table id="lists" align="center">\n  <tr>\n    <th>Date</th>\n    <th>URLs</th>\n    <th>ID</th>\n    <th>YouTube-DL</th>\n    <th>Immediate grab</th>\n  </tr>\n</table>\n\n</body>\n</html>\n')
 
 def writehtmllist(folder):
 	urlslist = []
@@ -572,9 +574,65 @@ def writehtmllist(folder):
 			with open('./urllists/' + grabid + '.html', 'w') as file:
 				file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:100%;\n}\ntable#list tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#list tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#list th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="list" align="center">\n  <tr>\n    <th>URL</th>\n  </tr>\n  <tr>\n    <td>' + '</td>\n  </tr>\n  <tr>\n    <td>'.join(urlslist) + '</td>\n  </tr>\n</table>\n\n</body>\n</html>\n')
 
+def serviceshtml():
+        servicemodules = sorted([(service, getattr(services, service[:-3])) for root, dirs, files in os.walk("./services")
+                for service in files if service.startswith("web__") and service.endswith(".py")])
+        return '\n'.join(['<tr>{}</tr>'.format(' '.join(['<td>{}</td>'.format(d) for d in [
+                n,
+                name[5:-3].replace('_','.'),
+                '<br>'.join('<a href="{}">{}</a>'.format(x, x.split('://',1)[1]) for x in m.urls),
+                refresh_names[m.refresh-1],
+                '<br>'.join('<code>{}</code>'.format(x) for x in m.regex),
+                '<br>'.join('<code>{}</code>'.format(x) for x in m.videoregex),
+                '<br>'.join('<code>{}</code>'.format(x) for x in m.liveregex),
+                m.version,
+                ]])) for (n, (name, m)) in enumerate(servicemodules)])
+
+def writehtmlserviceslist():
+        with open('services.html', 'w') as file:
+                file.write("""<!DOCTYPE html>
+<html>
+<head>
+<style>
+table#lists {
+    width:60%;
+}
+table#lists tr:nth-child(even) {
+    background-color: #eee;
+}
+table#lists tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#lists th	{
+    background-color: black;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<table id="lists" align="center">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>URLs</th>
+    <th>Refresh</th>
+    <th>Regex</th>
+    <th>Video Regex</th>
+    <th>Live Regex</th>
+    <th>Version</th>
+  </tr>
+""" + serviceshtml() + """
+</table>
+
+</body>
+</html>
+""")
+
 def main():
 	threading.Thread(target = irc_bot).start()
 	loadfiles()
+        writehtmlserviceslist()
 	writehtmlindex()
 	pause_length = 10
 	time.sleep(pause_length*2)
