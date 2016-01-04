@@ -9,3 +9,6 @@ regex = [r'^https?:\/\/[^\/]*adsports\.ae']
 videoregex = [r'video']
 liveregex = []
 
+
+wikidata=Q2055675
+
