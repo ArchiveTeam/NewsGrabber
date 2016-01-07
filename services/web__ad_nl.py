@@ -8,5 +8,5 @@ liveregex = []
 
 
 
-wikidata = Q290764
+wikidata = 'Q290764'
 
