@@ -24,7 +24,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160102.01
+version = 20160107.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
@@ -43,11 +43,13 @@ irc_channel_bot = '#newsgrabberbot'
 irc_channel_main = '#newsgrabber'
 irc_nick = 'newsbuddy'
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-irc.connect((irc_server, irc_port))
-irc.send("USER " + irc_nick + " " + irc_nick + " " + irc_nick + " :This is the bot for " + irc_channel_main + ". https://github.com/ArchiveTeam/NewsGrabber.\n")
-irc.send("NICK " + irc_nick + "\n")
-irc.send("JOIN " + irc_channel_main + "\n")
-irc.send("JOIN " + irc_channel_bot + "\n")
+
+def irc_bot_start():
+	irc.connect((irc_server, irc_port))
+	irc.send("USER " + irc_nick + " " + irc_nick + " " + irc_nick + " :This is the bot for " + irc_channel_main + ". https://github.com/ArchiveTeam/NewsGrabber.\n")
+	irc.send("NICK " + irc_nick + "\n")
+	irc.send("JOIN " + irc_channel_main + "\n")
+	irc.send("JOIN " + irc_channel_bot + "\n")
 
 def irc_bot():
 	global new_grabs
@@ -143,7 +145,12 @@ def irc_bot_count():
 		time.sleep(sleep_time)
 
 def irc_print(channel, message):
-	irc.send("PRIVMSG " + channel + " :" + message + "\n")
+	try:
+		irc.send("PRIVMSG " + channel + " :" + message + "\n")
+	except Exception as exception:
+		with open('exceptions', 'a') as exceptions:
+			exceptions.write(str(version) + '\n' + str(exception) + '\n\n')
+		irc_bot_start()
 	print("IRC BOT: " + message)
 
 def uploader():
@@ -175,8 +182,10 @@ def upload(name, date1):
 	itemsize = int(itemsize) + filesize
 	with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
 		uploadfile.write(str(itemsize) + ',' + str(itemnum))
-	os.system('ia upload {0} ./ready/{1} --metadata="title:{0}" --metadata="mediatype:web" --metadata="collection:opensource" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
-	os.remove("./ready/" + name + ".upload")
+	if os.path.isfile('./ready/' + name):
+		os.system('ia upload {0} ./ready/{1} --metadata="title:{0}" --metadata="mediatype:web" --metadata="collection:opensource" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
+	if os.path.isfile("./ready/" + name + ".upload"):
+		os.remove("./ready/" + name + ".upload")
 	if os.path.isfile('./ready/' + name):
 		irc_print(irc_channel_bot, name + ' uploaded unsuccessful.')
 
@@ -346,6 +355,7 @@ def checkrefresh():
 			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' service.')
 		elif new_count != 0:
 			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' services.')
+        	writehtmlserviceslist()
 		time.sleep(300)
 
 def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
@@ -393,23 +403,23 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 				elif extractedurl.startswith('?'):
 					oldextractedurls.append(re.search(r'^(https?:\/\/[^\?]+)', url).group(1) + extractedurl)
 				elif extractedurl.startswith('./'):
-					if re.search(r'^https?:\/\/.+\/', url):
-						oldextractedurls.append(re.search(r'^(https?:\/\/.+)\/', url).group(1) + '/' + re.search(r'^\.\/(.+)', extractedurl).group(1))
+					if re.search(r'^https?:\/\/.*\/', url):
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
 					else:
-						oldextractedurls.append(re.search(r'^(https?:\/\/.+)', url).group(1) + '/' + re.search(r'^\.\/(.+)', extractedurl).group(1))
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
 				elif extractedurl.startswith('../'):
 					tempurl = url
 					tempextractedurl = extractedurl
 					while tempextractedurl.startswith('../'):
 						if not re.search(r'^https?://[^\/]+\/$', tempurl):
-							tempurl = re.search(r'^(.+\/)[^\/]*\/', tempurl).group(1)
+							tempurl = re.search(r'^(.*\/)[^\/]*\/', tempurl).group(1)
 						tempextractedurl = re.search(r'^\.\.\/(.*)', tempextractedurl).group(1)
 					oldextractedurls.append(tempurl + tempextractedurl)
 				elif extractedstart == 'href':
-					if re.search(r'^https?:\/\/.+\/', url):
-						oldextractedurls.append(re.search(r'^(https?:\/\/.+)\/', url).group(1) + '/' + extractedurl)
+					if re.search(r'^https?:\/\/.*\/', url):
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url).group(1) + '/' + extractedurl)
 					else:
-						oldextractedurls.append(re.search(r'^(https?:\/\/.+)', url).group(1) + '/' + extractedurl)
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url).group(1) + '/' + extractedurl)
 			for extractedurl in re.findall(r'>[^<a-zA-Z0-9]*(https?://[^<]+)<', response.text):
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
 				oldextractedurls.append(extractedurl)
@@ -487,9 +497,10 @@ def refresh_grab(i):
 				for url in eval("services." + service + ".urls"):
 					threading.Thread(target = checkurl, args = (service, str(urlnum), url, eval("services." + service + ".regex"), eval("services." + service + ".videoregex"), eval("services." + service + ".liveregex"))).start()
 					urlnum += 1
-		except:
+		except Exception as exception:
+			with open('exceptions', 'a') as exceptions:
+				exceptions.write(str(version) + '\n' + str(exception) + '\n\n')
 			irc_print(irc_channel_bot, 'Failed running refreshgrab for refresh ' + str(i) + '.')
-			pass #for now
 		time.sleep(refresh_wait[i])
 
 def dashboard():
@@ -581,19 +592,15 @@ def serviceshtml():
                 if wikidata:
                         return '<a href="https://www.wikidata.org/wiki/{}">{}</a>'.format(wikidata, display_name)
                 return display_name
-        def make_multiline(arr, func):
-                return '<br>'.join(map(func, arr))
-        def as_code(s):
-                return '<code>{}</code>'.format(s)
-        def as_url(s):
-                return '<a href="{}">{}</a>'.format(s, s.split('://',1)[1])
+        make_multiline = lambda arr, func: '<br>'.join(map(func, arr))
+        as_code = lambda s: '<code>{}</code>'.format(s)
+        as_url = lambda s: '<a href="{}">{}</a>'.format(s, s.split('://',1)[1])
         servicemodules = sorted([(service, getattr(services, service[:-3])) for root, dirs, files in os.walk("./services")
                 for service in files if service.startswith("web__") and service.endswith(".py")])
         return '\n'.join(['<tr>{}</tr>'.format(' '.join(['<td>{}</td>'.format(d) for d in [
                 n,
                 make_name(name, m),
                 make_multiline(m.urls, as_url),
-                '<br>'.join('<a href="{}">{}</a>'.format(x, x.split('://',1)[1]) for x in m.urls),
                 refresh_names[m.refresh-1],
                 make_multiline(m.regex, as_code),
                 make_multiline(m.videoregex, as_code),
@@ -603,49 +610,12 @@ def serviceshtml():
 
 def writehtmlserviceslist():
         with open('services.html', 'w') as file:
-                file.write("""<!DOCTYPE html>
-<html>
-<head>
-<style>
-table#lists {
-    width:60%;
-}
-table#lists tr:nth-child(even) {
-    background-color: #eee;
-}
-table#lists tr:nth-child(odd) {
-   background-color:#fff;
-}
-table#lists th	{
-    background-color: black;
-    color: white;
-}
-</style>
-</head>
-<body>
-
-<table id="lists" align="center">
-  <tr>
-    <th>#</th>
-    <th>Name</th>
-    <th>URLs</th>
-    <th>Refresh</th>
-    <th>Regex</th>
-    <th>Video Regex</th>
-    <th>Live Regex</th>
-    <th>Version</th>
-  </tr>
-""" + serviceshtml() + """
-</table>
-
-</body>
-</html>
-""")
+                file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>#</th>\n    <th>Name</th>\n    <th>URLs</th>\n    <th>Refresh</th>\n    <th>Regex</th>\n    <th>Video Regex</th>\n    <th>Live Regex</th>\n    <th>Version</th>\n  </tr>\n' + serviceshtml() + '\n</table>\n\n</body>\n</html>\n')
 
 def main():
+	irc_bot_start()
 	threading.Thread(target = irc_bot).start()
 	loadfiles()
-        writehtmlserviceslist()
 	writehtmlindex()
 	pause_length = 10
 	time.sleep(pause_length*2)
