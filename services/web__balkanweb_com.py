@@ -8,3 +8,5 @@ videoregex = []
 liveregex = []
 
 
+wikidata = 'Q16837344'
+
