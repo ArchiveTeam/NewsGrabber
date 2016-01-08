@@ -24,7 +24,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160107.01
+version = 20160108.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
@@ -34,6 +34,7 @@ service_count = 0
 grablistnormal = []
 grablistvideos = []
 grablistdone = {}
+fileuploads = {}
 new_grabs = True
 writing = False
 total_count = 0
@@ -165,23 +166,29 @@ def uploader():
 					time.sleep(2)
 
 def upload(name, date1):
+	global fileuploads
 	date = re.sub('-', '', date1)
 	filesize = os.path.getsize('./ready/' + name)
 	itemdate = date
 	itemnum = 0
 	itemsize = 0
-	if not os.path.isdir('./last_upload'):
-		os.makedirs('./last_upload')
-	if os.path.isfile('./last_upload/last_upload_' + itemdate):
-		with open('./last_upload/last_upload_' + itemdate, 'r') as uploadfile:
-			itemsize, itemnum = uploadfile.read().split(',', 1)
-	if int(itemsize) > 10737418240:
-		itemnum  = int(itemnum) + 1
-		itemsize = 0
-	itemname = 'archiveteam_newssites_' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
-	itemsize = int(itemsize) + filesize
-	with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
-		uploadfile.write(str(itemsize) + ',' + str(itemnum))
+	try:
+		itemnum = fileuploads[name]
+		itemname = 'archiveteam_newssites_' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
+	except:
+		if not os.path.isdir('./last_upload'):
+			os.makedirs('./last_upload')
+		if os.path.isfile('./last_upload/last_upload_' + itemdate):
+			with open('./last_upload/last_upload_' + itemdate, 'r') as uploadfile:
+				itemsize, itemnum = uploadfile.read().split(',', 1)
+		if int(itemsize) > 10737418240:
+			itemnum  = int(itemnum) + 1
+			itemsize = 0
+		itemname = 'archiveteam_newssites_' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
+		itemsize = int(itemsize) + filesize
+		fileuploads[name] = itemnum
+		with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
+			uploadfile.write(str(itemsize) + ',' + str(itemnum))
 	if os.path.isfile('./ready/' + name):
 		os.system('ia upload {0} ./ready/{1} --metadata="title:{0}" --metadata="mediatype:web" --metadata="collection:opensource" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
 	if os.path.isfile("./ready/" + name + ".upload"):
@@ -429,6 +436,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
         		for extractedurl in oldextractedurls:
 				extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
 				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl).group(1)
+				extractedurl = urllib.unquote(extractedurl)
 				try:
 					extractedurlpercent = re.search(r'^(https?://[^/]+).*$', extractedurl).group(1) + urllib.quote(re.search(r'^https?://[^/]+(.*)$', extractedurl).group(1).encode('utf8'), "!#$&'()*+,/:;=?@[]-._~")
 				except:
