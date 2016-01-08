@@ -68,3 +68,8 @@ If the website contains no live pages:
 ```
 liveregex = []
 ```
+### `wikidata` (only if available)
+This is de ID of the WikiData entry of the newswebsite. This should only be included if it is available. If the newswebsite does not have an entry on WikiData an `wikidata` variable should not be added. An example of a wikidata entry is for the timesofisrael.com: https://www.wikidata.org/wiki/Q6449319. The ID from this entry is `Q6449319`, as seen in the URL https://www.wikidata.org/wiki/`Q6449319`. This ID should be added as a `wikidata` variable, the ID should be quoted as string. For example:
+```
+wikidata = 'Q6449319'
+```
