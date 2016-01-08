@@ -6,3 +6,5 @@ urls = ['http://www.aljazeera.com/news',
 regex = [r'^https?:\/\/[^\/]*aljazeera\.com']
 videoregex = []
 liveregex = []
+wikidata = 'Q4727585'
+
