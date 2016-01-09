@@ -76,13 +76,23 @@ wikidata = 'Q6449319'
 The IRC bot
 -----------
 NewsGrabber has an IRC bot, newsbuddy, which can be found in #newsgrabberbot at irc.efnet.org. The commands for the bot are:
+
 `!imgrab <SERVICE>`, `!immediate-grab <SERVICE>`, `!immediate_grab <SERVICE>`: Grab URLs immediatly after they're found. Add `remove`, `rem` or `r` to stop URLs from being grabbed immediatly after they're found.
+
 `!help`: View list of commands.
+
 `!stop`: Write lists of URLs, finish current running grabs and not start new grabs.
+
 `!start`: Undo `!stop`: Start new grabs.
+
 `!version`: Get current used version of the script.
+
 `!writefiles`: Write lists of URLs.
+
 `!move`: Move WARC files.
+
 `!upload`: Upload WARC files.
-`!info <SERVICE>`, `!information <SERVICE>`: Get information about a specific service
+
+`!info <SERVICE>`, `!information <SERVICE>`: Get information about a specific service.
+
 `!EMERGENCY_STOP`: Stop the scripts immediatly.
