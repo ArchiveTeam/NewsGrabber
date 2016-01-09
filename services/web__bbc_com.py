@@ -10,3 +10,5 @@ videoregex = []
 liveregex = ["/live/"]
 
 
+wikidata = 'Q9531'
+
