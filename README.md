@@ -69,7 +69,7 @@ If the website contains no live pages, put an empty list, like this:
 liveregex = []
 ```
 ### `wikidata` (optional, only add if known & available)
-This is the ID of the Wikidata entry for the newswebsite. This is optional, and should only be included if it is available. If the newswebsite does not (yet) have an entry on Wikidata, feel free to create one (along with appropriate sources to verify it is suitable for inclusion), and add the new ID here. An example of a wikidata URL for timesofisrael.com is https://www.wikidata.org/wiki/Q6449319. The ID part is `Q6449319`, as seen in the URL https://www.wikidata.org/wiki/`Q6449319`. Only the ID should be added as the value of the `wikidata` variable, and it should be quoted. For example:
+This is the ID of the Wikidata entry for the newswebsite. This is optional, and should only be included if it is available. It will be used to link the newssite to wikidata, so additional metadata can be referenced (e.g. geographical area, other identifiers, dates of publication). If the newswebsite does not (yet) have an entry on Wikidata, feel free to create one (along with appropriate sources to verify it is suitable for inclusion), and add the new ID here. An example of a wikidata URL for timesofisrael.com is https://www.wikidata.org/wiki/Q6449319. The ID part is `Q6449319`, as seen in the URL https://www.wikidata.org/wiki/`Q6449319`. Only the ID should be added as the value of the `wikidata` variable, and it should be quoted. For example:
 ```
 wikidata = 'Q6449319'
 ```
