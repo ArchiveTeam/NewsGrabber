@@ -32,7 +32,7 @@ Refresh can be any number from 1 to 11 were:
 7 = 7200 seconds - 120 minutes - 2 hours
 8 = 21600 seconds - 360 minutes - 6 hours
 9 = 43200 seconds - 720 minutes - 12 hours
-10 = 86400 seconds - 1,440 minutes - 24 hours
+10 = 86400 seconds - 1,440 minutes - 24 hours - 1 day
 11 = 172800 seconds - 2,880 minutes - 48 hours - 2 days
 ```
 ### `version`
