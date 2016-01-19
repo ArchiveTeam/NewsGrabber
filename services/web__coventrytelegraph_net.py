@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 7
 version = 20151224.01
 
 urls = ['http://www.coventrytelegraph.net/?service=rss']
