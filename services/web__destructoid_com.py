@@ -7,3 +7,5 @@ videoregex = [r'^https?:\/\/(?:www\.)?youtube\.com\/embed\/']
 liveregex = []
 
 
+wikidata = 'Q5265424'
+
