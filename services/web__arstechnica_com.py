@@ -8,3 +8,5 @@ videoregex = []
 liveregex = [r'^https?:\/\/live\.arstechnica\.com\/']
 
 
+wikidata = 'Q584152'
+

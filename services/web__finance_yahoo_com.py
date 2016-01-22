@@ -8,3 +8,5 @@ videoregex = [r'/video/']
 liveregex = []
 
 
+wikidata = 'Q4053432'
+

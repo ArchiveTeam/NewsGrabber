@@ -6,3 +6,5 @@ regex = [r'https?:\/\/[^\/]*ycombinator\.com']
 videoregex = []
 liveregex = []
 
+wikidata = 'Q686797'
+

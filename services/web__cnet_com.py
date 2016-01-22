@@ -7,3 +7,5 @@ videoregex = [r'/videos/']
 liveregex = [r'^https?:\/\/live\.cnet\.com\/']
 
 
+wikidata = 'Q1544247'
+
