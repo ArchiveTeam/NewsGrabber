@@ -53,3 +53,5 @@ regex = [r'^https?:\/\/[^\/]*elwatan\.com']
 videoregex = []
 liveregex = []
 
+wikidata = 'Q2529832'
+
