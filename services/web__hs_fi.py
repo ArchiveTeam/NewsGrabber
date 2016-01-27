@@ -1,5 +1,5 @@
 refresh = 7
-version = 20160127.01
+version = 20160127.02
 
 urls = ['http://www.hs.fi/',
         'http://www.hs.fi/uutiset/rss/',
