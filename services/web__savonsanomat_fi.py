@@ -1,0 +1,32 @@
+refresh = 7
+version = 20160127.01
+
+urls = ['http://www.savonsanomat.fi',
+        'http://www.savonsanomat.fi/savo/?service=rss',
+        'http://www.savonsanomat.fi/uutiset/kotimaa/?service=rss',
+        'http://www.savonsanomat.fi/uutiset/talous/?service=rss',
+        'http://www.savonsanomat.fi/uutiset/politiikka/?service=rss',
+        'http://www.savonsanomat.fi/uutiset/ulkomaat/?service=rss',
+        'http://www.savonsanomat.fi/uutiset/kulttuuri/?service=rss',
+        'http://www.savonsanomat.fi/urheilu/jaakiekko/?service=rss',
+        'http://www.savonsanomat.fi/urheilu/jalkapallo/?service=rss',
+        'http://www.savonsanomat.fi/viihde/elokuvat/?service=rss',
+        'http://www.savonsanomat.fi/viihde/levyt/?service=rss',
+        'http://www.savonsanomat.fi/viihde/peliarviot/?service=rss',
+        'http://www.savonsanomat.fi/viihde/kirjat/?service=rss',
+        'http://www.savonsanomat.fi/viihde/tvarviot/?service=rss',
+        'http://www.savonsanomat.fi/viihde/savolaista/sutkaus/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/autot/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/matkailu/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/ruokajajuoma/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/ulkoilujaera/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/itsetehty/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/vapaalla/?service=rss',
+        'http://www.savonsanomat.fi/erikoissivut/nuoret/?service=rss',
+        'http://www.savonsanomat.fi/mielipide/kolumnit/?service=rss',
+        'http://www.savonsanomat.fi/mielipide/artikkelit/?service=rss',
+        'http://www.savonsanomat.fi/mielipide/mielipidekirjoitukset/?service=rss']
+regex = [r'^http?:\/\/[^\/]*savonsanomat\.fi']
+videoregex = []
+liveregex = []
+
