@@ -16,7 +16,6 @@ urls = ['http://www.hs.fi/',
         'http://www.hs.fi/rss/?osastot=tiede',
         'http://www.hs.fi/rss/?osastot=autot',
         'http://www.hs.fi/rss/?osastot=tekniikka',
-        'http://www.hs.fi/rss/?osastot=työelämä',
         'http://www.hs.fi/rss/?osastot=sunnuntai',
         'http://www.hs.fi/rss/?osastot=kuukausiliite']
 regex = [r'^http?:\/\/[^\/]*hs\.fi']
