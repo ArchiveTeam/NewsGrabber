@@ -6,3 +6,6 @@ regex = [r'^https?:\/\/[^\/]*whtimes\.co\.uk']
 videoregex = []
 liveregex = []
 
+
+wikidata = 'Q22337566'
+

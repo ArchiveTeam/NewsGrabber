@@ -14,3 +14,5 @@ urls = ['http://www.wsj.com/europe',
 regex = [r'^https?:\/\/[^\/]*wsj\.com']
 videoregex = [r'video']
 liveregex = [r'live']
+wikidata = 'Q164746'
+
