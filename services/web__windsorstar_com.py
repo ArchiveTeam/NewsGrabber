@@ -8,3 +8,6 @@ videoregex = [r'^https?:\/\/[^\/]*kaltura\.com\/']
 liveregex = []
 
 
+
+wikidata = 'Q3569304'
+
