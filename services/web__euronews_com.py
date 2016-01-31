@@ -7,7 +7,7 @@ urls = ['http://feeds.feedburner.com/euronews/en/home/',
     	'http://feeds.feedburner.com/euronews/en/Euronews-NoComment/',
     	'http://feeds.feedburner.com/euronews/en/europa/',
     	'http://feeds.feedburner.com/euronews/en/sci-tech/',
-    	'http://feeds.feedburner.com/euronews/en/lifestyle/,
+    	'http://feeds.feedburner.com/euronews/en/lifestyle/',
     	'http://feeds.feedburner.com/euronews/en/picture-of-the-day/']
 regex = [r'^https?:\/\/[^\/]*euronews\.com\/']	
 videoregex = []
