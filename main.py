@@ -24,7 +24,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160122.01
+version = 20160123.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
@@ -174,7 +174,7 @@ def upload(name, date1):
 	itemsize = 0
 	try:
 		itemnum = fileuploads[name]
-		itemname = 'Archive Team Newsgrab: ' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
+		itemname = str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
 	except:
 		if not os.path.isdir('./last_upload'):
 			os.makedirs('./last_upload')
@@ -184,13 +184,13 @@ def upload(name, date1):
 		if int(itemsize) > 10737418240:
 			itemnum  = int(itemnum) + 1
 			itemsize = 0
-		itemname = 'Archive Team Newsgrab: ' + str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
+		itemname = str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
 		itemsize = int(itemsize) + filesize
 		fileuploads[name] = itemnum
 		with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
 			uploadfile.write(str(itemsize) + ',' + str(itemnum))
 	if os.path.isfile('./ready/' + name):
-		os.system('ia upload "{0}" ./ready/{1} --metadata="title:{0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
+		os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
 	if os.path.isfile("./ready/" + name + ".upload"):
 		os.remove("./ready/" + name + ".upload")
 	if os.path.isfile('./ready/' + name):
