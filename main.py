@@ -13,6 +13,8 @@ import sys
 import urllib
 import datetime
 import time
+if os.path.isdir('./services'):
+	shutil.rmtree('./services')
 if not os.path.isdir('./services'):
 	os.makedirs('./services')
 if not os.path.isfile('./services/__init__.py'):
@@ -24,9 +26,11 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160123.01
+version = 20160214.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
+standard_video_regex = [r'video', r'[tT][vV]', r'movie']
+standard_live_regex = [r'live']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
 service_urls = {}
@@ -44,9 +48,9 @@ irc_channel_bot = '#newsgrabberbot'
 irc_channel_main = '#newsgrabber'
 irc_nick = 'newsbuddy'
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+irc.connect((irc_server, irc_port))
 
 def irc_bot_start():
-	irc.connect((irc_server, irc_port))
 	irc.send("USER " + irc_nick + " " + irc_nick + " " + irc_nick + " :This is the bot for " + irc_channel_main + ". https://github.com/ArchiveTeam/NewsGrabber.\n")
 	irc.send("NICK " + irc_nick + "\n")
 	irc.send("JOIN " + irc_channel_main + "\n")
@@ -60,15 +64,16 @@ def irc_bot():
 		with open('irclog', 'a') as file:
 			file.write(irc_message)
 		if 'PING :' in irc_message:
-			message = re.search(r':(.*)$', irc_message).group(1)
+			message = re.search(r'^[^:]+:(.*)$', irc_message).group(1)
 			irc.send('PONG :' + message + '\n')
 		elif re.search(r'^:[^:]+:.*newsbud(?:dy)?', irc_message) and re.search(r'^:[^:]+:.*[hH](?:ello|ey|i)', irc_message):
 			if re.search(r'^:([^!]+)!', irc_message):
 				if not re.search(r'^:([^!]+)!', irc_message).group(1) == 'newsbuddy':
 					user = re.search(r'^:([^!]+)!', irc_message).group(1)
-					irc_print(irc_channel_bot, 'Hello ' + user + '!')
+					irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
+					irc_print(irc_channel, 'Hello ' + user + '!')
 					messages = ['What a beautiful day!', 'I\'m having the time of my life! What about you?', 'News, news, news, news.... Don\'t you just love a busy day?', 'Still alive? The world went BOOM according to some articles...', 'I\'m having a bad day. Don\'t disturbe me!', 'Let\'s save all the news!', 'Can you help me cover more newssites?', 'Together we can save the world on a harddrive!', 'Help me! I need more....', 'I\'m busy grabbing articles.', 'I truly love myself, don\'t you?']
-					irc_print(irc_channel_bot, messages[random.randint(0,9)])
+					irc_print(irc_channel, messages[random.randint(0,9)])
 		elif re.search(r'^:[^:]+:!help', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_print(user, 'Hello! My options are:')
@@ -81,62 +86,70 @@ def irc_bot():
 			irc_print(user, '\'!upload\': Upload the WARC files.')
 		elif re.search(r'^:[^:]+:!stop', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			writefiles()
 			new_grabs = False
-			irc_print(irc_channel_bot, user + ': No new grabs will be started.')
+			irc_print(irc_channel, user + ': No new grabs will be started.')
 		elif re.search(r'^:[^:]+:!start', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			writefiles()
 			new_grabs = True
-			irc_print(irc_channel_bot, user + ': New grabs will be started.')
+			irc_print(irc_channel, user + ': New grabs will be started.')
 		elif re.search(r'^:[^:]+:!version', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
-			irc_print(irc_channel_bot, user + ': I\'m version ' + str(version) + '.')
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
+			irc_print(irc_channel, user + ': I\'m version ' + str(version) + '.')
 		elif re.search(r'^:[^:]+:!writefiles', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			writefiles()
 		elif re.search(r'^:[^:]+:!move', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			threading.Thread(target = movefiles).start()
-			irc_print(irc_channel_bot, user + ': WARC files moving.')
+			irc_print(irc_channel, user + ': WARC files moving.')
 		elif re.search(r'^:[^:]+:!upload', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			threading.Thread(target = uploader).start()
-			irc_print(irc_channel_bot, user + ': WARC files uploading.')
+			irc_print(irc_channel, user + ': WARC files uploading.')
 		elif re.search(r'^:[^:]+:!info(?:formation)?', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			if not re.search(r'^:[^:]+:!info(?:formation)? web__[a-zA-Z0-9_]*', irc_message):
-				irc_print(irc_channel_bot, user + ': What service do you want to have information about?')
+				irc_print(irc_channel, user + ': What service do you want to have information about?')
 			else:
 				infoservice = re.search(r'^:[^:]+:!i(?:nfo(?:formation)?)? (web__[a-zA-Z0-9_]*)', irc_message).group(1)
 				try:
-					irc_print(irc_channel_bot, user + ': Service: ' + infoservice + '. Refreshtime: ' + str(refresh_wait[int(eval("services." + infoservice + ".refresh"))-1]) + ' seconds. URLs: ' + str(eval("services." + infoservice + ".urls")) + '. Regex: ' + str(eval("services." + infoservice + ".regex")) + '. Videoregex: ' + str(eval("services." + infoservice + ".videoregex")) + '. Liveregex: ' + str(eval("services." + infoservice + ".videoregex")) + '.')
+					irc_print(irc_channel, user + ': Service: ' + infoservice + '. Refreshtime: ' + str(refresh_wait[int(eval("services." + infoservice + ".refresh"))-1]) + ' seconds. URLs: ' + str(eval("services." + infoservice + ".urls")) + '. Regex: ' + str(eval("services." + infoservice + ".regex")) + '. Videoregex: ' + str(eval("services." + infoservice + ".videoregex")) + '. Liveregex: ' + str(eval("services." + infoservice + ".videoregex")) + '.')
 					irc_print(irc_channel_bot, user + ': The script of this service is located here: https://github.com/ArchiveTeam/NewsGrabber/blob/master/services/' + infoservice + '.py')
 					try:
-						irc_print(irc_channel_bot, user + ': ' + service_urls[infoservice] + ' URLs have been added since the script was started.')
+						irc_print(irc_channel, user + ': ' + service_urls[infoservice] + ' URLs have been added since the script was started.')
 					except:
-						irc_print(irc_channel_bot, user + ': 0 URLs have been added since the script was started.')
+						irc_print(irc_channel, user + ': 0 URLs have been added since the script was started.')
 				except:
-					irc_print(irc_channel_bot, user + ': Service ' + infoservice + ' doesn\'t exist.')
+					irc_print(irc_channel, user + ': Service ' + infoservice + ' doesn\'t exist.')
 		elif re.search(r'^:[^:]+:!EMERGENCY_STOP', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
-			irc_print(irc_channel_bot, user + ': Bot emergency stopped.')
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
+			irc_print(irc_channel, user + ': Bot emergency stopped.')
 			raise Exception('Bot emergency stopped.')
 		elif re.search(r'^:[^:]+:!im(?:mediate[-_])?grab', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			if not re.search(r'^:[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?web__[a-zA-Z0-9_]*', irc_message):
-				irc_print(irc_channel_bot, user + ': What service do you want to have grabbed immediatly?')
+				irc_print(irc_channel, user + ': What service do you want to have grabbed immediatly?')
 			else:
 				imservice = re.search(r'^:[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?(web__[a-zA-Z0-9_]*)', irc_message).group(1)
 				try:
 					if ' r' in irc_message:
 						immediate_grab.remove(imservice)
-						irc_print(irc_channel_bot, user + ': New URLs from service ' + imservice + ' will not be grabbed immediatly.')
+						irc_print(irc_channel, user + ': New URLs from service ' + imservice + ' will not be grabbed immediatly.')
 					elif not imservice in immediate_grab:
 						immediate_grab.append(imservice)
-						irc_print(irc_channel_bot, user + ': New URLs from service ' + imservice + ' will be grabbed immediatly.')
+						irc_print(irc_channel, user + ': New URLs from service ' + imservice + ' will be grabbed immediatly.')
 				except:
-					irc_print(irc_channel_bot, user + ': Service ' + infoservice + ' doesn\'t exist.')
+					irc_print(irc_channel, user + ': Service ' + infoservice + ' doesn\'t exist.')
 def irc_bot_count():
 	global total_count
 	sleep_time = 900
@@ -345,7 +358,7 @@ def checkrefresh():
 		shutil.copytree('./NewsGrabber/services', './services')
 		shutil.rmtree('./NewsGrabber')
 		reload(services)
-                writehtmlserviceslist()
+		writehtmlserviceslist()
 		for root, dirs, files in os.walk("./services"):
 			for service in files:
 				if service.startswith("web__") and service.endswith(".py"):
@@ -362,7 +375,7 @@ def checkrefresh():
 			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' service.')
 		elif new_count != 0:
 			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' services.')
-        	writehtmlserviceslist()
+		writehtmlserviceslist()
 		time.sleep(300)
 
 def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
@@ -371,6 +384,8 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 	global grablistnormal
 	global grablistvideos
 	global service_urls
+	global standard_video_regex
+	global standard_live_regex
 	imgrabfiles = []
 	tries = 0
 	while tries < 5:
@@ -401,12 +416,13 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 				extractedstart = re.search(r'^(....)', extractedurl[0]).group(1)
 				extractedurl = re.search('^....=[\'"](.*?)[\'"]$', extractedurl[0]).group(1)
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
+				extractedurl = extractedurl.replace('%3A', ':').replace('%2F', '/')
 				if extractedurl.startswith('//'):
 					oldextractedurls.append("http:" + extractedurl)
 				elif extractedurl.startswith('/'):
 					oldextractedurls.append(re.search(r'^(https?:\/\/[^\/]+)', url).group(1) + extractedurl)
-				elif extractedurl.startswith('https://') or extractedurl.startswith('http://'):
-					oldextractedurls.append(extractedurl)
+				elif re.search(r'^https?:?\/\/?', extractedurl):
+					oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl).group(1), re.search(r'^(https?)', extractedurl).group(1) + '://'))
 				elif extractedurl.startswith('?'):
 					oldextractedurls.append(re.search(r'^(https?:\/\/[^\?]+)', url).group(1) + extractedurl)
 				elif extractedurl.startswith('./'):
@@ -427,13 +443,13 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url).group(1) + '/' + extractedurl)
 					else:
 						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url).group(1) + '/' + extractedurl)
-			for extractedurl in re.findall(r'>[^<a-zA-Z0-9]*(https?://[^<]+)<', response.text):
+			for extractedurl in re.findall(r'>[^<a-zA-Z0-9]*(https?:?//?[^<]+)<', response.text):
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
-				oldextractedurls.append(extractedurl)
+				oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl).group(1), re.search(r'^(https?)', extractedurl).group(1) + '://'))
 			for extractedurl in oldextractedurls:
 				if '?' in extractedurl:
 					oldextractedurls.append(extractedurl.split('?')[0])
-        		for extractedurl in oldextractedurls:
+			for extractedurl in oldextractedurls:
 				extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
 				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl).group(1)
 				extractedurl = urllib.unquote(extractedurl)
@@ -445,7 +461,9 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 					if re.search(regex, extractedurl) and not extractedurlpercent in extractedurls:
 						extractedurls.append(extractedurlpercent)
 						break
-        		for extractedurl in extractedurls:
+			videoregexes += standard_video_regex
+			liveregexes += standard_live_regex
+			for extractedurl in extractedurls:
 				for regex in videoregexes:
 					if re.search(regex, extractedurl) and not extractedurl in extractedvideourls:
 						extractedvideourls.append(extractedurl)
@@ -594,31 +612,31 @@ def writehtmllist(folder):
 				file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:100%;\n}\ntable#list tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#list tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#list th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="list" align="center">\n  <tr>\n    <th>URL</th>\n  </tr>\n  <tr>\n    <td>' + '</td>\n  </tr>\n  <tr>\n    <td>'.join(urlslist) + '</td>\n  </tr>\n</table>\n\n</body>\n</html>\n')
 
 def serviceshtml():
-        def make_name(name, m):
-                display_name = name[5:-3].replace('_','.')
-                wikidata = getattr(m, 'wikidata', None)
-                if wikidata:
-                        return '<a href="https://www.wikidata.org/wiki/{}">{}</a>'.format(wikidata, display_name)
-                return display_name
-        make_multiline = lambda arr, func: '<br>'.join(map(func, arr))
-        as_code = lambda s: '<code>{}</code>'.format(s)
-        as_url = lambda s: '<a href="{}">{}</a>'.format(s, s.split('://',1)[1])
-        servicemodules = sorted([(service, getattr(services, service[:-3])) for root, dirs, files in os.walk("./services")
-                for service in files if service.startswith("web__") and service.endswith(".py")])
-        return '\n'.join(['<tr>{}</tr>'.format(' '.join(['<td>{}</td>'.format(d) for d in [
-                n,
-                make_name(name, m),
-                make_multiline(m.urls, as_url),
-                refresh_names[m.refresh-1],
-                make_multiline(m.regex, as_code),
-                make_multiline(m.videoregex, as_code),
-                make_multiline(m.liveregex, as_code),
-                m.version,
-                ]])) for (n, (name, m)) in enumerate(servicemodules)])
+	def make_name(name, m):
+		display_name = name[5:-3].replace('_','.')
+		wikidata = getattr(m, 'wikidata', None)
+		if wikidata:
+			return '<a href="https://www.wikidata.org/wiki/{}">{}</a>'.format(wikidata, display_name)
+		return display_name
+	make_multiline = lambda arr, func: '<br>'.join(map(func, arr))
+	as_code = lambda s: '<code>{}</code>'.format(s)
+	as_url = lambda s: '<a href="{}">{}</a>'.format(s, s.split('://',1)[1])
+	servicemodules = sorted([(service, getattr(services, service[:-3])) for root, dirs, files in os.walk("./services")
+		for service in files if service.startswith("web__") and service.endswith(".py")])
+	return '\n'.join(['<tr>{}</tr>'.format(' '.join(['<td>{}</td>'.format(d) for d in [
+		n,
+		make_name(name, m),
+		make_multiline(m.urls, as_url),
+		refresh_names[m.refresh-1],
+		make_multiline(m.regex, as_code),
+		make_multiline(m.videoregex, as_code),
+		make_multiline(m.liveregex, as_code),
+		m.version,
+		]])) for (n, (name, m)) in enumerate(servicemodules)])
 
 def writehtmlserviceslist():
-        with open('services.html', 'w') as file:
-                file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>#</th>\n    <th>Name</th>\n    <th>URLs</th>\n    <th>Refresh</th>\n    <th>Regex</th>\n    <th>Video Regex</th>\n    <th>Live Regex</th>\n    <th>Version</th>\n  </tr>\n' + serviceshtml() + '\n</table>\n\n</body>\n</html>\n')
+	with open('services.html', 'w') as file:
+		file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>#</th>\n    <th>Name</th>\n    <th>URLs</th>\n    <th>Refresh</th>\n    <th>Regex</th>\n    <th>Video Regex</th>\n    <th>Live Regex</th>\n    <th>Version</th>\n  </tr>\n' + serviceshtml() + '\n</table>\n\n</body>\n</html>\n')
 
 def main():
 	irc_bot_start()
