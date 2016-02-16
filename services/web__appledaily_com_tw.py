@@ -1,5 +1,5 @@
-refresh = 7
-version = 20160208.01
+refresh = 6
+version = 20160216.01
 
 urls = ['http://www.appledaily.com.tw/',
         'http://www.appledaily.com.tw/rss/create/kind/rnews/type/new',

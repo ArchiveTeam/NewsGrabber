@@ -1,5 +1,5 @@
-refresh = 7
-version = 20160208.01
+refresh = 6
+version = 20160216.01
 
 urls = ['http://www.ltn.com.tw/',
         'http://news.ltn.com.tw/rss/focus.xml',

@@ -1,5 +1,5 @@
-refresh = 7
-version = 20160208.01
+refresh = 6
+version = 20160216.01
 
 urls = ['http://udn.com/news/index',
         'http://udn.com/rssfeed/news/1',

@@ -1,5 +1,5 @@
-refresh = 7
-version = 20160208.01
+refresh = 6
+version = 20160216.01
 
 urls = ['http://www.chinatimes.com/',
         'http://www.chinatimes.com/rss/focus.xml',
