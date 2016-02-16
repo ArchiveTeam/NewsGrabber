@@ -15,6 +15,6 @@ urls = ['http://www.appledaily.com.tw/',
         'http://www.appledaily.com.tw/rss/create/kind/sec/type/19',
         'http://www.appledaily.com.tw/rss/create/kind/sec/type/18',
         'http://www.appledaily.com.tw/rss/create/kind/sec/type/20']
-regex = [r'^http?:\/\/[^\/]*appledaily\.com\.tw']
+regex = [r'^https?:\/\/[^\/]*appledaily\.com\.tw']
 videoregex = []
 liveregex = []

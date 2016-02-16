@@ -18,6 +18,6 @@ urls = ['http://www.ltn.com.tw/',
         'http://news.ltn.com.tw/rss/northern.xml',
         'http://news.ltn.com.tw/rss/local.xml',
         'http://news.ltn.com.tw/rss/southern.xml']
-regex = [r'^http?:\/\/[^\/]*ltn\.com\.tw']
+regex = [r'^https?:\/\/[^\/]*ltn\.com\.tw']
 videoregex = []
 liveregex = []

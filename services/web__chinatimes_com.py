@@ -13,6 +13,6 @@ urls = ['http://www.chinatimes.com/',
         'http://www.chinatimes.com/rss/international.xml',
         'http://www.chinatimes.com/rss/mainland.xml',
         'http://www.chinatimes.com/rss/technology.xml']
-regex = [r'^http?:\/\/[^\/]*chinatimes\.com']
+regex = [r'^https?:\/\/[^\/]*chinatimes\.com']
 videoregex = []
 liveregex = []

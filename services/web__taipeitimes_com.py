@@ -10,6 +10,6 @@ urls = ['http://www.taipeitimes.com/',
         'http://www.taipeitimes.com/xml/biz.rss',
         'http://www.taipeitimes.com/xml/feat.rss',
         'http://www.taipeitimes.com/xml/lang.rss']
-regex = [r'^http?:\/\/[^\/]*taipeitimes\.com']
+regex = [r'^https?:\/\/[^\/]*taipeitimes\.com']
 videoregex = []
 liveregex = []
