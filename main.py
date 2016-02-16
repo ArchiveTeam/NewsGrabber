@@ -12,7 +12,6 @@ import random
 import sys
 import urllib
 import datetime
-import time
 if os.path.isdir('./services'):
 	shutil.rmtree('./services')
 if not os.path.isdir('./services'):
@@ -26,7 +25,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160214.01
+version = 20160216.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -49,6 +48,14 @@ irc_channel_main = '#newsgrabber'
 irc_nick = 'newsbuddy'
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 irc.connect((irc_server, irc_port))
+
+def new_socket():
+	global irc
+	irc.shutdown()
+	irc.close()
+	irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	irc.connect((irc_server, irc_port))
+	irc_bot_start()
 
 def irc_bot_start():
 	irc.send("USER " + irc_nick + " " + irc_nick + " " + irc_nick + " :This is the bot for " + irc_channel_main + ". https://github.com/ArchiveTeam/NewsGrabber.\n")
@@ -164,7 +171,8 @@ def irc_print(channel, message):
 	except Exception as exception:
 		with open('exceptions', 'a') as exceptions:
 			exceptions.write(str(version) + '\n' + str(exception) + '\n\n')
-		irc_bot_start()
+		new_socket()
+		irc.send("PRIVMSG " + channel + " :" + message + "\n")
 	print("IRC BOT: " + message)
 
 def uploader():
