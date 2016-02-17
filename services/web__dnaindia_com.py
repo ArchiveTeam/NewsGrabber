@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 6
 version = 20160216.01
 
 urls = ['http://www.dnaindia.com/feeds/analysis.xml',
