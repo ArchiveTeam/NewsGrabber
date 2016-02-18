@@ -17,4 +17,4 @@ regex = [r'^http?:\/\/[^\/]*dnaindia\.com']
 videoregex = []
 liveregex = []
 
-wikidata = 'Q2055675'
+wikidata = 'Q1954041'
