@@ -25,7 +25,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160219.01
+version = 20160308.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -90,7 +90,6 @@ def irc_bot():
 			irc_print(user, '\'!writefiles\': Write lists of URLs.')
 			irc_print(user, '\'!imgrab\', \'!immediate-grab\' or \'!immediate_grab\': Make sure URLs are grabbed immediatly after they\'re found. Add \'remove\', \'rem\' or \'r\' to stop URLs from being grabbed immediatly after they\'re found.')
 			irc_print(user, '\'!info\' or \'!information\': Request information about a service.')
-			irc_print(user, '\'!move\': Move the WARC files.')
 			irc_print(user, '\'!upload\': Upload the WARC files.')
 		elif re.search(r'^:[^:]+:!stop', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
@@ -111,11 +110,6 @@ def irc_bot():
 		elif re.search(r'^:[^:]+:!writefiles', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			writefiles()
-		elif re.search(r'^:[^:]+:!move', irc_message):
-			user = re.search(r'^:([^!]+)!', irc_message).group(1)
-			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-			threading.Thread(target = movefiles).start()
-			irc_print(irc_channel, user + ': WARC files moving.')
 		elif re.search(r'^:[^:]+:!upload', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
@@ -218,67 +212,6 @@ def upload(name, date1):
 			os.remove("./ready/" + name + ".upload")
 		if os.path.isfile('./ready/' + name):
 			irc_print(irc_channel_bot, name + ' uploaded unsuccessful.')
-
-def check(files, num):
-	for file in files:
-		if file.endswith("0000" + num + ".warc.gz"):
-			return True
-	return False
-
-def warcnum(folder):
-	count = 0
-	for root, dirs, files in os.walk("./" + folder):
-		for file in files:
-			#print(file)
-			if file.endswith(".warc.gz"):
-				count += 1
-		return count
-
-def movefiles():
-	list = []
-	done = True
-	for folder in next(os.walk('.'))[1]:
-		if not (folder == 'services' or folder == 'temp' or folder == 'donefiles'):
-			for root, dirs, files in os.walk("./" + folder):
-				if re.search(r'-[0-9a-z]{8}$', folder):
-					writehtmllist(folder)
-				if (check(files, "0") == False or check(files, "1") == True) and not folder == "ready":
-					startnum = "0"
-					firstnum = None
-					moved = False
-					while True:
-						if not os.path.isfile("./" + folder + "/" + folder + "-" + (5-len(startnum))*"0" + startnum + ".warc.gz"):
-							if firstnum > 0:
-								break
-						if os.path.isfile("./" + folder + "/" + folder + "-" + (5-len(startnum))*"0" + startnum + ".warc.gz"):
-							#print 'hi'
-							if firstnum == None:
-								firstnum = int(startnum)
-							if not startnum == "0" and not firstnum == int(startnum):
-								print(os.path.join(root, folder + "-" + str((5-len(str(int(startnum)-1)))*"0") + str(int(startnum)-1) + ".warc.gz"))
-								moved = True
-								os.rename(os.path.join(root, folder + "-" + str((5-len(str(int(startnum)-1)))*"0") + str(int(startnum)-1) + ".warc.gz"), "./ready/" + folder + "-" + str((5-len(str(int(startnum)-1)))*"0") + str(int(startnum)-1) + ".warc.gz")
-						startnum = str(int(startnum) + 1)
-						if warcnum(folder) <= 1:
-							break
-						if warcnum(folder) == 2 and os.path.isfile("./" + folder + "/" + folder + "-meta.warc.gz"):
-							break
-			if os.path.isfile("./" + folder + "/" + folder + "-meta.warc.gz") and not folder == "ready":
-				for root, dirs, files in os.walk("./" + folder):
-					for file in files:
-						if file.endswith(".warc.gz"):
-							list.append("./ready/" + file)
-							os.rename(os.path.join(root, file), "./ready/" + file)
-					for file in files:
-						if file.endswith(".warc.gz") and not os.path.isfile("./ready/" + file):
-							#print("./ready/" + file)
-							done = False
-					if done == True:
-						shutil.rmtree("./" + folder)
-	for root, dirs, files in os.walk("./ready"):
-		for file in files:
-			os.rename(os.path.join(root, file), os.path.join(root, re.sub(".*-list(?:-videos)?(?:-immediate)?(?:_temp)?(?:[01]\.[0-9]+)?", "news", file)))
-	print("All finished WARCs have been moved.")
 
 def loadfiles():
 	global grablistdone
@@ -511,13 +444,17 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 							grablistnormal.append(extractedurl)
 					count += 1
 			if os.path.isfile('list-videos-immediate' + imgrabfiles[0]):
-				listname = 'list-videos-immediate' + imgrabfiles[0]
-				irc_print(irc_channel_bot, 'Started immediate videos grab for service ' + service + '.')
-				threading.Thread(target = grablist, args = (listname,)).start()
+				with open('rsync_targets', 'r') as file:
+					rsync_targets = [target for target in file.read().splitlines() if target != '']
+					listname = 'list-videos-immediate' + imgrabfiles[0]
+					irc_print(irc_channel_bot, 'Started immediate videos grab for service ' + service + '.')
+					os.system("rsync -avz --progress --remove-source-files " + listname + " " + rsync_targets[0])
 			elif os.path.isfile('list-immediate' + imgrabfiles[1]):
-				listname = 'list-immediate' + imgrabfiles[1]
-				irc_print(irc_channel_bot, 'Started immediate normal grab for service ' + service + '.')
-				threading.Thread(target = grablist, args = (listname,)).start()
+				with open('rsync_targets', 'r') as file:
+					rsync_targets = [target for target in file.read().splitlines() if target != '']
+					listname = 'list-immediate' + imgrabfiles[1]
+					irc_print(irc_channel_bot, 'Started immediate normal grab for service ' + service + '.')
+					os.system("rsync -avz --progress --remove-source-files " + listname + " " + rsync_targets[0])
 			print('Extracted ' + str(count) + ' URLs from service ' + service + ' for URL ' + url + '.')
 			try:
 				service_urls[service] += count
@@ -545,54 +482,63 @@ def dashboard():
 def processfiles():
 	while True:
 		try:
-			threading.Thread(target = movefiles).start()
-			time.sleep(30)
 			threading.Thread(target = uploader).start()
 		except:
 			pass #for now
 		time.sleep(270)
 
+def spliturllist(urllist, num):
+	urllists = []
+	lastnum = 0.
+	while lastnum < len(urllist):
+		newlist = urllist[int(lastnum):int(lastnum + (len(urllist)/float(num)))]
+		urllists.append(newlist)
+		lastnum += len(urllist)/float(num)
+	return urllists
+
 def grab():
 	global grablistvideos
 	global grablistnormal
 	while True:
-		if new_grabs:
-			time.sleep(20)
-			if os.path.isfile('list_temp'):
-				os.remove('list_temp')
-			if os.path.isfile('list-videos_temp'):
-				os.remove('list-videos_temp')
-		grablistvideostemp = grablistvideos
-		with codecs.open('list-videos_temp', 'a', 'utf-8') as listfile:
-			listfile.write('\n'.join(grablistvideostemp))
-		print(len(grablistvideos))
-		for url in grablistvideostemp:
-			grablistvideos.remove(url)
-		print(len(grablistvideos))
-		if new_grabs:
-			if os.path.isfile('list-videos_temp'):
-				threading.Thread(target=grablist, args=('list-videos_temp',)).start()
-				irc_print(irc_channel_bot, "Started videos grab.")
-		grablistnormaltemp = grablistnormal
-		with codecs.open('list_temp', 'a', 'utf-8') as listfile:
-			listfile.write('\n'.join(grablistnormaltemp))
-		print(len(grablistnormal))
-		for url in grablistnormaltemp:
-			grablistnormal.remove(url)
-		print(len(grablistnormal))
-		if new_grabs:
-			if os.path.isfile('list_temp'):
-				threading.Thread(target=grablist, args=('list_temp',)).start()
-				irc_print(irc_channel_bot, "Started normal grab.")
+		with open('rsync_targets', 'r') as file:
+			rsync_targets = [target for target in file.read().splitlines() if target != '']
+			rsync_targets_num = len(rsync_targets)
+			if new_grabs:
+				time.sleep(20)
+				for i in range(rsync_targets_num):
+					if os.path.isfile('list_temp' + str(i)):
+						os.remove('list_temp' + str(i))
+					if os.path.isfile('list-videos_temp' + str(i)):
+						os.remove('list-videos_temp' + str(i))
+			grablistvideostemp = list(grablistvideos)
+			videolists = spliturllist(grablistvideostemp, rsync_targets_num)
+			for i in range(rsync_targets_num):
+				with codecs.open('list-videos_temp' + str(i), 'a', 'utf-8') as listfile:
+					listfile.write('\n'.join(videolists[i]))
+			print(len(grablistvideos))
+			for url in grablistvideostemp:
+				grablistvideos.remove(url)
+			print(len(grablistvideos))
+			if new_grabs:
+				for i in range(rsync_targets_num):
+					if os.path.isfile('list-videos_temp' + str(i)):
+						os.system("rsync -avz --progress --remove-source-files list-videos_temp" + str(i) + " " + rsync_targets[i])
+						irc_print(irc_channel_bot, "Started videos grab " + str(i) + ".")
+			grablistnormaltemp = list(grablistnormal)
+			normallists = spliturllist(grablistnormaltemp, rsync_targets_num)
+			for i in range(rsync_targets_num):
+				with codecs.open('list_temp' + str(i), 'a', 'utf-8') as listfile:
+					listfile.write('\n'.join(normallists[i]))
+			print(len(grablistnormal))
+			for url in grablistnormaltemp:
+				grablistnormal.remove(url)
+			print(len(grablistnormal))
+			if new_grabs:
+				for i in range(rsync_targets_num):
+					if os.path.isfile('list_temp' + str(i)):
+						os.system("rsync -avz --progress --remove-source-files list_temp" + str(i) + " " + rsync_targets[i])
+						irc_print(irc_channel_bot, "Started normal grab " + str(i) + ".")
 		time.sleep(3580)
-
-def grablist(listname):
-	videostring = ''
-	if '-videos' in listname:
-		videostring = '--youtube-dl '
-	os.system('~/.local/bin/grab-site --input-file ' + listname + ' --level=0 --no-sitemaps --concurrency=5 --1 --warc-max-size=524288000 --wpull-args="' + videostring + '--no-check-certificate --timeout=300" > /dev/null 2>&1')
-	if '-immediate' in listname:
-		os.remove(listname)
 
 def writehtmlindex():
 	if not os.path.isfile('index.html'):
@@ -651,6 +597,8 @@ def writehtmlserviceslist():
 		file.write('<!DOCTYPE html>\n<html>\n<head>\n<style>\ntable#lists {\n    width:60%;\n}\ntable#lists tr:nth-child(even) {\n    background-color: #eee;\n}\ntable#lists tr:nth-child(odd) {\n   background-color:#fff;\n}\ntable#lists th	{\n    background-color: black;\n    color: white;\n}\n</style>\n</head>\n<body>\n\n<table id="lists" align="center">\n  <tr>\n    <th>#</th>\n    <th>Name</th>\n    <th>URLs</th>\n    <th>Refresh</th>\n    <th>Regex</th>\n    <th>Video Regex</th>\n    <th>Live Regex</th>\n    <th>Version</th>\n  </tr>\n' + serviceshtml() + '\n</table>\n\n</body>\n</html>\n')
 
 def main():
+	if not os.path.isfile('rsync_targets'):
+		raise Exception('Please add a rsync target(s) to file \'rsync_targets\'')
 	irc_bot_start()
 	threading.Thread(target = irc_bot).start()
 	loadfiles()
