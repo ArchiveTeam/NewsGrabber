@@ -28,7 +28,11 @@ def uploader():
 def upload(filename):
 	with open('rsync_target', 'r') as file:
 		rsync_target = file.read().replace('\n', '').replace('\r', '')
-	os.system("rsync -avz --progress --remove-source-files ./ready/" + filename + " " + rsync_target)
+	rsync_exit_code = os.system("rsync -avz --no-o --no-g --progress --remove-source-files ./ready/" + filename + " " + rsync_target)
+	if rsync_exit_code == 0:
+		print('File synced successfully to the storage server.')
+	else:
+		print('Your received exit code ' + str(rsync_exit_code) + ' while syncing file to storage server.')
 	if os.path.isfile('./ready/'+ filename + '.upload'):
 		os.remove('./ready/'+ filename + '.upload')
 
