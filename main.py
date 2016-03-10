@@ -19,13 +19,14 @@ if not os.path.isdir('./services'):
 if not os.path.isfile('./services/__init__.py'):
 	open('./services/__init__.py', 'w').close()
 import services
+import json
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160308.01
+version = 20160310.02
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -34,10 +35,14 @@ refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
 service_urls = {}
 service_count = 0
+concurrent_uploads = 0
+max_concurrent_uploads = 16
 grablistnormal = []
 grablistvideos = []
 grablistdone = {}
 fileuploads = {}
+last_uploads = {}
+accesskey = sys.argv[1]
 new_grabs = True
 writing = False
 total_count = 0
@@ -67,6 +72,7 @@ def irc_bot():
 	global new_grabs
 	global service_urls
 	global irc
+	global max_concurrent_uploads
 	while True:
 		irc_message = irc.recv(2048)
 		with open('irclog', 'a') as file:
@@ -97,6 +103,14 @@ def irc_bot():
 			writefiles()
 			new_grabs = False
 			irc_print(irc_channel, user + ': No new grabs will be started.')
+		elif re.search(r'^:[^:]+:!con(?:current)?-uploads', irc_message):
+			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
+			if not re.search(r'^:[^:]+:!con(?:current)?-uploads [0-9]+', irc_message):
+				irc_print(irc_channel, user + ': Please specify a number of concurrent uploads.')
+			else:
+				max_concurrent_uploads = int(re.search(r'^:[^:]+:!con(?:current)?-uploads ([0-9]+)', irc_message).group(1))
+				irc_print(irc_channel, user + ': Number of concurrent upload is set to ' + str(max_concurrent_uploads) + '.')
 		elif re.search(r'^:[^:]+:!start', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
@@ -181,33 +195,61 @@ def uploader():
 					threading.Thread(target = upload, args = (file, date)).start()
 					time.sleep(2)
 
+def ia_upload_allowed():
+	global accesskey
+	resp = requests.get('https://s3.us.archive.org/?check_limit=1&accesskey=' + accesskey)
+	if resp.status_code == 200:
+		try:
+			data = json.loads(resp.text)
+			if 'over_limit' in data and data['over_limit'] is not 0:
+				return False
+
+			if 'detail' in data and 'rationing_engaged' in data['detail'] and data['detail']['rationing_engaged'] is not 0:
+				return False
+		except:
+			pass
+
+		return True
+	else:
+		return False
+
 def upload(name, date1):
 	global fileuploads
+	global concurrent_uploads
+	global max_concurrent_uploads
+	global last_uploads
 	if os.path.isfile('./ready/' + name):
 		date = re.sub('-', '', date1)
 		filesize = os.path.getsize('./ready/' + name)
 		itemdate = date
 		itemnum = 0
 		itemsize = 0
-		try:
+		if name in fileuploads:
 			itemnum = fileuploads[name]
 			itemname = str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
-		except:
-			if not os.path.isdir('./last_upload'):
-				os.makedirs('./last_upload')
-			if os.path.isfile('./last_upload/last_upload_' + itemdate):
+		else:
+			if itemdate in last_uploads:
+				itemsize, itemnum = last_uploads[itemdate]
+			elif os.path.isfile('./last_upload/last_upload_' + itemdate):
 				with open('./last_upload/last_upload_' + itemdate, 'r') as uploadfile:
-					itemsize, itemnum = uploadfile.read().split(',', 1)
+					itemvalues = uploadfile.read().split(',')
+					if len(itemvalues) == 2:
+						itemsize, itemnum = itemvalues
 			if int(itemsize) > 10737418240:
 				itemnum = int(itemnum) + 1
 				itemsize = 0
 			itemname = str(itemdate) + '_' + '0'*(4-len(str(itemnum))) + str(itemnum)
 			itemsize = int(itemsize) + filesize
 			fileuploads[name] = itemnum
-			with open('./last_upload/last_upload_' + itemdate, 'w') as uploadfile:
-				uploadfile.write(str(itemsize) + ',' + str(itemnum))
+			last_uploads[itemdate] = [itemsize, itemnum]
 		if os.path.isfile('./ready/' + name):
-			os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=21474836480 --delete'.format(itemname, name, date1))
+			while ia_upload_allowed() == False:
+				time.sleep(20)
+			while concurrent_uploads > max_concurrent_uploads:
+				time.sleep(20)
+			concurrent_uploads += 1
+			os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=c --delete'.format(itemname, name, date1))
+			concurrent_uploads -= 1
 		if os.path.isfile("./ready/" + name + ".upload"):
 			os.remove("./ready/" + name + ".upload")
 		if os.path.isfile('./ready/' + name):
@@ -261,16 +303,27 @@ def writefiles():
 	irc_print(irc_channel_bot, 'Writing service URL files.')
 	if not os.path.isdir('./temp/donefiles'):
 		os.makedirs('./temp/donefiles')
+	if not os.path.isdir('./temp/last_upload'):
+		os.makedirs('./temp/last_upload')
 	for service, urls in grablistdone.iteritems():
 		with codecs.open('./temp/donefiles/' + service, 'a', 'utf-8') as doneurls:
-			for url in urls:
-				try:
-					doneurls.write(url + '\n')
-				except:
-					irc_print(irc_channel_bot, 'Failed printing URL ' + url)
+			try:
+				doneurls.write('\n'.join(urls))
+			except Exception as exception:
+				with open('exceptions', 'a') as exceptions:
+					exceptions.write(str(version) + ' ' + service + '\n' + str(exception) + '\n\n')
+					irc_print(irc_channel_bot, 'Files from service ' + service + ' failed to write.')
 	if os.path.isdir('./donefiles'):
 		shutil.rmtree('./donefiles')
 	shutil.copytree('./temp/donefiles', './donefiles')
+	irc_print(irc_channel_bot, 'Writing item numbering files.')
+	for itemdate, data in last_uploads:
+		itemsize, itemnum = data
+		with codecs.open('./temp/last_upload/last_upload_' + itemdate, 'w') as numfile:
+			numfile.write(itemsize + ',' + itemnum)
+	if os.path.isdir('./last_upload'):
+		shutil.rmtree('./last_upload')
+	shutil.copytree('./temp/last_upload', './last_upload')
 	irc_print(irc_channel_bot, 'Writing new URLs file.')
 	with codecs.open('./temp/list', 'a', 'utf-8') as listfile:
 		listfile.write('\n'.join(grablistnormal))
@@ -448,13 +501,13 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 					rsync_targets = [target for target in file.read().splitlines() if target != '']
 					listname = 'list-videos-immediate' + imgrabfiles[0]
 					irc_print(irc_channel_bot, 'Started immediate videos grab for service ' + service + '.')
-					os.system("rsync -avz --progress --remove-source-files " + listname + " " + rsync_targets[0])
+					os.system("rsync -avz --no-o --no-g --progress --remove-source-files " + listname + " " + rsync_targets[0])
 			elif os.path.isfile('list-immediate' + imgrabfiles[1]):
 				with open('rsync_targets', 'r') as file:
 					rsync_targets = [target for target in file.read().splitlines() if target != '']
 					listname = 'list-immediate' + imgrabfiles[1]
 					irc_print(irc_channel_bot, 'Started immediate normal grab for service ' + service + '.')
-					os.system("rsync -avz --progress --remove-source-files " + listname + " " + rsync_targets[0])
+					os.system("rsync -avz --no-o --no-g --progress --remove-source-files " + listname + " " + rsync_targets[0])
 			print('Extracted ' + str(count) + ' URLs from service ' + service + ' for URL ' + url + '.')
 			try:
 				service_urls[service] += count
@@ -505,12 +558,7 @@ def grab():
 			rsync_targets_num = len(rsync_targets)
 			if new_grabs:
 				time.sleep(20)
-				for i in range(rsync_targets_num):
-					if os.path.isfile('list_temp' + str(i)):
-						os.remove('list_temp' + str(i))
-					if os.path.isfile('list-videos_temp' + str(i)):
-						os.remove('list-videos_temp' + str(i))
-			grablistvideostemp = list(grablistvideos)
+			grablistvideostemp = list(set(grablistvideos))
 			videolists = spliturllist(grablistvideostemp, rsync_targets_num)
 			for i in range(rsync_targets_num):
 				with codecs.open('list-videos_temp' + str(i), 'a', 'utf-8') as listfile:
@@ -522,9 +570,12 @@ def grab():
 			if new_grabs:
 				for i in range(rsync_targets_num):
 					if os.path.isfile('list-videos_temp' + str(i)):
-						os.system("rsync -avz --progress --remove-source-files list-videos_temp" + str(i) + " " + rsync_targets[i])
-						irc_print(irc_channel_bot, "Started videos grab " + str(i) + ".")
-			grablistnormaltemp = list(grablistnormal)
+						rsync_exit_code = os.system("rsync -avz --no-o --no-g --progress --remove-source-files list-videos_temp" + str(i) + " " + rsync_targets[i])
+						if rsync_exit_code != 0:
+							irc_print(irc_channel_bot, 'URLslist list-videos_temp' + str(i) + ' failed to sync.')
+						else:
+							os.remove('list-videos_temp' + str(i))
+			grablistnormaltemp = list(set(grablistnormal))
 			normallists = spliturllist(grablistnormaltemp, rsync_targets_num)
 			for i in range(rsync_targets_num):
 				with codecs.open('list_temp' + str(i), 'a', 'utf-8') as listfile:
@@ -536,8 +587,11 @@ def grab():
 			if new_grabs:
 				for i in range(rsync_targets_num):
 					if os.path.isfile('list_temp' + str(i)):
-						os.system("rsync -avz --progress --remove-source-files list_temp" + str(i) + " " + rsync_targets[i])
-						irc_print(irc_channel_bot, "Started normal grab " + str(i) + ".")
+						rsync_exit_code = os.system("rsync -avz --no-o --no-g --progress --remove-source-files list_temp" + str(i) + " " + rsync_targets[i])
+						if rsync_exit_code != 0:
+							irc_print(irc_channel_bot, 'URLslist list_temp' + str(i) + ' failed to sync.')
+						else:
+							os.remove('list-videos_temp' + str(i))
 		time.sleep(3580)
 
 def writehtmlindex():
