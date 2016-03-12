@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160310.02
+version = 20160311.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -298,6 +298,7 @@ def writefiles():
 	global grablistnormal
 	global grablistvideos
 	global writing
+	global last_uploads
 	writing = True
 	time.sleep(10)
 	irc_print(irc_channel_bot, 'Writing service URL files.')
@@ -317,10 +318,10 @@ def writefiles():
 		shutil.rmtree('./donefiles')
 	shutil.copytree('./temp/donefiles', './donefiles')
 	irc_print(irc_channel_bot, 'Writing item numbering files.')
-	for itemdate, data in last_uploads:
+	for itemdate, data in last_uploads.iteritems():
 		itemsize, itemnum = data
 		with codecs.open('./temp/last_upload/last_upload_' + itemdate, 'w') as numfile:
-			numfile.write(itemsize + ',' + itemnum)
+			numfile.write(str(itemsize) + ',' + str(itemnum))
 	if os.path.isdir('./last_upload'):
 		shutil.rmtree('./last_upload')
 	shutil.copytree('./temp/last_upload', './last_upload')
@@ -573,8 +574,6 @@ def grab():
 						rsync_exit_code = os.system("rsync -avz --no-o --no-g --progress --remove-source-files list-videos_temp" + str(i) + " " + rsync_targets[i])
 						if rsync_exit_code != 0:
 							irc_print(irc_channel_bot, 'URLslist list-videos_temp' + str(i) + ' failed to sync.')
-						else:
-							os.remove('list-videos_temp' + str(i))
 			grablistnormaltemp = list(set(grablistnormal))
 			normallists = spliturllist(grablistnormaltemp, rsync_targets_num)
 			for i in range(rsync_targets_num):
@@ -590,8 +589,6 @@ def grab():
 						rsync_exit_code = os.system("rsync -avz --no-o --no-g --progress --remove-source-files list_temp" + str(i) + " " + rsync_targets[i])
 						if rsync_exit_code != 0:
 							irc_print(irc_channel_bot, 'URLslist list_temp' + str(i) + ' failed to sync.')
-						else:
-							os.remove('list-videos_temp' + str(i))
 		time.sleep(3580)
 
 def writehtmlindex():
