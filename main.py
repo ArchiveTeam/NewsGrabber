@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160311.01
+version = 20160314.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -88,7 +88,7 @@ def irc_bot():
 					irc_print(irc_channel, 'Hello ' + user + '!')
 					messages = ['What a beautiful day!', 'I\'m having the time of my life! What about you?', 'News, news, news, news.... Don\'t you just love a busy day?', 'Still alive? The world went BOOM according to some articles...', 'I\'m having a bad day. Don\'t disturbe me!', 'Let\'s save all the news!', 'Can you help me cover more newssites?', 'Together we can save the world on a harddrive!', 'Help me! I need more....', 'I\'m busy grabbing articles.', 'I truly love myself, don\'t you?']
 					irc_print(irc_channel, messages[random.randint(0,9)])
-		elif re.search(r'^:[^:]+:!help', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!help', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_print(user, 'Hello! My options are:')
 			irc_print(user, '\'!EMERGENCY_STOP\': Stop the grab immediatly.')
@@ -97,45 +97,45 @@ def irc_bot():
 			irc_print(user, '\'!imgrab\', \'!immediate-grab\' or \'!immediate_grab\': Make sure URLs are grabbed immediatly after they\'re found. Add \'remove\', \'rem\' or \'r\' to stop URLs from being grabbed immediatly after they\'re found.')
 			irc_print(user, '\'!info\' or \'!information\': Request information about a service.')
 			irc_print(user, '\'!upload\': Upload the WARC files.')
-		elif re.search(r'^:[^:]+:!stop', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!stop', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			writefiles()
 			new_grabs = False
 			irc_print(irc_channel, user + ': No new grabs will be started.')
-		elif re.search(r'^:[^:]+:!con(?:current)?-uploads', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!con(?:current)?-uploads', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-			if not re.search(r'^:[^:]+:!con(?:current)?-uploads [0-9]+', irc_message):
+			if not re.search(r'^:.+PRIVMSG[^:]+:!con(?:current)?-uploads [0-9]+', irc_message):
 				irc_print(irc_channel, user + ': Please specify a number of concurrent uploads.')
 			else:
-				max_concurrent_uploads = int(re.search(r'^:[^:]+:!con(?:current)?-uploads ([0-9]+)', irc_message).group(1))
+				max_concurrent_uploads = int(re.search(r'^:.+PRIVMSG[^:]+:!con(?:current)?-uploads ([0-9]+)', irc_message).group(1))
 				irc_print(irc_channel, user + ': Number of concurrent upload is set to ' + str(max_concurrent_uploads) + '.')
-		elif re.search(r'^:[^:]+:!start', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!start', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			writefiles()
 			new_grabs = True
 			irc_print(irc_channel, user + ': New grabs will be started.')
-		elif re.search(r'^:[^:]+:!version', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!version', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			irc_print(irc_channel, user + ': I\'m version ' + str(version) + '.')
-		elif re.search(r'^:[^:]+:!writefiles', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!writefiles', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			writefiles()
-		elif re.search(r'^:[^:]+:!upload', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!upload', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			threading.Thread(target = uploader).start()
 			irc_print(irc_channel, user + ': WARC files uploading.')
-		elif re.search(r'^:[^:]+:!info(?:formation)?', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!info(?:formation)?', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-			if not re.search(r'^:[^:]+:!info(?:formation)? web__[a-zA-Z0-9_]*', irc_message):
+			if not re.search(r'^:.+PRIVMSG[^:]+:!info(?:formation)? web__[a-zA-Z0-9_]*', irc_message):
 				irc_print(irc_channel, user + ': What service do you want to have information about?')
 			else:
-				infoservice = re.search(r'^:[^:]+:!i(?:nfo(?:formation)?)? (web__[a-zA-Z0-9_]*)', irc_message).group(1)
+				infoservice = re.search(r'^:.+PRIVMSG[^:]+:!i(?:nfo(?:formation)?)? (web__[a-zA-Z0-9_]*)', irc_message).group(1)
 				try:
 					irc_print(irc_channel, user + ': Service: ' + infoservice + '. Refreshtime: ' + str(refresh_wait[int(eval("services." + infoservice + ".refresh"))-1]) + ' seconds. URLs: ' + str(eval("services." + infoservice + ".urls")) + '. Regex: ' + str(eval("services." + infoservice + ".regex")) + '. Videoregex: ' + str(eval("services." + infoservice + ".videoregex")) + '. Liveregex: ' + str(eval("services." + infoservice + ".videoregex")) + '.')
 					irc_print(irc_channel_bot, user + ': The script of this service is located here: https://github.com/ArchiveTeam/NewsGrabber/blob/master/services/' + infoservice + '.py')
@@ -145,18 +145,18 @@ def irc_bot():
 						irc_print(irc_channel, user + ': 0 URLs have been added since the script was started.')
 				except:
 					irc_print(irc_channel, user + ': Service ' + infoservice + ' doesn\'t exist.')
-		elif re.search(r'^:[^:]+:!EMERGENCY_STOP', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!EMERGENCY_STOP', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			irc_print(irc_channel, user + ': Bot emergency stopped.')
 			raise Exception('Bot emergency stopped.')
-		elif re.search(r'^:[^:]+:!im(?:mediate[-_])?grab', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:!im(?:mediate[-_])?grab', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-			if not re.search(r'^:[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?web__[a-zA-Z0-9_]*', irc_message):
+			if not re.search(r'^:.+PRIVMSG[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?web__[a-zA-Z0-9_]*', irc_message):
 				irc_print(irc_channel, user + ': What service do you want to have grabbed immediatly?')
 			else:
-				imservice = re.search(r'^:[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?(web__[a-zA-Z0-9_]*)', irc_message).group(1)
+				imservice = re.search(r'^:.+PRIVMSG[^:]+:!im(?:mediate[-_])?grab (?:r(?:em(?:ove)?)? )?(web__[a-zA-Z0-9_]*)', irc_message).group(1)
 				try:
 					if ' r' in irc_message:
 						immediate_grab.remove(imservice)
