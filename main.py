@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160314.01
+version = 20160320.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'video', r'[tT][vV]', r'movie']
@@ -80,7 +80,7 @@ def irc_bot():
 		if 'PING :' in irc_message:
 			message = re.search(r'^[^:]+:(.*)$', irc_message).group(1)
 			irc.send('PONG :' + message + '\n')
-		elif re.search(r'^:[^:]+:.*newsbud(?:dy)?', irc_message) and re.search(r'^:[^:]+:.*[hH](?:ello|ey|i)', irc_message):
+		elif re.search(r'^:.+PRIVMSG[^:]+:.*newsbud(?:dy)?', irc_message) and re.search(r'^:.+PRIVMSG[^:]+:.*[hH](?:ello|ey|i)', irc_message):
 			if re.search(r'^:([^!]+)!', irc_message):
 				if not re.search(r'^:([^!]+)!', irc_message).group(1) == 'newsbuddy':
 					user = re.search(r'^:([^!]+)!', irc_message).group(1)
@@ -114,13 +114,17 @@ def irc_bot():
 		elif re.search(r'^:.+PRIVMSG[^:]+:!start', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-			writefiles()
 			new_grabs = True
 			irc_print(irc_channel, user + ': New grabs will be started.')
 		elif re.search(r'^:.+PRIVMSG[^:]+:!version', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
 			irc_print(irc_channel, user + ': I\'m version ' + str(version) + '.')
+		elif re.search(r'^:.+PRIVMSG[^:]+:!r(?:efresh-)?s(?:ervices)?', irc_message):
+			user = re.search(r'^:([^!]+)!', irc_message).group(1)
+			irc_channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
+			irc_print(irc_channel, user + ': Refreshing services...')
+			checkrefresh()
 		elif re.search(r'^:.+PRIVMSG[^:]+:!writefiles', irc_message):
 			user = re.search(r'^:([^!]+)!', irc_message).group(1)
 			writefiles()
@@ -302,43 +306,24 @@ def writefiles():
 	writing = True
 	time.sleep(10)
 	irc_print(irc_channel_bot, 'Writing service URL files.')
-	if not os.path.isdir('./temp/donefiles'):
-		os.makedirs('./temp/donefiles')
-	if not os.path.isdir('./temp/last_upload'):
-		os.makedirs('./temp/last_upload')
 	for service, urls in grablistdone.iteritems():
-		with codecs.open('./temp/donefiles/' + service, 'a', 'utf-8') as doneurls:
+		with codecs.open('./donefiles/' + service, 'w', 'utf-8') as doneurls:
 			try:
 				doneurls.write('\n'.join(urls))
 			except Exception as exception:
 				with open('exceptions', 'a') as exceptions:
 					exceptions.write(str(version) + ' ' + service + '\n' + str(exception) + '\n\n')
 					irc_print(irc_channel_bot, 'Files from service ' + service + ' failed to write.')
-	if os.path.isdir('./donefiles'):
-		shutil.rmtree('./donefiles')
-	shutil.copytree('./temp/donefiles', './donefiles')
 	irc_print(irc_channel_bot, 'Writing item numbering files.')
 	for itemdate, data in last_uploads.iteritems():
 		itemsize, itemnum = data
-		with codecs.open('./temp/last_upload/last_upload_' + itemdate, 'w') as numfile:
+		with codecs.open('./last_upload/last_upload_' + itemdate, 'w') as numfile:
 			numfile.write(str(itemsize) + ',' + str(itemnum))
-	if os.path.isdir('./last_upload'):
-		shutil.rmtree('./last_upload')
-	shutil.copytree('./temp/last_upload', './last_upload')
 	irc_print(irc_channel_bot, 'Writing new URLs file.')
-	with codecs.open('./temp/list', 'a', 'utf-8') as listfile:
+	with codecs.open('./list', 'a', 'utf-8') as listfile:
 		listfile.write('\n'.join(grablistnormal))
-	with codecs.open('./temp/list-videos', 'a', 'utf-8') as listfile:
+	with codecs.open('./list-videos', 'a', 'utf-8') as listfile:
 		listfile.write('\n'.join(grablistvideos))
-	if os.path.isfile('list'):
-		os.remove('list')
-	if os.path.isfile('./temp/list'):
-		shutil.move('./temp/list', './list')
-	if os.path.isfile('list-videos'):
-		os.remove('list-videos')
-	if os.path.isfile('./temp/list-videos'):
-		shutil.move('./temp/list-videos', './list-videos')
-	shutil.rmtree('./temp')
 	writing = False
 	irc_print(irc_channel_bot, 'All files written.')
 
@@ -346,34 +331,32 @@ def writefiles():
 def checkrefresh():
 	global refresh
 	global service_count
-	while True:
-		refresh = [[], [], [], [], [], [], [], [], [], [], []]
-		new_services = 0
-		if os.path.isdir('./services'):
-			shutil.rmtree('./services')
-		os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git')
-		shutil.copytree('./NewsGrabber/services', './services')
-		shutil.rmtree('./NewsGrabber')
-		reload(services)
-		writehtmlserviceslist()
-		for root, dirs, files in os.walk("./services"):
-			for service in files:
-				if service.startswith("web__") and service.endswith(".py"):
-					if not service[:-3] in refresh[int(eval("services." + service[:-3] + ".refresh"))-1]:
-						for refreshlist in refresh:
-							while service[:-3] in refreshlist:
-								refreshlist.remove(service[:-3])
-						refresh[int(eval("services." + service[:-3] + ".refresh"))-1].append(service[:-3])
-						new_services += 1
-						print('Found service ' + service[:-3] + '.')
-		new_count = new_services-service_count
-		service_count = new_services
-		if new_count == 1:
-			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' service.')
-		elif new_count != 0:
-			irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' services.')
-		writehtmlserviceslist()
-		time.sleep(300)
+	refresh = [[], [], [], [], [], [], [], [], [], [], []]
+	new_services = 0
+	if os.path.isdir('./services'):
+		shutil.rmtree('./services')
+	os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git')
+	shutil.copytree('./NewsGrabber/services', './services')
+	shutil.rmtree('./NewsGrabber')
+	reload(services)
+	writehtmlserviceslist()
+	for root, dirs, files in os.walk("./services"):
+		for service in files:
+			if service.startswith("web__") and service.endswith(".py"):
+				if not service[:-3] in refresh[int(eval("services." + service[:-3] + ".refresh"))-1]:
+					for refreshlist in refresh:
+						while service[:-3] in refreshlist:
+							refreshlist.remove(service[:-3])
+					refresh[int(eval("services." + service[:-3] + ".refresh"))-1].append(service[:-3])
+					new_services += 1
+					print('Found service ' + service[:-3] + '.')
+	new_count = new_services-service_count
+	service_count = new_services
+	if new_count == 1:
+		irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' service.')
+	elif new_count != 0:
+		irc_print(irc_channel_bot, 'Found and updated ' + str(new_count) + ' services.')
+	writehtmlserviceslist()
 
 def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 	global total_count
@@ -667,8 +650,7 @@ def main():
 		for file in files:
 			if file.endswith(".upload"):
 				os.remove(os.path.join(root, file))
-	threading.Thread(target = checkrefresh).start()
-	time.sleep(pause_length)
+	checkrefresh()
 	threading.Thread(target = dashboard).start()
 	threading.Thread(target = processfiles).start()
 	for i in range(len(refresh)):
