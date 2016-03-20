@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160320.02
+version = 20160321.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -368,14 +368,14 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 	global standard_live_regex
 	imgrabfiles = []
 	tries = 0
-	while tries < 5:
+	while tries < 10:
 		try:
 			response = requests.get(url)
 			response.encoding = 'utf-8'
 		except Exception as exception:
 			tries += 1
 			with open('exceptions', 'a') as exceptions:
-				if tries == 5:
+				if tries == 10:
 					exceptions.write(str(version) + ' ' + str(tries) + ' ' + url + '\n' + str(exception) + '\n\n')
 				#	irc_print(irc_channel_bot, str(version) + ' ' + str(tries) + ' ' + url + ' EXCEPTION ' + str(exception))
 		try:
