@@ -26,11 +26,11 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160320.01
+version = 20160320.02
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
-standard_video_regex = [r'video', r'[tT][vV]', r'movie']
-standard_live_regex = [r'live']
+standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
+standard_live_regex = [r'^https?:\/\/[^\/]+\/.*live']
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 immediate_grab = []
 service_urls = {}
