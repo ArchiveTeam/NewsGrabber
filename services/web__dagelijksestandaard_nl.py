@@ -1,8 +1,7 @@
 refresh = 8
 version = 20160323.01
 
-urls = [
-	'http://www.dagelijksestandaard.nl/',
+urls = ['http://www.dagelijksestandaard.nl/',
 	'http://www.dagelijksestandaard.nl/category/inspirerend/',
 	'http://www.dagelijksestandaard.nl/category/grappig/',
 	'http://www.dagelijksestandaard.nl/category/gezinsleven/',

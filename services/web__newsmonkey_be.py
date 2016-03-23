@@ -1,8 +1,7 @@
 refresh = 7
 version = 20160323.01
 
-urls = [
-	'http://newsmonkey.be/',
+urls = ['http://newsmonkey.be/',
 	'http://newsmonkey.be/auto/rss/main.rss',
 	'http://newsmonkey.be/politics',
 	'http://newsmonkey.be/money',

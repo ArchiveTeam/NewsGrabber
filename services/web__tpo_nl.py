@@ -1,8 +1,7 @@
 refresh = 6
 version = 20160323.01
 
-urls = [
-	'http://tpo.nl/',
+urls = ['http://tpo.nl/',
 	'http://politiek.tpo.nl/',
 	'http://media.tpo.nl/',
 	'http://nieuws.tpo.nl/',
