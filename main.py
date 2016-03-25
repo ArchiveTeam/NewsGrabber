@@ -480,6 +480,9 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 						if not extractedurl in grablistnormal:
 							grablistnormal.append(extractedurl)
 					count += 1
+					if count == 1:
+						if not url in grablistnormal:
+							grablistnormal.append(url)
 			if os.path.isfile('list-videos-immediate' + imgrabfiles[0]):
 				with open('rsync_targets', 'r') as file:
 					rsync_targets = [target for target in file.read().splitlines() if target != '']
