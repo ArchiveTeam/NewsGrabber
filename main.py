@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160321.01
+version = 20160326.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -339,7 +339,6 @@ def checkrefresh():
 	shutil.copytree('./NewsGrabber/services', './services')
 	shutil.rmtree('./NewsGrabber')
 	reload(services)
-	writehtmlserviceslist()
 	for root, dirs, files in os.walk("./services"):
 		for service in files:
 			if service.startswith("web__") and service.endswith(".py"):
@@ -441,8 +440,8 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 					if re.search(regex, extractedurl) and not extractedurlpercent in extractedurls:
 						extractedurls.append(extractedurlpercent)
 						break
-			videoregexes += standard_video_regex
-			liveregexes += standard_live_regex
+			videoregexes += [regex for regex in standard_video_regex if not regex in videoregexes]
+			liveregexes += [regex for regex in standard_live_regex if not regex in liveregexes]
 			for extractedurl in extractedurls:
 				for regex in videoregexes:
 					if re.search(regex, extractedurl) and not extractedurl in extractedvideourls:
@@ -654,6 +653,7 @@ def main():
 			if file.endswith(".upload"):
 				os.remove(os.path.join(root, file))
 	checkrefresh()
+	time.sleep(pause_length)
 	threading.Thread(target = dashboard).start()
 	threading.Thread(target = processfiles).start()
 	for i in range(len(refresh)):
