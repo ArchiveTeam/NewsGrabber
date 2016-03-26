@@ -103,11 +103,11 @@ def grab_new_lists():
 
 def grab_list(listname):
 	videostring = ''
-	extraargs = ' --1'
+	extraargs = ''
 	if '-videos' in listname:
 		videostring = '--youtube-dl '
-		extraargs = ''
-	os.system('~/.local/bin/grab-site --input-file ./old_lists/' + listname + ' --level=0 --no-sitemaps --concurrency=5' + extraargs + ' --warc-max-size=524288000 --wpull-args="' + videostring + '--no-check-certificate --timeout=300" > /dev/null 2>&1')
+		extraargs = ' --1'
+	os.system('~/.local/bin/grab-site --input-file ./old_lists/' + listname + ' --level=0 --ua="ArchiveTeam; Googlebot/2.1" --no-sitemaps --concurrency=5' + extraargs + ' --warc-max-size=524288000 --wpull-args="' + videostring + '--no-check-certificate --timeout=300" > /dev/null 2>&1')
 
 def main():
 	if not os.path.isdir('./new_lists'):
