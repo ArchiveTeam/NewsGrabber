@@ -1,7 +1,8 @@
 refresh = 10
-version = 20151220.01
+version = 20160326.02
 
-urls = ['https://marcorubio.com/feed/']
+urls = ['https://marcorubio.com',
+	'https://marcorubio.com/feed/']
 regex = [r'^https?:\/\/[^\/]*marcorubio\.com\/']	
 videoregex = []
 liveregex = []

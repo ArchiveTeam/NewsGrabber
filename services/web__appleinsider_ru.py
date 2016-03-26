@@ -1,7 +1,8 @@
 refresh = 6
-version = 20151226.01
+version = 20160326.02
 
-urls = ['http://appleinsider.ru/feed']
+urls = ['http://appleinsider.ru',
+	'http://appleinsider.ru/feed']
 regex = [r'^https?:\/\/[^\/]*appleinsider\.ru\/']	
 videoregex = []
 liveregex = []

@@ -1,8 +1,8 @@
 refresh = 5
-version = 20151223.01
+version = 20160326.02
 
-urls = ['http://news.mingpao.com/rss/ins/all.xml',
-	'http://mingpao.com/']
+urls = ['http://mingpao.com/',
+	'http://news.mingpao.com/rss/ins/all.xml']
 regex = [r'^https?:\/\/[^\/]*mingpao\.com']
 videoregex = [r'video\.mingpao\.com',
 	r'ol\.mingpao\.com']

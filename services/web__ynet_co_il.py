@@ -1,7 +1,9 @@
 refresh = 5
 version = 20160103.01
 
-urls = ['http://www.ynet.co.il/Integration/StoryRss3082.xml']
+urls = ['http://www.ynetnews.com/home/0,7340,L-3083,00.html',
+	'http://www.ynet.co.il/home/0,7340,L-8,00.html',
+	'http://www.ynet.co.il/Integration/StoryRss3082.xml']
 regex = [r'^https?:\/\/[^\/]*ynet\.co\.il\/']	
 videoregex = []
 liveregex = []

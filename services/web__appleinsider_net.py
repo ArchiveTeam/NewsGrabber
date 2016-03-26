@@ -1,8 +1,8 @@
 refresh = 11
-version = 20151226.01
+version = 20160326.02
 
-urls = ['http://nycity.today/rss.xml',
-        'http://www.appleinsider.net']
+urls = ['http://www.appleinsider.net',
+	'http://nycity.today/rss.xml']
 regex = [r'^https?:\/\/[^\/]*appleinsider\.net\/']	
 videoregex = []
 liveregex = []

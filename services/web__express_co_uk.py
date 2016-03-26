@@ -1,7 +1,8 @@
 refresh = 4
-version = 20150814.01
+version = 20160326.02
 
-urls = ['http://feeds.feedburner.com/daily-express-news-showbiz?format=xml']
+urls = ['http://www.express.co.uk/',
+	'http://feeds.feedburner.com/daily-express-news-showbiz?format=xml']
 regex = [r'^https?:\/\/feedproxy\.google\.com\/',
 	r'^https?:\/\/[^\/]*express\.co\.uk\/']
 videoregex = []

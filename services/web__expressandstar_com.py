@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160312.01
+version = 20160326.02
 
-urls = ['http://www.expressandstar.com/entertainment/feed/',
+urls = ['http://www.expressandstar.com',
+	'http://www.expressandstar.com/entertainment/feed/',
 	'http://www.expressandstar.com/business/feed/',
 	'http://www.expressandstar.com/education/feed/',
 	'http://www.expressandstar.com/sport/feed/',

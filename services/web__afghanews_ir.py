@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://www.afghanews.ir/RSS/Rss.Xml']
+urls = ['http://www.afghanews.ir/',
+	'http://www.afghanews.ir/RSS/Rss.Xml']
 regex = [r'^https?:\/\/[^\/]*afghanews\.ir']
 videoregex = []
 liveregex = []

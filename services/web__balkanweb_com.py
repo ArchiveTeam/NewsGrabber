@@ -1,8 +1,8 @@
 refresh = 4
-version = 20151228.01
+version = 20160326.02
 
-urls = ['http://www.balkanweb.com/gazetashqiptare/feed/'
-	'http://www.balkanweb.com/gazetashqiptare/']
+urls = ['http://www.balkanweb.com/gazetashqiptare/',
+	'http://www.balkanweb.com/gazetashqiptare/feed/']
 regex = [r'^https?:\/\/[^\/]*balkanweb\.com']
 videoregex = []
 liveregex = []

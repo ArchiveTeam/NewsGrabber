@@ -1,8 +1,8 @@
 refresh = 5
-version = 20160121.01
+version = 20160326.02
 
-urls = ['http://www.al-fadjr.com/ar/feed/index.1.rss',
-	'http://www.al-fadjr.com/ar/']
+urls = ['http://www.al-fadjr.com/ar/',
+	'http://www.al-fadjr.com/ar/feed/index.1.rss']
 regex = [r'^https?:\/\/[^\/]*al-fadjr\.com']
 videoregex = []
 liveregex = []

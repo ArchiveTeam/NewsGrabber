@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160123.01
+version = 20160326.02
 
-urls = ['http://lautomarche.com/feed/']
+urls = ['http://lautomarche.com',
+	'http://lautomarche.com/feed/']
 regex = [r'^https?:\/\/[^\/]*lautomarche\.com']
 videoregex = []
 liveregex = []

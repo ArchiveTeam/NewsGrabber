@@ -1,7 +1,8 @@
 refresh = 5
-version = 20151224.02
+version = 20160326.03
 
-urls = ['http://feeds.feedburner.com/TheBoyGeniusReport']
+urls = ['http://bgr.com/',
+	'http://feeds.feedburner.com/TheBoyGeniusReport']
 regex = [r'^https?:\/\/[^\/]*bgr\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = []

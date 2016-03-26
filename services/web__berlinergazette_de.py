@@ -1,7 +1,8 @@
 refresh = 7
-version = 20160221.01
+version = 20160326.02
 
-urls = ['http://feeds.feedburner.com/BerlinerGazette']
+urls = ['http://berlinergazette.de/',
+	'http://feeds.feedburner.com/BerlinerGazette']
 regex = [r'^https?:\/\/[^\/]*berlinergazette\.de\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = []

@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151221.01
+version = 20160326.02
 
-urls = ['http://blog.cleveland.com/realtimenews/atom.xml']
+urls = ['http://www.cleveland.com/interact/index.ssf',
+	'http://blog.cleveland.com/realtimenews/atom.xml']
 regex = [r'^https?:\/\/[^\/]*cleveland\.com\/']	
 videoregex = []
 liveregex = []

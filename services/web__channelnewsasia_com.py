@@ -1,7 +1,8 @@
 refresh = 4
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://flip.channelnewsasia.com/main.xml']
+urls = ['http://www.channelnewsasia.com/',
+	'http://flip.channelnewsasia.com/main.xml']
 regex = [r'^https?:\/\/[^\/]*channelnewsasia\.com\/']	
 videoregex = ['/video/']
 liveregex = []

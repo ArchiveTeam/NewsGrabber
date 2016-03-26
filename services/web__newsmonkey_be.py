@@ -1,8 +1,7 @@
 refresh = 7
-version = 20160323.01
+version = 20160326.02
 
 urls = ['http://newsmonkey.be/',
-	'http://newsmonkey.be/auto/rss/main.rss',
 	'http://newsmonkey.be/politics',
 	'http://newsmonkey.be/money',
 	'http://newsmonkey.be/society',
@@ -18,7 +17,8 @@ urls = ['http://newsmonkey.be/',
 	'http://newsmonkey.be/science',
 	'http://newsmonkey.be/techgadgets',
 	'http://newsmonkey.be/cyberspace',
-	'http://newsmonkey.be/travel']
+	'http://newsmonkey.be/travel',
+	'http://newsmonkey.be/auto/rss/main.rss']
 regex = [r'^https?:\/\/[^\/]*newsmonkey\.be']
 videoregex = []
 liveregex = []

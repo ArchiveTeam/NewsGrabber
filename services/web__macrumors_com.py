@@ -1,8 +1,8 @@
 refresh = 6
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://feeds.macrumors.com/MacRumors-All',
-        'http://www.macrumors.com']
+urls = ['http://www.macrumors.com',
+	'http://feeds.macrumors.com/MacRumors-All']
 regex = [r'^https?:\/\/[^\/]*macrumors\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = [r'^https?:\/\/(?:www\.)?youtube\.com\/embed\/']

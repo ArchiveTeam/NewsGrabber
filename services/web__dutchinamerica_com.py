@@ -1,7 +1,8 @@
 refresh = 11
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://www.dutchinamerica.com/rss.xml']
+urls = ['http://www.dutchinamerica.com/',
+	'http://www.dutchinamerica.com/rss.xml']
 regex = [r'^https?:\/\/[^\/]*dutchinamerica\.com']
 videoregex = []
 liveregex = []

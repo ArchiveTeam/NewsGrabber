@@ -1,8 +1,8 @@
 refresh = 5
-version = 20160121.01
+version = 20160326.02
 
-urls = ['http://www.lexpressiondz.com/feed/index.rss',
-	'http://www.lexpressiondz.com/']
+urls = ['http://www.lexpressiondz.com/',
+	'http://www.lexpressiondz.com/feed/index.rss']
 regex = [r'^https?:\/\/[^\/]*lexpressiondz\.com']
 videoregex = []
 liveregex = []

@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://www.mandegardaily.com/feed/']
+urls = ['http://www.mandegardaily.com/',
+	'http://www.mandegardaily.com/feed/']
 regex = [r'^https?:\/\/[^\/]*mandegardaily\.com']
 videoregex = []
 liveregex = []

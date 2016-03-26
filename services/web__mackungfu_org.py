@@ -1,7 +1,9 @@
 refresh = 9
-version = 20160320.01
+version = 20160326.02
 
-urls = ['http://www.mackungfu.org/rss/']
+urls = ['http://www.mackungfu.org/',
+	'http://www.mackungfu.org/articles',
+	'http://www.mackungfu.org/rss/']
 regex = [r'^https?:\/\/[^\/]*mackungfu\.org\/']	
 videoregex = []
 liveregex = []

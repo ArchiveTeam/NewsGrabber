@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://aswatmasriya.com/rss']
+urls = ['http://www.aswatmasriya.com/',
+	'http://aswatmasriya.com/rss']
 regex = [r'^https?:\/\/[^\/]*aswatmasriya\.com\/']	
 videoregex = []
 liveregex = []

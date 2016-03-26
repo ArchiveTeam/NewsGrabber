@@ -1,8 +1,8 @@
 refresh = 3
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://feeds.feedburner.com/TechCrunch/',
-        'http://techcrunch.com']
+urls = ['http://techcrunch.com',
+	'http://feeds.feedburner.com/TechCrunch/']
 regex = [r'^https?:\/\/[^\/]*techcrunch\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = [r'/video/']
