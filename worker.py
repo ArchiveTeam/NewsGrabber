@@ -9,7 +9,7 @@ def main():
 			with open('worker_script.py', 'w') as file:
 				file.write(new_script.text)
 			returned = os.system('python worker_script.py')
-			if returned != 0:
+			if returned != 0 or len(new_script.text) == 0:
 				print('Something went wrong running this script.')
 		else:
 			print('Something went wrong. How is your internet connection?')
