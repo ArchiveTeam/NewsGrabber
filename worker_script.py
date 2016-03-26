@@ -103,7 +103,7 @@ def grab_new_lists():
 
 def grab_list(listname):
 	videostring = ''
-	extraargs = ''
+	extraargs = ' --1'
 	if '-videos' in listname:
 		videostring = '--youtube-dl '
 		extraargs = ' --1'
