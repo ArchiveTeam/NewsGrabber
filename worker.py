@@ -13,7 +13,7 @@ def main():
 				print('Something went wrong running this script.')
 		else:
 			print('Something went wrong. How is your internet connection?')
-		time.sleep(3)
+		time.sleep(300)
 
 if __name__ == '__main__':
 	main()
