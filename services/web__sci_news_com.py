@@ -1,8 +1,8 @@
 refresh = 6
-version = 20160221.01
+version = 20160326.02
 
-urls = ['http://feeds.feedburner.com/BreakingScienceNews?format=xml',
-        'http://www.sci-news.com']
+urls = ['http://www.sci-news.com',
+	'http://feeds.feedburner.com/BreakingScienceNews?format=xml']
 regex = [r'^https?:\/\/[^\/]*sci-news\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = []

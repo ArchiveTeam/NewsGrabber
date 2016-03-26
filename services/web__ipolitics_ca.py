@@ -1,7 +1,8 @@
 refresh = 5
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://ipolitics.ca/feed/']
+urls = ['http://ipolitics.ca/',
+	'http://ipolitics.ca/feed/']
 regex = [r'^https?:\/\/[^\/]*ipolitics\.ca\/']	
 videoregex = []
 liveregex = []

@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151220.01
+version = 20160326.02
 
-urls = ['http://www.polygon.com/rss/index.xml']
+urls = ['http://www.polygon.com/',
+	'http://www.polygon.com/rss/index.xml']
 regex = [r'^https?:\/\/[^\/]*polygon\.com\/']	
 videoregex = [r'^https?:\/\/[^\/]*ooyala\.com\/']
 liveregex = [r'^https?:\/\/live\.polygon\.com\/']

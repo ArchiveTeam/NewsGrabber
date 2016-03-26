@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://www.alarabiya.net/.mrss/ar.xml',
+urls = ['http://www.alarabiya.net/',
+	'http://www.alarabiya.net/.mrss/ar.xml',
 	'http://www.alarabiya.net/.mrss/ar/arab-and-world.xml',
 	'http://www.alarabiya.net/.mrss/ar/aswaq.xml',
 	'http://www.alarabiya.net/.mrss/ar/sport.xml',

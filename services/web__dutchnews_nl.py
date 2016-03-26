@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://www.dutchnews.nl/feed/?news']
+urls = ['http://www.dutchnews.nl/',
+	'http://www.dutchnews.nl/feed/?news']
 regex = [r'^https?:\/\/[^\/]*dutchnews\.nl']
 videoregex = []
 liveregex = []

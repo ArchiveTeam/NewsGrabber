@@ -1,7 +1,8 @@
 refresh = 9
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://www.khaama.com/feed',
+urls = ['http://www.khaama.com/',
+	'http://www.khaama.com/feed',
 	'http://www.khaama.com/comments/feed']
 regex = [r'^https?:\/\/[^\/]*khaama\.com']
 videoregex = []

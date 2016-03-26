@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151221.01
+version = 20160326.02
 
-urls = ['http://nypost.com/feed']
+urls = ['http://nypost.com',
+	'http://nypost.com/feed']
 regex = [r'^https?:\/\/[^\/]*nypost\.com\/']	
 videoregex = [r'/video/']
 liveregex = []

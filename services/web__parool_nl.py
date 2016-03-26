@@ -1,7 +1,8 @@
 refresh = 7
-version = 20151219.01
+version = 20160326.02
 
-urls = ['http://www.parool.nl/rss.xml']
+urls = ['http://www.parool.nl',
+	'http://www.parool.nl/rss.xml']
 regex = [r'https?:\/\/[^\/]*parool\.nl']
 videoregex = [r'\/video\/']
 liveregex = []

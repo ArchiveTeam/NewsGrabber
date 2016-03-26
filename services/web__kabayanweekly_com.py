@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://kabayanweekly.com/feed/']
+urls = ['http://kabayanweekly.com/',
+	'http://kabayanweekly.com/feed/']
 regex = [r'^https?:\/\/[^\/]*kabayanweekly\.com']
 videoregex = []
 liveregex = []

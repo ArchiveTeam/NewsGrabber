@@ -1,8 +1,9 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://www.middleeasteye.net/rss',
-        'http://www.middleeasteye.net/fr/rss']
+urls = ['http://www.middleeasteye.net/',
+	'http://www.middleeasteye.net/rss',
+	'http://www.middleeasteye.net/fr/rss']
 regex = [r'^https?:\/\/[^\/]*middleeasteye\.net\/']	
 videoregex = []
 liveregex = []

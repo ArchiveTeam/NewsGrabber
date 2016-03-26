@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151223.01
+version = 20160326.02
 
-urls = ['http://orientaldaily.on.cc/rss/china_world.xml',
+urls = ['http://orientaldaily.on.cc/',
+	'http://orientaldaily.on.cc/rss/china_world.xml',
 	'http://orientaldaily.on.cc/rss/news.xml',
 	'http://orientaldaily.on.cc/rss/lifestyle.xml',
 	'http://orientaldaily.on.cc/rss/entertainment.xml',

@@ -1,8 +1,8 @@
 refresh = 5
-version = 20160316.01
+version = 20160326.02
 
-urls = ['http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/quote.ru/mainnews.rss',
-	'http://quote.rbc.ru/']
+urls = ['http://quote.rbc.ru/',
+	'http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/quote.ru/mainnews.rss',]
 regex = [r'^https?:\/\/[^\/]*rbc\.ru',
 	r'^https?:\/\/[^\/]*quote\.ru']	
 videoregex = []

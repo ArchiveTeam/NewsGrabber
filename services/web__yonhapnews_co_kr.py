@@ -1,9 +1,9 @@
 refresh = 4
-version = 20151228.01
+version = 20160326.02
 
-urls = ['http://yonhapnews.feedsportal.com/c/35025/f/647118/index.rss',
-        'http://www.yonhapnews.co.kr',
-        'http://english.yonhapnews.co.kr/']
+urls = ['http://www.yonhapnews.co.kr',
+        'http://english.yonhapnews.co.kr/',
+		'http://yonhapnews.feedsportal.com/c/35025/f/647118/index.rss']
 regex = [r'^https?:\/\/[^\/]*yonhapnews\.co\.kr\/',
 	    r'^https?:\/\/[^\/]*feedsportal\.com\/']
 videoregex = []

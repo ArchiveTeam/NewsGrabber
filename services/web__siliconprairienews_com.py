@@ -1,7 +1,8 @@
 refresh = 10
-version = 20151221.02
+version = 20160326.03
 
-urls = ['http://siliconprairienews.com/feed/']
+urls = ['http://siliconprairienews.com',
+	'http://siliconprairienews.com/feed/']
 regex = [r'^https?:\/\/[^\/]*siliconprairienews\.com\/']	
 videoregex = []
 liveregex = []

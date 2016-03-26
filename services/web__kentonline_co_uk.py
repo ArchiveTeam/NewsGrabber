@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160312.01
+version = 20160326.02
 
-urls = ['http://www.kentonline.co.uk/_api/rss/kent_online_news_feed.xml',
+urls = ['http://www.kentonline.co.uk/',
+	'http://www.kentonline.co.uk/_api/rss/kent_online_news_feed.xml',
 	'http://www.kentonline.co.uk/_api/rss/kentonline_sport_feed.xml',
 	'http://www.kentonline.co.uk/_api/rss/kent_business_news_feed.xml',
 	'http://www.kentonline.co.uk/_api/rss/dartford_messenger_news_feed.xml',

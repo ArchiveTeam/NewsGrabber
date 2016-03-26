@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160122.01
+version = 20160326.02
 
-urls = ['http://www.aps.dz/algerie?format=feed',
+urls = ['http://www.aps.dz/',
+	'http://www.aps.dz/algerie?format=feed',
 	'http://www.aps.dz/economie?format=feed',
 	'http://www.aps.dz/sport?format=feed',
 	'http://www.aps.dz/monde?format=feed',

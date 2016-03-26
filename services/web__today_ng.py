@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['https://www.today.ng/feed']
+urls = ['https://www.today.ng/',
+	'https://www.today.ng/feed']
 regex = [r'^https?:\/\/[^\/]*today\.ng\/']	
 videoregex = []
 liveregex = []

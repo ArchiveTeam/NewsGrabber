@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://gulftoday.ae/pages/rss.ashx?id=138',
+urls = ['http://gulftoday.ae/',
+	'http://gulftoday.ae/pages/rss.ashx?id=138',
 	'http://gulftoday.ae/pages/rss.ashx?id=10',
 	'http://gulftoday.ae/pages/rss.ashx?id=11',
 	'http://gulftoday.ae/pages/rss.ashx?id=12',

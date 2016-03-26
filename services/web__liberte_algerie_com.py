@@ -1,7 +1,8 @@
 refresh = 4
-version = 20160121.01
+version = 20160326.02
 
-urls = ['http://www.liberte-algerie.com/article/feed']
+urls = ['http://www.liberte-algerie.com/',
+	'http://www.liberte-algerie.com/article/feed']
 regex = [r'^https?:\/\/[^\/]*liberte-algerie\.com']
 videoregex = []
 liveregex = []

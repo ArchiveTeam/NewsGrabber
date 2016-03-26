@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://en.hawarnews.com/feed/']
+urls = ['http://en.hawarnews.com/',
+	'http://en.hawarnews.com/feed/']
 regex = [r'^https?:\/\/[^\/]*en\.hawarnews\.com\/']	
 videoregex = []
 liveregex = []

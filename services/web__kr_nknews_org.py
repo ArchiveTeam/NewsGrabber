@@ -1,7 +1,8 @@
 refresh = 10
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://kr.nknews.org/feed']
+urls = ['http://kr.nknews.org/',
+	'http://kr.nknews.org/feed']
 regex = [r'^https?:\/\/[^\/]*kr\.nknews\.org\/']	
 videoregex = []
 liveregex = []

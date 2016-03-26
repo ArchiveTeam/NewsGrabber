@@ -1,8 +1,8 @@
 refresh = 4
-version = 20151220.01
+version = 20160326.02
 
-urls = ['http://calgaryherald.com/feed',
-        'http://calgaryherald.com']
+urls = ['http://calgaryherald.com',
+	'http://calgaryherald.com/feed']
 regex = [r'^https?:\/\/[^\/]*calgaryherald\.com\/']
 videoregex = [r'^https?:\/\/[^\/]*kaltura\.com\/']
 liveregex = []

@@ -1,7 +1,8 @@
 refresh = 4
-version = 20151221.01
+version = 20160326.02
 
-urls = ['http://feeds.gawker.com/lifehacker/full']
+urls = ['http://lifehacker.com/',
+	'http://feeds.gawker.com/lifehacker/full']
 regex = [r'^https?:\/\/[^\/]*lifehacker\.com\/']	
 videoregex = [r'^https?:\/\/(?:www\.)?youtube\.com\/embed\/']
 liveregex = []

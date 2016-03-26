@@ -1,7 +1,16 @@
 refresh = 4
-version = 20151219.01
+version = 20160326.02
 
-urls = ['http://www.nu.nl/rss',
+urls = ['http://www.nu.nl/',
+	'http://www.nu.nl/algemeen',
+	'http://www.nu.nl/economie',
+	'http://www.nu.nl/sport',
+	'http://www.nu.nl/tech',
+	'http://www.nu.nl/entertainment',
+	'http://www.nu.nl/lifestyle',
+	'http://www.nu.nl/overig',
+	'http://www.nu.nl/regio',
+	'http://www.nu.nl/rss',
 	'http://www.nu.nl/rss/sport',
 	'http://www.nu.nl/rss/videos',
 	'http://www.nu.nl/rss/economie',

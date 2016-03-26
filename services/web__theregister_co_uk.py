@@ -1,8 +1,8 @@
 refresh = 6 
-version = 20151228.01
+version = 20160326.02
 
-urls = ['http://www.theregister.co.uk/headlines.atom',
-        'http://www.theregister.co.uk']
+urls = ['http://www.theregister.co.uk',
+	'http://www.theregister.co.uk/headlines.atom']
 regex = [r'^https?:\/\/[^\/]*theregister\.co\.uk']
 videoregex = []
 liveregex = []

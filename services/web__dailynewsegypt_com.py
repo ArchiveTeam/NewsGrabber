@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://www.dailynewsegypt.com/feed/']
+urls = ['http://www.dailynewsegypt.com/',
+	'http://www.dailynewsegypt.com/feed/']
 regex = [r'^https?:\/\/[^\/]*dailynewsegypt\.com\/']	
 videoregex = []
 liveregex = []

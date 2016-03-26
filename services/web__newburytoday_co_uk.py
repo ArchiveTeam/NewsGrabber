@@ -1,7 +1,8 @@
 refresh = 8
-version = 20160312.01
+version = 20160326.02
 
-urls = ['http://www.newburytoday.co.uk/rss.jsp']
+urls = ['http://www.newburytoday.co.uk/',
+	'http://www.newburytoday.co.uk/rss.jsp']
 regex = [r'^https?:\/\/[^\/]*newburytoday\.co\.uk']	
 videoregex = []
 liveregex = []

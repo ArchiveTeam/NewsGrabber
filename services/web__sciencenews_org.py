@@ -1,7 +1,8 @@
 refresh = 9
-version = 20151220.01
+version = 20160326.02
 
-urls = ['https://www.sciencenews.org/feeds/headlines.rss']
+urls = ['https://www.sciencenews.org',
+	'https://www.sciencenews.org/feeds/headlines.rss']
 regex = [r'^https?:\/\/[^\/]*sciencenews\.org']
 videoregex = []
 liveregex = []

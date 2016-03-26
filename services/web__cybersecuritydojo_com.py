@@ -1,7 +1,8 @@
 refresh = 5
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://cybersecuritydojo.com/feed/']
+urls = ['http://cybersecuritydojo.com/',
+	'http://cybersecuritydojo.com/feed/']
 regex = [r'^https?:\/\/[^\/]*cybersecuritydojo\.com\/']	
 videoregex = []
 liveregex = []

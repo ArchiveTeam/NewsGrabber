@@ -1,7 +1,8 @@
 refresh = 7
-version = 20160124.01
+version = 20160326.02
 
-urls = ['http://feeds.wsjonline.com/wsj/video/most-popular/feed',
+urls = ['http://www.wsj.com/video/',
+	'http://feeds.wsjonline.com/wsj/video/most-popular/feed',
 	'http://feeds.wsjonline.com/wsj/video/most-popular-this-week/feed',
 	'http://www.marketwatch.com/rss/video/wsj.asp?type=wsj-section&query=The News Hub&count=30',
 	'http://www.marketwatch.com/rss/video/wsj.asp?type=wsj-subsection&query=AM Report %26 PM Report&count=30',

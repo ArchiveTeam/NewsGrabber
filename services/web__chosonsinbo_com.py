@@ -1,7 +1,8 @@
 refresh = 8
-version = 20151215.01
+version = 20160326.02
 
-urls = ['http://chosonsinbo.com/feed/']
+urls = ['http://chosonsinbo.com/',
+	'http://chosonsinbo.com/feed/']
 regex = [r'^https?:\/\/[^\/]*chosonsinbo\.com']
 videoregex = []
 liveregex = []

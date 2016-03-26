@@ -1,7 +1,8 @@
 refresh = 5
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://8am.af/feed/']
+urls = ['http://8am.af/',
+	'http://8am.af/feed/']
 regex = [r'^https?:\/\/[^\/]*8am\.af']
 videoregex = []
 liveregex = []

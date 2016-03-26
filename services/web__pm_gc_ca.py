@@ -1,7 +1,9 @@
 refresh = 10
-version = 20151221.01
+version = 20160326.02
 
-urls = ['http://www.pm.gc.ca/eng/news.rss',
+urls = ['http://www.pm.gc.ca/eng/',
+        'http://www.pm.gc.ca/fra/',
+		'http://www.pm.gc.ca/eng/news.rss',
         'http://www.pm.gc.ca/eng/advisories.rss',
         'http://www.pm.gc.ca/eng/media.rss',
         'http://www.pm.gc.ca/fra/nouvelles.rss',

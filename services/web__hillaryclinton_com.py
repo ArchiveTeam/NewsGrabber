@@ -1,7 +1,8 @@
 refresh = 10
-version = 20151220.01
+version = 20160326.02
 
-urls = ['https://www.hillaryclinton.com/feed/']
+urls = ['https://www.hillaryclinton.com/',
+	'https://www.hillaryclinton.com/feed/']
 regex = [r'^https?:\/\/[^\/]*hillaryclinton\.com\/']	
 videoregex = []
 liveregex = []

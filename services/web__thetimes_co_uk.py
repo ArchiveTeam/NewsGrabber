@@ -1,8 +1,8 @@
 refresh = 4
-version = 20150814.01
+version = 20160326.02
 
-urls = ['http://www.thetimes.co.uk/tto/news/rss',
-	'http://www.thetimes.co.uk/']
+urls = ['http://www.thetimes.co.uk/',
+	'http://www.thetimes.co.uk/tto/news/rss']
 regex = [r'^https?:\/\/[^\/]*thetimes\.co\.uk\/']
 videoregex = []
 liveregex = []

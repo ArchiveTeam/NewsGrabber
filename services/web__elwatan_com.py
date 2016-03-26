@@ -1,7 +1,8 @@
 refresh = 7
 version = 20160121.01
 
-urls = ['http://www.elwatan.com/actualite/rss.xml',
+urls = ['http://www.elwatan.com/',
+	'http://www.elwatan.com/actualite/rss.xml',
 	'http://www.elwatan.com/sports/rss.xml',
 	'http://www.elwatan.com/economie/rss.xml',
 	'http://www.elwatan.com/international/rss.xml',

@@ -1,7 +1,8 @@
 refresh = 6
-version = 20151225.01
+version = 20160326.02
 
-urls = ['http://boingboing.net/feed']
+urls = ['http://boingboing.net',
+	'http://boingboing.net/feed']
 regex = [r'^https?:\/\/[^\/]*boingboing\.net\/']	
 videoregex = []
 liveregex = []

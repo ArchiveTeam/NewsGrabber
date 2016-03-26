@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160306.01
+version = 20160326.02
 
-urls = ['http://www.heraldlive.co.za/feed/']
+urls = ['http://www.heraldlive.co.za/',
+	'http://www.heraldlive.co.za/feed/']
 regex = [r'^https?:\/\/[^\/]*heraldlive\.co\.za\/']	
 videoregex = []
 liveregex = []

@@ -1,8 +1,8 @@
 refresh = 5
-version = 20160316.01
+version = 20160326.02
 
-urls = ['http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/autonews.ru/mainnews.rss',
-	'http://www.autonews.ru/']
+urls = ['http://www.autonews.ru/',
+	'http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/autonews.ru/mainnews.rss']
 regex = [r'^https?:\/\/[^\/]*autonews\.ru']	
 videoregex = []
 liveregex = []

@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160216.01
+version = 20160326.02
 
-urls = ['http://www.dnaindia.com/feeds/analysis.xml',
+urls = ['http://www.dnaindia.com/',
+	'http://www.dnaindia.com/feeds/analysis.xml',
 	'http://www.dnaindia.com/feeds/india.xml',
 	'http://www.dnaindia.com/feeds/world.xml',
 	'http://www.dnaindia.com/feeds/mumbai.xml',

@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://www.prnewsonline.com/feed/']
+urls = ['http://www.prnewsonline.com',
+	'http://www.prnewsonline.com/feed/']
 regex = [r'^https?:\/\/[^\/]*prnewsonline\.com\/']	
 videoregex = []
 liveregex = []

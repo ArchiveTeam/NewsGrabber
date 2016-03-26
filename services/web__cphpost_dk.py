@@ -1,7 +1,8 @@
 refresh = 6
-version = 20160103.01
+version = 20160326.02
 
-urls = ['http://cphpost.dk/feed']
+urls = ['http://cphpost.dk/',
+	'http://cphpost.dk/feed']
 regex = [r'^https?:\/\/[^\/]*cphpost\.dk\/']	
 videoregex = []
 liveregex = []

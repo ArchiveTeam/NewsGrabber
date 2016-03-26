@@ -1,9 +1,9 @@
 refresh = 5
-version = 20160221.01
+version = 20160326.02
 
-urls = ['http://feeds.feedburner.com/gigazine/',
-	    'http://en.gigazine.net',
-	    'http://gigazine.net']	
+urls = ['http://en.gigazine.net',
+	'http://gigazine.net',
+	'http://feeds.feedburner.com/gigazine/']	
 regex = [r'^https?:\/\/[^\/]*gigazine\.net\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = []

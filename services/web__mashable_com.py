@@ -1,7 +1,8 @@
 refresh = 3
-version = 20151224.01
+version = 20160326.02
 
-urls = ['http://feeds.mashable.com/Mashable']
+urls = ['http://mashable.com/',
+	'http://feeds.mashable.com/Mashable']
 regex = [r'^https?:\/\/[^\/]*mashable\.com\/',
 	    r'^https?:\/\/[^\/]*feedburner\.com\/']	
 videoregex = [r'^https?:\/\/[^\/]*ooyala\.com\/']
