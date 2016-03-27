@@ -1,7 +1,7 @@
 refresh = 4
 version = 20160326.02
 
-urls = ['www.bbc.com/news/video_and_audio',
+urls = ['http://www.bbc.com/news/video_and_audio',
 	'http://feeds.bbci.co.uk/news/video_and_audio/news_front_page/rss.xml?edition=uk',
 	'http://feeds.bbci.co.uk/news/video_and_audio/world/rss.xml',
 	'http://feeds.bbci.co.uk/news/video_and_audio/uk/rss.xml',
