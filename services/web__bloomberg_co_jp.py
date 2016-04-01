@@ -11,10 +11,10 @@ urls = ['https://www.bloomberg.co.jp',
 	'https://www.bloomberg.co.jp/news/commentary',
 	'https://www.bloomberg.co.jp/markets/stocks',
 	'https://www.bloomberg.co.jp/markets/stocks/futures',
-  'https://www.bloomberg.co.jp/markets/regions/asia-pacific',
-  'https://www.bloomberg.co.jp/markets/rates-bonds',
-  'https://www.bloomberg.co.jp/markets/currencies',
-  'https://www.bloomberg.co.jp/markets/commodities']
+	'https://www.bloomberg.co.jp/markets/regions/asia-pacific',
+	'https://www.bloomberg.co.jp/markets/rates-bonds',
+	'https://www.bloomberg.co.jp/markets/currencies',
+	'https://www.bloomberg.co.jp/markets/commodities']
 	
 regex = [r'^https?:\/\/[^\/]*bloomberg\.co\.jp']
 videoregex = []
