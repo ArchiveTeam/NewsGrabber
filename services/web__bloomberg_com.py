@@ -1,8 +1,8 @@
 refresh = 4
 version = 20160401.01
 
-urls = ['http://www.bloomberg.com/europe',
-	'http://www.bloomberg.com',
+urls = ['http://www.bloomberg.com/',
+	'http://www.bloomberg.com/europe',
 	'http://www.bloomberg.com/markets',
 	'http://www.bloomberg.com/technology',
 	'http://www.bloomberg.com/politics',
