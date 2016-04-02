@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 8
 version = 20160402.01
 
 urls = ['http://i-d.vice.com',
