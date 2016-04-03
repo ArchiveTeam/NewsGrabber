@@ -1,5 +1,5 @@
 refresh = 5
-version = 20160403.01
+version = 20160403.02
 
 urls = ['http://economictimes.indiatimes.com/',
 	'http://economictimes.indiatimes.com/markets',
@@ -8,7 +8,7 @@ urls = ['http://economictimes.indiatimes.com/',
 	'http://economictimes.indiatimes.com/small-biz',
 	'http://economictimes.indiatimes.com/news/politics-nation',
 	'http://economictimes.indiatimes.com/personal-finance',
-	'http://economictimes.indiatimes.com/mutual-funds'',
+	'http://economictimes.indiatimes.com/mutual-funds',
 	'http://economictimes.indiatimes.com/tech',
 	'http://economictimes.indiatimes.com/jobs',
 	'http://economictimes.indiatimes.com/opinion',
