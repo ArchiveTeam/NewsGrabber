@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160403.01
+version = 20160404.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -252,7 +252,7 @@ def upload(name, date1):
 			while concurrent_uploads > max_concurrent_uploads:
 				time.sleep(20)
 			concurrent_uploads += 1
-			os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=c --delete'.format(itemname, name, date1))
+			os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=10737418240 --delete'.format(itemname, name, date1))
 			concurrent_uploads -= 1
 		if os.path.isfile("./ready/" + name + ".upload"):
 			os.remove("./ready/" + name + ".upload")
