@@ -16,7 +16,7 @@ if not os.path.isfile('./services/__init__.py'):
 	open('./services/__init__.py', 'w').close()
 import services
 
-version = 20160402.01
+version = 20160417.01
 assigned_services = []
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 writing = False
@@ -81,10 +81,6 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 			response.encoding = 'utf-8'
 		except Exception as exception:
 			tries += 1
-			with open('exceptions', 'a') as exceptions:
-				if tries == 10:
-					exceptions.write(str(version) + ' ' + str(tries) + ' ' + url + '\n' + str(exception) + '\n\n')
-				#	irc_print(irc_channel_bot, str(version) + ' ' + str(tries) + ' ' + url + ' EXCEPTION ' + str(exception))
 		try:
 			response
 		except NameError:
@@ -137,6 +133,8 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 				if '?' in extractedurl:
 					oldextractedurls.append(extractedurl.split('?')[0])
 			for extractedurl in oldextractedurls:
+				if not re.search(r'^(https?:\/\/.*?) *$', extractedurl):
+					continue
 				extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
 				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl).group(1)
 				extractedurl = urllib.unquote(extractedurl)
