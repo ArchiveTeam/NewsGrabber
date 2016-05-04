@@ -108,11 +108,11 @@ def grab_list(listname):
 		videostring = '--youtube-dl '
 		extraargs = ' --1'
 	returned_code = os.system('~/.local/bin/grab-site --input-file ./old_lists/' + listname + ' --level=0 --ua="ArchiveTeam; Googlebot/2.1" --no-sitemaps --concurrency=5' + extraargs + ' --warc-max-size=524288000 --wpull-args="' + videostring + '--no-check-certificate --timeout=300" > /dev/null 2>&1')
-	if returned_code not in (0, 256):
-		print('grab-site returned code ' + str(returned_code) + '.')
-		random_string = ''.join(random.choice(string.ascii_lowercase) for num in range(10))
-		newname = re.search(r'^(list_temp[0-9]+[a-z]{10})', listname).group(1) + random_string
-		os.rename('./old_lists/' + listname, './new_lists/' + newname)
+#	if returned_code not in (0, 256):
+#		print('grab-site returned code ' + str(returned_code) + '.')
+#		random_string = ''.join(random.choice(string.ascii_lowercase) for num in range(10))
+#		newname = re.search(r'^(list_temp[0-9]+[a-z]{10})', listname).group(1) + random_string
+#		os.rename('./old_lists/' + listname, './new_lists/' + newname)
 
 def main():
 	if not os.path.isdir('./new_lists'):
