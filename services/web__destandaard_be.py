@@ -28,8 +28,7 @@ urls = ['http://www.standaard.be',
   'http://www.standaard.be/rss/tag/marketingblog',
   'http://www.standaard.be/rss/tag/blog-en-nu-even-elders',
   'http://www.standaard.be/rss/tag/beursexperts',
-  'http://www.standaard.be/rss/tag/autoblog'
-	]
+  'http://www.standaard.be/rss/tag/autoblog']
 regex = [r'^https?:\/\/[^\/]*standaard\.be']
 videoregex = []
 liveregex = []
