@@ -1,4 +1,3 @@
-
 refresh = 6
 version = 20162005.01
 
@@ -29,6 +28,7 @@ urls = ['http://www.standaard.be',
   'http://www.standaard.be/rss/tag/blog-en-nu-even-elders',
   'http://www.standaard.be/rss/tag/beursexperts',
   'http://www.standaard.be/rss/tag/autoblog']
+
 regex = [r'^https?:\/\/[^\/]*standaard\.be']
 videoregex = []
 liveregex = []
