@@ -1,7 +1,8 @@
 refresh = 7
-version = 20151219.01
+version = 20160622.01
 
-urls = ['http://nos.nl/nieuws/archief/',
+urls = ['http://nos.nl/',
+	'http://nos.nl/nieuws/archief/',
 	'http://nos.nl/nieuws/videos/',
 	'http://nos.nl/sport/archief/',
 	'http://nos.nl/sport/videos/']
