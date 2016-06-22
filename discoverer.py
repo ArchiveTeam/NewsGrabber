@@ -15,8 +15,12 @@ if not os.path.isdir('./services'):
 if not os.path.isfile('./services/__init__.py'):
 	open('./services/__init__.py', 'w').close()
 import services
+import sys
 
-version = 20160417.01
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+version = 20160622.01
 assigned_services = []
 refresh = [[], [], [], [], [], [], [], [], [], [], []]
 writing = False
@@ -92,65 +96,67 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 			extractedvideourls = []
 			count = 0
 			url = re.search(r'([^#]+)', url).group(1)
-			for extractedurl in re.findall(r"'(index\.php[^']+)'", response.text):
+			for extractedurl in re.findall(r"'(index\.php[^']+)'", response.text, re.I):
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
-				oldextractedurls.append(re.match(r'^(https?://.+/)', url).group(1) + extractedurl)
+				oldextractedurls.append(re.match(r'^(https?://.+/)', url, re.I).group(1) + extractedurl)
 			for extractedurl in re.findall('(....=(?P<quote>[\'"]).*?(?P=quote))', response.text):
 				extractedstart = re.search(r'^(....)', extractedurl[0]).group(1)
 				extractedurl = re.search('^....=[\'"](.*?)[\'"]$', extractedurl[0]).group(1)
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
 				extractedurl = extractedurl.replace('%3A', ':').replace('%2F', '/')
-				if extractedurl.startswith('//'):
+				if extractedurl.startswith('http:\/\/') or extractedurl.startswith('https:\/\/') or extractedurl.startswith('HTTP:\/\/') or extractedurl.startswith('HTTPS:\/\/'):
+					extractedurl = extractedurl.replace('\/', '/')
+				elif extractedurl.startswith('//'):
 					oldextractedurls.append("http:" + extractedurl)
 				elif extractedurl.startswith('/'):
-					oldextractedurls.append(re.search(r'^(https?:\/\/[^\/]+)', url).group(1) + extractedurl)
-				elif re.search(r'^https?:?\/\/?', extractedurl):
-					oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl).group(1), re.search(r'^(https?)', extractedurl).group(1) + '://'))
+					oldextractedurls.append(re.search(r'^(https?:\/\/[^\/]+)', url, re.I).group(1) + extractedurl)
+				elif re.search(r'^https?:?\/\/?', extractedurl, re.I):
+					oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl, re.I).group(1), re.search(r'^(https?)', extractedurl, re.I).group(1) + '://'))
 				elif extractedurl.startswith('?'):
-					oldextractedurls.append(re.search(r'^(https?:\/\/[^\?]+)', url).group(1) + extractedurl)
+					oldextractedurls.append(re.search(r'^(https?:\/\/[^\?]+)', url, re.I).group(1) + extractedurl)
 				elif extractedurl.startswith('./'):
-					if re.search(r'^https?:\/\/.*\/', url):
-						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
+					if re.search(r'^https?:\/\/.*\/', url, re.I):
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url, re.I).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
 					else:
-						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url, re.I).group(1) + '/' + re.search(r'^\.\/(.*)', extractedurl).group(1))
 				elif extractedurl.startswith('../'):
 					tempurl = url
 					tempextractedurl = extractedurl
 					while tempextractedurl.startswith('../'):
-						if not re.search(r'^https?://[^\/]+\/$', tempurl):
+						if not re.search(r'^https?://[^\/]+\/$', tempurl, re.I):
 							tempurl = re.search(r'^(.*\/)[^\/]*\/', tempurl).group(1)
 						tempextractedurl = re.search(r'^\.\.\/(.*)', tempextractedurl).group(1)
 					oldextractedurls.append(tempurl + tempextractedurl)
-				elif extractedstart == 'href':
-					if re.search(r'^https?:\/\/.*\/', url):
-						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url).group(1) + '/' + extractedurl)
+				elif extractedstart in ['href', 'HREF']:
+					if re.search(r'^https?:\/\/.*\/', url, re.I):
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)\/', url, re.I).group(1) + '/' + extractedurl)
 					else:
-						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url).group(1) + '/' + extractedurl)
-			for extractedurl in re.findall(r'>[^<a-zA-Z0-9]*(https?:?//?[^<]+)<', response.text):
+						oldextractedurls.append(re.search(r'^(https?:\/\/.*)', url, re.I).group(1) + '/' + extractedurl)
+			for extractedurl in re.findall(r'>[^<a-zA-Z0-9]*(https?:?//?[^<]+)<', response.text, re.I) + re.findall(r'\[[^<a-zA-Z0-9]*(https?:?//?[^\]]+)\]', response.text, re.I):
 				extractedurl = re.search(r'^([^#]*)', extractedurl).group(1)
-				oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl).group(1), re.search(r'^(https?)', extractedurl).group(1) + '://'))
+				oldextractedurls.append(extractedurl.replace(re.search(r'^(https?:?\/\/?)', extractedurl, re.I).group(1), re.search(r'^(https?)', extractedurl, re.I).group(1) + '://'))
 			for extractedurl in oldextractedurls:
 				if '?' in extractedurl:
 					oldextractedurls.append(extractedurl.split('?')[0])
 			for extractedurl in oldextractedurls:
-				if not re.search(r'^(https?:\/\/.*?) *$', extractedurl):
+				if not re.search(r'^(https?:\/\/.*?) *$', extractedurl, re.I):
 					continue
 				extractedurl = extractedurl.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
-				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl).group(1)
+				extractedurl = re.search(r'^(https?:\/\/.*?) *$', extractedurl, re.I).group(1)
 				extractedurl = urllib.unquote(extractedurl)
 				try:
-					extractedurlpercent = re.search(r'^(https?://[^/]+).*$', extractedurl).group(1) + urllib.quote(re.search(r'^https?://[^/]+(.*)$', extractedurl).group(1).encode('utf8'), "!#$&'()*+,/:;=?@[]-._~")
+					extractedurlpercent = re.search(r'^(https?://[^/]+).*$', extractedurl, re.I).group(1) + urllib.quote(re.search(r'^https?://[^/]+(.*)$', extractedurl, re.I).group(1).encode('utf8'), "!#$&'()*+,/:;=?@[]-._~")
 				except:
 					pass #bad url
 				for regex in regexes:
-					if re.search(regex, extractedurl) and not extractedurlpercent in extractedurls:
+					if re.search(regex, extractedurl, re.I) and not extractedurlpercent in extractedurls:
 						extractedurls.append(extractedurlpercent)
 						break
 			videoregexes += [regex for regex in standard_video_regex if not regex in videoregexes]
 			liveregexes += [regex for regex in standard_live_regex if not regex in liveregexes]
 			for extractedurl in extractedurls:
 				for regex in videoregexes:
-					if re.search(regex, extractedurl) and not extractedurl in extractedvideourls:
+					if re.search(regex, extractedurl, re.I) and not extractedurl in extractedvideourls:
 						extractedvideourls.append(extractedurl)
 						break
 			imgrabfiles.append(str(random.random()))
@@ -165,7 +171,7 @@ def checkurl(service, urlnum, url, regexes, videoregexes, liveregexes):
 				if not extractedurl in grablistdone[service]:
 					liveurl = False
 					for regex in liveregexes:
-						if re.search(regex, extractedurl):
+						if re.search(regex, extractedurl, re.I):
 							liveurl = True
 							break
 					else:
