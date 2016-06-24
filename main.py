@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160624.01
+version = 20160624.02
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -274,13 +274,14 @@ def loadfiles():
 					print service
 					for url in servicefile.read().splitlines():
 						url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
-						url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
-						try:
-							grablistdone[service]
-						except:
-							grablistdone[service] = []
-						if not url in grablistdone[service]:
-							grablistdone[service].append(url)
+						if re.search(r'^(https?:\/\/.*?) *$', url):
+							url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
+							try:
+								grablistdone[service]
+							except:
+								grablistdone[service] = []
+							if not url in grablistdone[service]:
+								grablistdone[service].append(url)
 	irc_print(irc_channel_bot, 'Loading new URLs file.')
 	if os.path.isfile('list'):
 		with codecs.open('list', 'r', 'utf-8') as listfile:
