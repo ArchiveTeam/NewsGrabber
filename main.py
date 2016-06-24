@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160624.02
+version = 20160624.03
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -287,16 +287,18 @@ def loadfiles():
 		with codecs.open('list', 'r', 'utf-8') as listfile:
 			for url in listfile.read().splitlines():
 				url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
-				url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
-				if not url in grablistnormal:
-					grablistnormal.append(url)
+				if re.search(r'^(https?:\/\/.*?) *$', url):
+					url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
+					if not url in grablistnormal:
+						grablistnormal.append(url)
 	if os.path.isfile('list-videos'):
 		with codecs.open('list-videos', 'r', 'utf-8') as listfile:
 			for url in listfile.read().splitlines():
 				url = url.replace('&amp;', '&').replace('\n', '').replace('\r', '').replace('\t', '')
-				url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
-				if not url in grablistvideos:
-					grablistvideos.append(url)
+				if re.search(r'^(https?:\/\/.*?) *$', url):
+					url = re.search(r'^(https?:\/\/.*?) *$', url).group(1)
+					if not url in grablistvideos:
+						grablistvideos.append(url)
 	irc_print(irc_channel_bot, 'All files loaded.')
 
 
