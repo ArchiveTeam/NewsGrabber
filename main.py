@@ -26,7 +26,7 @@ sys.setdefaultencoding("utf-8")
 
 requests.packages.urllib3.disable_warnings()
 
-version = 20160404.01
+version = 20160624.01
 refresh_wait = [5, 30, 60, 300, 1800, 3600, 7200, 21600, 43200, 86400, 172800]
 refresh_names = ['5 seconds', '30 seconds', '1 minute', '5 minutes', '30 minutes', '1 hour', '2 hours', '6 hours', '12 hours', '1 day', '2 days']
 standard_video_regex = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
@@ -46,7 +46,7 @@ accesskey = sys.argv[1]
 new_grabs = True
 writing = False
 total_count = 0
-irc_server = 'irc.underworld.no'
+irc_server = 'irc.servercentral.net'
 irc_port = 6667
 irc_channel_bot = '#newsgrabberbot'
 irc_channel_main = '#newsgrabber'
@@ -189,12 +189,14 @@ def irc_print(channel, message):
 	print("IRC BOT: " + message)
 
 def uploader():
+	global concurrent_uploads
+	global max_concurrent_uploads
 	for root, dirs, files in os.walk("./ready"):
 		for file in files:
 			date = re.search(r'([0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9])', file).group(1)
 			date2 = re.sub('-', '', date)
 			if re.match(r'news', file) and file.endswith(".warc.gz"):
-				if not os.path.isfile(os.path.join(root, file) + ".upload"):
+				if not os.path.isfile(os.path.join(root, file) + ".upload") and ia_upload_allowed() and not concurrent_uploads > max_concurrent_uploads:
 					open(os.path.join(root, file) + ".upload", 'a').close()
 					threading.Thread(target = upload, args = (file, date)).start()
 					time.sleep(2)
@@ -247,10 +249,10 @@ def upload(name, date1):
 			fileuploads[name] = itemnum
 			last_uploads[itemdate] = [itemsize, itemnum]
 		if os.path.isfile('./ready/' + name):
-			while ia_upload_allowed() == False:
-				time.sleep(20)
-			while concurrent_uploads > max_concurrent_uploads:
-				time.sleep(20)
+			#while ia_upload_allowed() == False:
+			#	time.sleep(20)
+			#while concurrent_uploads > max_concurrent_uploads:
+			#	time.sleep(20)
 			concurrent_uploads += 1
 			os.system('ia upload archiveteam_newssites_{0} ./ready/{1} --metadata="title:Archive Team Newsgrab: {0}" --metadata="description:A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts." --metadata="mediatype:web" --metadata="collection:archiveteam_newssites" --metadata="date:{2}" --checksum --size-hint=10737418240 --delete'.format(itemname, name, date1))
 			concurrent_uploads -= 1
@@ -502,43 +504,46 @@ def new_lists():
 	global grablistdone
 	global total_count
 	while True:
-		for urllist in os.listdir('./new_urllists'):
-			if urllist.startswith('grablistvideos'):
-				with open('./new_urllists/' + urllist, 'r') as file:
-					for line in file:
-						line = line.replace('\n', '').replace('\r', '')
-						while writing:
-							time.sleep(1)
-						if ', ' in line:
-							service, newurl = line.split(', ', 1)
-							if not service in grablistdone:
-								grablistdone[service] = []
-							if not newurl in grablistvideos and not newurl in grablistdone[service] and not newurl == '':
-								grablistvideos.append(newurl)
-								grablistdone[service].append(newurl)
+		try:
+			for urllist in os.listdir('./new_urllists'):
+				if urllist.startswith('grablistvideos'):
+					with open('./new_urllists/' + urllist, 'r') as file:
+						for line in file:
+							line = line.replace('\n', '').replace('\r', '')
+							while writing:
+								time.sleep(1)
+							if ', ' in line:
+								service, newurl = line.split(', ', 1)
+								if not service in grablistdone:
+									grablistdone[service] = []
+								if not newurl in grablistvideos and not newurl in grablistdone[service] and not newurl == '':
+									grablistvideos.append(newurl)
+									grablistdone[service].append(newurl)
+									total_count += 1
+							elif not line == '':
+								grablistvideos.append(line)
 								total_count += 1
-						elif not line == '':
-							grablistvideos.append(line)
-							total_count += 1
-			elif urllist.startswith('grablistnormal'):
-				with open('./new_urllists/' + urllist, 'r') as file:
-					for line in file:
-						line = line.replace('\n', '').replace('\r', '')
-						while writing:
-							time.sleep(1)
-						if ', ' in line:
-							service, newurl = line.split(', ', 1)
-							if not service in grablistdone:
-								grablistdone[service] = []
-							if not newurl in grablistnormal and not newurl in grablistdone[service] and not newurl == '':
-								grablistnormal.append(newurl)
-								grablistdone[service].append(newurl)
+				elif urllist.startswith('grablistnormal'):
+					with open('./new_urllists/' + urllist, 'r') as file:
+						for line in file:
+							line = line.replace('\n', '').replace('\r', '')
+							while writing:
+								time.sleep(1)
+							if ', ' in line:
+								service, newurl = line.split(', ', 1)
+								if not service in grablistdone:
+									grablistdone[service] = []
+								if not newurl in grablistnormal and not newurl in grablistdone[service] and not newurl == '':
+									grablistnormal.append(newurl)
+									grablistdone[service].append(newurl)
+									total_count += 1
+							elif not line == '':
+								grablistnormal.append(line)
 								total_count += 1
-						elif not line == '':
-							grablistnormal.append(line)
-							total_count += 1
-			os.rename('./new_urllists/' + urllist, './old_urllists/' + urllist)
-			print(total_count)
+				os.rename('./new_urllists/' + urllist, './old_urllists/' + urllist)
+				print(total_count)
+		except:
+			pass # some IO problem
 		time.sleep(120)
 
 def main():
