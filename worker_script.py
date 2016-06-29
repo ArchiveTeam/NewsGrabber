@@ -53,7 +53,7 @@ def movefiles():
 	list = []
 	done = True
 	for folder in next(os.walk('.'))[1]:
-		if not (folder == 'services' or folder == 'temp' or folder == 'donefiles'):
+		if not (folder == 'services' or folder == 'temp' or folder == 'donefiles' or folder == 'new_lists' or folder == 'old_lists'):
 			for root, dirs, files in os.walk("./" + folder):
 		#		if re.search(r'-[0-9a-z]{8}$', folder):
 		#			writehtmllist(folder)
