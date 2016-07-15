@@ -115,6 +115,8 @@ def grab_list(listname):
 #		os.rename('./old_lists/' + listname, './new_lists/' + newname)
 
 def main():
+	if not os.path.isdir('./ready'):
+		os.makedirs('./ready')
 	if not os.path.isdir('./new_lists'):
 		os.makedirs('./new_lists')
 	if not os.path.isdir('./old_lists'):
