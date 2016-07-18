@@ -2,8 +2,11 @@ import settings
 import os
 import service
 import threading
+import time
 import irc
 import log
+import upload
+import tools
 
 
 def main():
@@ -13,18 +16,12 @@ def main():
     settings.logger.start()
     settings.logger.log('Starting NewsGrabber')
 
-    if not os.path.isdir(settings.dir_new_urllists):
-        os.makedirs(settings.dir_new_urllists)
-        settings.logger.log("Created directory '{dir_new_urllists}'".format(
-                dir_new_urllists=settings.dir_new_urllists))
-    if not os.path.isdir(settings.dir_old_urllists):
-        os.makedirs(settings.dir_old_urllists)
-        settings.logger.log("Created directory '{dir_old_urllists}'".format(
-                dir_old_urllists=settings.dir_old_urllists))
-    if not os.path.isdir(settings.dir_donefiles):
-        os.makedirs(settings.dir_donefiles)
-        settings.logger.log("Created directory '{dir_donefiles}'".format(
-                dir_donefiles=settings.dir_donefiles))
+    tools.create_dir(settings.dir_new_urllists)
+    tools.create_dir(settings.dir_old_urllists)
+    tools.create_dir(settings.dir_donefiles)
+    tools.create_dir(settings.dir_ready)
+    tools.create_dir(settings.dir_last_upload)
+
     if not os.path.isfile('rsync_targets'):
         settings.logger.log("Please add one or more rsync targets to file 'rsync_targets'", 'ERROR')
     if not os.path.isfile('rsync_targets_discovery'):
@@ -33,15 +30,15 @@ def main():
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True
     settings.irc_bot.start()
+    settings.upload = upload.Upload()
+    settings.upload.daemon = True
+    settings.upload.start()
     settings.run_services = service.RunServices()
     settings.run_services.daemon = True
     settings.run_services.start()
-    settings.get_urls = service.Urls()
-    settings.get_urls.daemon = True
-    settings.get_urls.start()
     
-    while True:
-        pass
+    while settings.running:
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()

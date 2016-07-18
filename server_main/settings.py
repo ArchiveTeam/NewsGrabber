@@ -12,17 +12,23 @@ def init():
     global dir_new_urllists
     global dir_old_urllists
     global dir_donefiles
+    global dir_ready
     global log_file_name
     global run_services
     global targets_grab
     global targets_discovery
     global services
+    global get_urls
+    global running
+    global max_concurrent_uploads
+    global dir_last_upload
+    global max_item_size
 
     # variables to be changed
-    version = 20160715.01
+    version = 20160718.01
     irc_channel_bot = '#newsgbot'
     irc_channel_main = '#newsg'
-    irc_nick = 'newsbud4'
+    irc_nick = 'newsbud'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
     access_key = 'access_key'
@@ -30,9 +36,13 @@ def init():
     dir_new_urllists = 'new_urllists'
     dir_old_urllists = 'old_urllists'
     dir_donefiles = 'donefiles'
+    dir_ready = 'ready'
+    dir_last_upload = 'last_upload'
     log_file_name = 'log.log'
     targets_grab = 'rsync_targets'
     targets_discovery = 'rsync_targets_discovery'
+    max_concurrent_uploads = 16
+    max_item_size = 10737418240 # 10 GB
 
     # variables to be changed by script
     services = {}
@@ -40,3 +50,5 @@ def init():
     logger = None
     run_services = None
     get_urls = None
+    upload = None
+    running = True

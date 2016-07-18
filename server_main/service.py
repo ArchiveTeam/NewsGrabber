@@ -4,6 +4,7 @@ import shutil
 import sys
 import json
 import time
+import re
 if os.path.isdir('services'):
     shutil.rmtree('services')
 if not os.path.isdir('services'):
@@ -27,11 +28,20 @@ class RunServices(threading.Thread):
         threading.Thread.__init__(self)
         self.services = []
         self.new_services = 0
-        self.discovery_targets = file.File(settings.targets_discovery).read_lines()
+        self.discovery_targets = file.File(settings.targets_discovery)
         self.discovery_files = {}
 
     def run(self):
         self.refresh_services()
+
+    def refresh_services(self):
+        if os.path.isdir('services'):
+            shutil.rmtree('services')
+        os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git')
+        shutil.copytree(os.path.join('NewsGrabber', 'services'), 'services')
+        shutil.rmtree('NewsGrabber')
+        reload(services)
+        self.start_services()
 
     def start_services(self):
         for file in [file for file in os.listdir('services') if file.startswith(
@@ -46,30 +56,52 @@ class RunServices(threading.Thread):
                 settings.services[service_name].read_urls()
             settings.services[service_name].get_data()
         settings.irc_bot.send('PRIVMSG', 'Found {new_services} new services'.format(
-                new_services=self.new_services), settings.irc_channel_main)
+                new_services=self.new_services), settings.irc_channel_bot)
         self.new_services = 0
+        if not settings.get_urls:
+            settings.get_urls = Urls()
+            settings.get_urls.daemon = True
+            settings.get_urls.start()
         self.distribute_services()
 
-    def refresh_services(self):
-        if os.path.isdir('services'):
-            shutil.rmtree('services')
-        os.system('git clone https://github.com/ArchiveTeam/NewsGrabber.git')
-        shutil.copytree(os.path.join('NewsGrabber', 'services'), 'services')
-        shutil.rmtree('NewsGrabber')
-        reload(services)
-        self.start_services()
-
     def distribute_services(self):
-        service_lists = tools.splitlist(self.services, len(self.discovery_targets))
-        for i, target in enumerate(self.discovery_targets):
+        discovery_targets = self.discovery_targets.read_lines()
+        service_lists = tools.splitlist(self.services, len(discovery_targets))
+        for i, target in enumerate(discovery_targets):
             self.discovery_files[i] = file.File('services_list_{i}'.format(i=i))
             self.discovery_files[i].append_lines(service_lists[i])
-        for i, target in enumerate(self.discovery_targets):
+        for i, target in enumerate(discovery_targets):
             exit = os.system('rsync -avz --no-o --no-g --progress --remove-source-files services_list_{i} {target}'.format(
                     i=i, target=target))
             if exit != 0:
                 settings.irc_bot.send('PRIVMSG', 'Serviceslist services_list_{i} failed to sync'.format(
-                        i=i), settings.irc_channel_main)
+                        i=i), settings.irc_channel_bot)
+
+    def stop(self):
+        self.write_services()
+        self.stop_grabs()
+
+    def start_(self):
+        self.start_grabs()
+
+    def write_services(self):
+        for key, value in settings.services.iteritems():
+            value.write_urls()
+
+    def get_website_service(self,website):
+        stripped = lambda website: re.search(r'^(?:https?://)?(?:www\.)?([^/]+)', website, re.I).group(1)
+        matching_services = []
+        website = stripped(website)
+        for key, value in settings.services.iteritems():
+            if stripped(value.service_urls[0]) == website:
+                matching_services.append(key)
+        return matching_services
+
+    def stop_grabs(self):
+        settings.get_urls.running = False
+
+    def start_grabs(self):
+        settings.get_urls.running = True
 
 
 class Urls(threading.Thread):
@@ -83,8 +115,9 @@ class Urls(threading.Thread):
         self.url_count = 0
         self.urls_video = []
         self.urls_normal = []
-        self.grab_targets = file.File(settings.targets_grab).read_lines()
+        self.grab_targets = file.File(settings.targets_grab)
         self.grab_files = {}
+        self.running = True
 
     def run(self):
         self.get_urls_new()
@@ -97,47 +130,53 @@ class Urls(threading.Thread):
                 urls_new = json.load(open(os.path.join(settings.dir_new_urllists,
                         file_)))
                 for url in urls_new:
-                    if url['service'] and not url['url'] in settings.services[url['service']].service_log_urls:
-                        settings.services[url['service']].service_log_urls.append(url['url'])
+                    if url['service'] and url['service'] in settings.services and not url in settings.services[url['service']].service_log_urls:
+                        settings.services[url['service']].service_log_urls.append(url)
                         self.add_url(url)
                         urls_new_count += 1
-                    elif not url['url'] in self.urls_video + self.urls_normal:
+                    elif not url['service'] in settings.services and not url in self.urls_video + self.urls_normal:
                         self.add_url(url)
                         urls_new_count += 1
                 self.count(urls_new_count)
-                settings.logger.log('Loaded {urls} from file {file}'.format(
+                settings.logger.log('Loaded {urls} URL(s) from file {file}'.format(
                         urls=urls_new_count, file=file_))
                 os.rename(os.path.join(settings.dir_new_urllists, file_),
                         os.path.join(settings.dir_old_urllists, file_))
             runs += 1
-            if runs%15 == 0 and not runs == 0:
+            if runs%15 == 0:
                 self.report_urls()
             if runs == 60:
                 self.distribute_urls()
                 runs = 0
-            time.sleep(60)
+            time.sleep(1)
 
     def report_urls(self):
-        settings.irc_bot.send('PRIVMSG', '{urls} URLs added in the last 60 minutes.'.format(
+        settings.irc_bot.send('PRIVMSG', '{urls} URLs added in the last 15 minutes.'.format(
                 urls=self.url_count_new), settings.irc_channel_bot)
+        self.url_count_new = 0
 
     def distribute_urls(self):
         urls_video = list(self.urls_video)
         urls_normal = list(self.urls_normal)
         self.urls_video = list(self.urls_video[len(urls_video)+1:])
         self.urls_normal = list(self.urls_normal[len(urls_normal)+1:])
+        urls_video_new = [url["url"] for url in urls_video]
+        urls_video = list(urls_video_new)
+        urls_normal_new = [url["url"] for url in urls_normal]
+        urls_normal = list(urls_normal_new)
         lists = [{'sort': '-videos', 'list': urls_video}, {'sort': '', 'list': urls_normal}]
         for list_ in lists:
-            urls_lists = tools.splitlist(list_['list'], len(self.grab_targets))
-            for i, target in enumerate(self.grab_targets):
+            grab_targets = self.grab_targets.read_lines()
+            urls_lists = tools.splitlist(list_['list'], len(grab_targets))
+            for i, target in enumerate(grab_targets):
                 self.grab_files[i] = file.File('list{sort}_temp_{i}'.format(sort=list_['sort'], i=i))
                 self.grab_files[i].append_lines(urls_lists[i])
-            for i, target in enumerate(self.grab_targets):
+            for i, target in enumerate(grab_targets):
                 exit = os.system('rsync -avz --no-o --no-g --progress --remove-source-files list{sort}_temp_{i}'.format(
                         sort=list_['sort'], i=i))
                 if exit != 0:
                     settings.irc_bot.send('PRIVMSG', 'URLslist list{sort}_temp_{i} failed to sync.'.format(
-                            sort=list_['sort'], i=i), settings.irc_channel_main)
+                            sort=list_['sort'], i=i), settings.irc_channel_bot)
 
     def count(self, i):
         self.url_count += i
@@ -145,9 +184,9 @@ class Urls(threading.Thread):
 
     def add_url(self, url):
         if url['sort'] == 'video':
-            self.urls_video.append(url['url'])
+            self.urls_video.append(url)
         elif url['sort'] == 'normal':
-            self.urls_normal.append(url['url'])
+            self.urls_normal.append(url)
 
 class Service(threading.Thread):
 
@@ -164,13 +203,15 @@ class Service(threading.Thread):
         self.service_version = None
         self.service_wikidata = None
         self.service_log_urls = []
-        self.service_file_log_urls = file.File(self.service_name)
+        self.service_file_log_urls = file.File(os.path.join(settings.dir_donefiles, self.service_name))
 
     def write_urls(self):
-        self.service_file_log_urls.write_lines(self.service_log_urls)
+        self.service_file_log_urls.write_json(self.service_log_urls)
 
     def read_urls(self):
-        self.service_log_urls = self.service_file_log_urls.read_lines()
+        service_log_urls = self.service_file_log_urls.read_json()
+        if service_log_urls:
+            self.service_log_urls = service_log_urls
 
     def get_data(self):
         self.service_refresh = eval('services.{service_name}.refresh'.format(
@@ -179,10 +220,16 @@ class Service(threading.Thread):
                 service_name=self.service_name))
         self.service_regex = eval('services.{service_name}.regex'.format(
                 service_name=self.service_name))
-        self.service_regex_video = eval('services.{service_name}.videoregex'.format(
-                service_name=self.service_name))
-        self.service_regex_live = eval('services.{service_name}.liveregex'.format(
-                service_name=self.service_name))
+        try:
+            self.service_regex_video = eval('services.{service_name}.videoregex'.format(
+                    service_name=self.service_name))
+        except:
+            self.service_regex_video = None
+        try:
+            self.service_regex_live = eval('services.{service_name}.liveregex'.format(
+                    service_name=self.service_name))
+        except:
+            self.service_regex_live = None
         self.service_version = eval('services.{service_name}.version'.format(
                 service_name=self.service_name))
         try:

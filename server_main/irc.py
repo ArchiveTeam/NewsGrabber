@@ -47,7 +47,10 @@ class IRC(threading.Thread):
         self.listener()
         
     def send(self, command, string, channel=''):
-        message = '{command} {string}'.format(command=command, string=string)
+        if channel != '':
+            channel += ' :'
+        message = '{command} {channel}{string}'.format(command=command,
+                channel=channel, string=string)
         try:
             settings.logger.log('IRC - {message}'.format(message=message))
             self.messages_sent.append(message)
@@ -62,35 +65,111 @@ class IRC(threading.Thread):
         while True:
             message = self.server.recv(2048)
             self.messages_received.append(message)
-            settings.logger.log('IRC - {message}'.format(message=message))
+            for line in message.splitlines():
+                settings.logger.log('IRC - {message}'.format(message=line))
             if message.startswith('PING :'):
                 message_new = re.search(r'^[^:]+:(.*)$', message).group(1)
-                self.send('PONG', ':{new}'.format(new=new_message))
+                self.send('PONG', ':{new}'.format(new=message_new))
             elif re.search(r'^:.+PRIVMSG[^:]+:!.*', message):
                 command = re.search(r'^:.+PRIVMSG[^:]+:(!.*)', message).group(1).strip().split(' ')
+                command = [s.strip() for s in command if len(s.strip()) != 0]
                 user = re.search(r'^:([^!]+)!', message).group(1)
-                channel = re.search(r'^:[^#]+(#[^ :]+) ?:', irc_message).group(1)
-                self.commands_received.append({'command': command, 'user': user, 'channel': channel})
-                self.command(command, user)
+                channel = re.search(r'^:[^#]+(#[^ :]+) ?:', message).group(1)
+                self.commands_received.append({'command': command, 'user': user,
+                                               'channel': channel})
+                self.command(command, user, channel)
 
-    def command(self, command, user):
-        if command == '!help':
+    def command(self, command, user, channel):
+        if command[0] == '!help':
+            self.send('PRIVMSG', 'Hello! My options are:', user)
+            self.send('PRIVMSG', "'!EMERGENCY_STOP': Stop the grab immediatly.", user)
+            self.send('PRIVMSG', "'!stop': Write lists of URLs, finish current running grabs and not start new grabs.",
+                    user)
+            self.send('PRIVMSG', "'!writefiles': Write lists of URLs.", user)
+            self.send('PRIVMSG', "'!imgrab', '!immediate-grab' or '!immediate_grab': Make sure URLs are grabbed immediatly after they\'re found. Add \'remove\', \'rem\' or \'r\' to stop URLs from being grabbed immediatly after they\'re found.",
+                    user)
+            self.send('PRIVMSG', "'!info' or '!information': Request information about a service.",
+                    user)
+            self.send('PRIVMSG', "'!upload': Upload the WARC files.", user)
+        elif command[0] == '!stop':
+            self.send('PRIVMSG', '{user}: Stopping...'.format(user=user), channel)
+            settings.run_services.stop()
+            self.send('PRIVMSG', '{user}: Stopped.'.format(user=user), channel)
+        elif command[0] == '!start':
+            self.send('PRIVMSG', '{user}: Starting...'.format(user=user), channel)
+            settings.run_services.start_()
+            self.send('PRIVMSG', '{user}: Started.'.format(user=user), channel)
+        elif command[0] == '!version':
+            self.send('PRIVMSG', '{user}: Version is {version}'.format(
+                    version=settings.version), channel)
+        elif command[0] == '!writefiles':
+            self.send('PRIVMSG', '{user}: Writing URLs...'.format(user=user), channel)
+            settings.run_services.write_services()
+            settings.upload.write()
+            self.send('PRIVMSG', '{user}: Written URLs.'.format(user=user), channel)
+        elif command[0] == '!EMERGENCY_STOP':
+            self.send('PRIVMSG', '{user}: ABORTING.'.format(user=user), channel)
+            settings.running = False
+        elif command[0] in ('!cu', '!con-uploads', '!concurrent-uploads'):
             pass
-        elif command == '!stop':
-            pass
-        elif command == '!start':
-            pass
-        elif command == '!version':
-            pass
-        elif command == '!writefiles':
-            pass
-        elif command == '!upload':
-            pass
-        elif command == '!EMERGENCY_STOP':
-            pass
-        elif command in ('!cu', '!con-uploads', '!concurrent-uploads'):
-            pass
-        elif command in ('!rs', '!refresh-services'):
-            pass
-        elif command in ('!info', '!information'):
-            pass
+        elif command[0] in ('!rs', '!refresh-services'):
+            self.send('PRIVMSG', '{user}: Refreshing services...'.format(user=user),
+                    channel)
+            settings.run_services.refresh_services()
+            self.send('PRIVMSG', '{user}: Refreshed services.'.format(user=user),
+                    channel)
+        elif command[0] in ('!info', '!information'):
+            if len(command) == 1:
+                self.send('PRIVMSG', '{user}: Please specify a service or website.'.format(
+                        user=user), channel)
+            elif command[1].startswith('web__'):
+                if command[1] in settings.services:
+                    service_name = settings.services[command[1]].service_name
+                    service_refresh = settings.services[command[1]].service_refresh
+                    service_urls = settings.services[command[1]].service_urls
+                    service_regex = str(settings.services[command[1]].service_regex).replace('\\\\', '\\')
+                    service_regex_video = str(settings.services[command[1]].service_regex_video).replace('\\\\', '\\')
+                    service_regex_live = str(settings.services[command[1]].service_regex_live).replace('\\\\', '\\')
+                    service_version = settings.services[command[1]].service_version
+                    service_wikidata = settings.services[command[1]].service_wikidata
+                    service_log_urls = settings.services[command[1]].service_log_urls
+                    self.send('PRIVMSG', '{user}: Details for service {service}:'.format(
+                            user=user, service=service_name), channel)
+                    self.send('PRIVMSG', '{user}: Service version is {version}.'.format(
+                            user=user, version=service_version), channel)
+                    self.send('PRIVMSG', '{user}: Refresh time is {refresh} seconds.'.format(
+                            user=user, refresh=service_refresh), channel)
+                    s = 's' if len(service_urls) != 1 else ''
+                    self.send('PRIVMSG', '{user}: {i} seed URL{s}: {urls}.'.format(
+                            user=user, i=len(service_urls), s=s, urls=', '.join(service_urls)),
+                            channel)
+                    self.send('PRIVMSG', '{user}: Grabbing URLs matching {regex}.'.format(
+                            user=user, regex=service_regex), channel)
+                    if service_regex_video != '[]':
+                        self.send('PRIVMSG', '{user}: Video URLs match {regex}.'.format(
+                                user=user, regex=service_regex_video), channel)
+                    if service_regex_live != '[]':
+                        self.send('PRIVMSG', '{user}: Live URLs match {regex}.'.format(
+                                user=user, regex=service_regex_live), channel)
+                    if service_wikidata:
+                        self.send('PRIVMSG', '{user}: Wikidata ID is .'.format(
+                                user=user, regex=str(service_wikidata)), channel)
+                    s = 's' if len(service_log_urls) != 1 else ''
+                    self.send('PRIVMSG', '{user}: {i} URL{s} grabbed so far.'.format(
+                            user=user, i=len(service_log_urls), s=s), channel)
+                else:
+                    self.send('PRIVMSG', 'This service does not exist.'.format(
+                            user=user), channel)
+            else:
+                corresponding_services = settings.run_services.get_website_service(command[1])
+                if len(corresponding_services) > 0:
+                    self.send('PRIVMSG', '{user}: Corresponding services are {services}'.format(
+                            user=user, services=', '.join(corresponding_services)), channel)
+                    self.send('PRIVMSG', "{user}: Use '!info <service>' to get more information.".format(
+                            user=user), channel)
+                else:
+                    self.send('PRIVMSG', '{user}: No corresponding services found.'.format(
+                            user=user), channel)
+        else:
+            self.send('PRIVMSG', '{user}: command {command} does not exist.'.format(
+                    user=user, command=command[0]), channel)

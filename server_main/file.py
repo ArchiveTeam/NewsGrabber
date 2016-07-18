@@ -1,4 +1,5 @@
 import os
+import json
 import sys
 
 reload(sys)
@@ -36,6 +37,13 @@ class File(object):
         else:
             return []
 
+    def read_json(self):
+        """Read JSON and return."""
+        if os.path.isfile(self.file_name):
+            return json.load(open(self.file_name))
+        else:
+            return None
+
     def write(self, string):
         """Write string to self.file_name."""
 
@@ -47,5 +55,8 @@ class File(object):
 
         self.write('\n'.join(lines))
 
-    
-  
+    def write_json(self, data):
+        """Write JSON to self.file_name."""
+
+        json.dump(data, open(self.file_name, 'w'), indent = 4, ensure_ascii = False)
+
