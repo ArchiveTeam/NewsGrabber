@@ -19,7 +19,10 @@ def init():
     global targets_discovery
     global services
     global get_urls
+    global get_urls_running
     global running
+    global upload
+    global upload_running
     global max_concurrent_uploads
     global dir_last_upload
     global max_item_size
@@ -50,5 +53,7 @@ def init():
     logger = None
     run_services = None
     get_urls = None
+    get_urls_running = True
     upload = None
+    upload_running = True
     running = True

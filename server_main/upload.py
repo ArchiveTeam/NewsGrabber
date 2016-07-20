@@ -13,7 +13,6 @@ class Upload(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.concurrent_uploads = 0
-        self.concurrent_uploads_max = settings.max_concurrent_uploads
         self.max_item_size = settings.max_item_size
         self.access_key = settings.access_key
         self.secret_key = settings.secret_key
@@ -44,8 +43,10 @@ class Upload(threading.Thread):
             for file in [
                     file for file in os.listdir(settings.dir_ready) if file.endswith('.warc.gz')
                         and not os.path.isfile(os.path.join(settings.dir_ready, file+'.upload'))]:
+                while not settings.upload_running:
+                    time.sleep(1)
                 time.sleep(1)
-                if concurrent_uploads > concurrent_uploads_max or not self.upload_allowed():
+                if concurrent_uploads > settings.max_concurrent_uploads or not self.upload_allowed():
                     time.sleep(10)
                 concurrent_uploads += 1
                 open(os.path.join(settings.dir_ready, file+'.upload'), 'a').close()
@@ -70,17 +71,21 @@ class Upload(threading.Thread):
                            'description': 'A collection of news articles grabbed from a wide variety of sources around the world automatically by Archive Team scripts.',
                            'collection': 'archiveteam_newssites',
                            'date': date}
-                internetarchive.upload('archiveteam_newssites_{name}'.format(name=name),
-                                       os.path.join(settings.dir_ready, file),
-                                       metadata = ia_args,
-                                       access_key = settings.access_key,
-                                       secret_key = settings.secret_key,
-                                       queue_derive = True, verify = True, verbose = True, delete = True, retries = 10, retries_sleep = 300)
+                threading.thread(target=self.upload_single, args=(name, file, ia_args)).start()
                 concurrent_uploads -= 1
                 os.remove(os.path.join(settings.dir_ready, file+'.upload'))
                 if os.path.isfile(os.path.join(settings.dir_ready, file)):
                     settings.irc_bot.send('PRIVMSG', '{name} uploaded unsuccessful.'.format(
                             name=file), settings.irc_channel_bot)
+
+    def upload_single(self, name, file, ia_args):
+        internetarchive.upload('archiveteam_newssites_{name}'.format(name=name),
+                               os.path.join(settings.dir_ready, file),
+                               metadata = ia_args,
+                               access_key = settings.access_key,
+                               secret_key = settings.secret_key,
+                               queue_derive = True, verify = True, verbose = True, delete = True, retries = 10, retries_sleep = 300)
+        
 
     def upload_allowed(self):
         response = requests.get('https://s3.us.archive.org/?check_limit=1&accesskey='

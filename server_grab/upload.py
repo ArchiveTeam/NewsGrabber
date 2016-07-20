@@ -22,7 +22,7 @@ class Upload(threading.Thread):
                 if dir_ == settings.dir_ready:
                     continue
                 if not settings.upload_running:
-                    continue
+                    time.sleep(1)
                 files = [file for file in os.listdir(dir_) if os.path.isfile(os.path.join(dir_, file)) and file.endswith('.warc.gz')]
                 grab_finished = len(filter(lambda file: file.endswith('-meta.warc.gz'), files)) != 0
                 if grab_finished:
@@ -43,7 +43,7 @@ class Upload(threading.Thread):
                 and not os.path.isfile(os.path.join(settings.dir_ready, file+'.upload'))]:
             time.sleep(1)
             if self.concurrent_uploads > settings.max_concurrent_uploads:
-                time.sleep(10)
+                time.sleep(1)
             self.uploads[file] = threading.Thread(target=self.upload_single, args=(file,))
             self.uploads[file].daemon = True
             self.uploads[file].start()

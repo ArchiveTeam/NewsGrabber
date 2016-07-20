@@ -1,5 +1,4 @@
 import socket
-import file
 import settings
 import threading
 import re
@@ -95,23 +94,53 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: Stopping...'.format(user=user), channel)
             settings.run_services.stop()
             self.send('PRIVMSG', '{user}: Stopped.'.format(user=user), channel)
-        elif command[0] == '!start':
-            self.send('PRIVMSG', '{user}: Starting...'.format(user=user), channel)
-            settings.run_services.start_()
-            self.send('PRIVMSG', '{user}: Started.'.format(user=user), channel)
+            settings.running = False
+        elif command[0] == '!pause':
+            if (len(command) == 2 and command[1] == 'global') or len(command) == 1:
+                settings.get_urls_running = False
+                settings.upload_running = False
+                self.send('PRIVMSG', '{user}: No new URLs will be sorted or uploads started.'.format(
+                        user=user), channel)
+        elif command[0] == '!resume':
+            if (len(command) == 2 and command[1] == 'global') or len(command) == 1:
+                settings.get_urls_running = False
+                settings.upload_running = False
+                self.send('PRIVMSG', '{user}: New URLs will be sorted or uploads started.'.format(
+                        user=user), channel)
+        elif command[0] == '!pause-urls':
+            settings.get_urls_running = False
+            self.send('PRIVMSG', '{user}: No new URLs will be sorted.'.format(
+                    user=user), channel)
+        elif command[0] == '!resume-urls':
+            settings.get_urls_running = True
+            self.send('PRIVMSG', '{user}: New URLs will be sorted.'.format(
+                    user=user), channel)
+        elif command[0] == '!pause-upload':
+            if (len(command) == 2 and command[1] == 'global') or len(command) == 1:
+                settings.upload_running = True
+                self.send('PRIVMSG', '{user}: No new upload will be started.'.format(
+                        user=user), channel)
+        elif command[0] == '!resume-upload':
+            if (len(command) == 2 and command[1] == 'global') or len(command) == 1:
+                settings.upload_running = False
+                self.send('PRIVMSG', '{user}: New upload will be started.'.format(
+                        user=user), channel)
         elif command[0] == '!version':
-            self.send('PRIVMSG', '{user}: Version is {version}'.format(
-                    version=settings.version), channel)
+            if len(command) == 1 or (len(command) == 2 and command[1] == 'global'):
+                self.send('PRIVMSG', '{user}: Version is {version}.'.format(
+                        user=user, version=settings.version), channel)
         elif command[0] == '!writefiles':
             self.send('PRIVMSG', '{user}: Writing URLs...'.format(user=user), channel)
             settings.run_services.write_services()
             settings.upload.write()
             self.send('PRIVMSG', '{user}: Written URLs.'.format(user=user), channel)
         elif command[0] == '!EMERGENCY_STOP':
-            self.send('PRIVMSG', '{user}: ABORTING.'.format(user=user), channel)
-            settings.running = False
+            if (len(command) == 2 and command[1] == 'global') or len(command) == 1:
+                self.send('PRIVMSG', '{user}: ABORTING.'.format(user=user), channel)
+                settings.running = False
         elif command[0] in ('!cu', '!con-uploads', '!concurrent-uploads'):
-            pass
+            if len(command) == 2 and command[1].isdigit():
+                settings.max_concurrent_uploads = int(command[1])
         elif command[0] in ('!rs', '!refresh-services'):
             self.send('PRIVMSG', '{user}: Refreshing services...'.format(user=user),
                     channel)
@@ -170,6 +199,3 @@ class IRC(threading.Thread):
                 else:
                     self.send('PRIVMSG', '{user}: No corresponding services found.'.format(
                             user=user), channel)
-        else:
-            self.send('PRIVMSG', '{user}: command {command} does not exist.'.format(
-                    user=user, command=command[0]), channel)

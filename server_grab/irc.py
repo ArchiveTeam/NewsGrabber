@@ -74,31 +74,40 @@ class IRC(threading.Thread):
                 self.command(command, user, channel)
 
     def command(self, command, user, channel):
+        names = (settings.irc_nick, 'global', 'grab', 'grabber')
         if command[0] == '!status':
             self.send('PRIVMSG', "{user}: Grabber is running.".format(user=user), channel)
         elif command[0] in ('!cu', '!con-uploads', '!concurrent-uploads') and len(command) != 1 and command[1] == settings.irc_nick:
-            if len(command) < 3:
-                self.send('PRIVMSG', '{user}: You did not specify a number.'.format(
-                        user=user), channel)
-            else:
-                if command[2].isdigit():
-                    settings.irc_nick = int(command[2])
-                    self.send('PRIVMSG', '{user}: Concurrent uploads set to {i}'.format(
+            if len(command) > 2 and command[2].isdigit():
+                settings.irc_nick = int(command[2])
+                self.send('PRIVMSG', '{user}: Concurrent uploads set to {i}.'.format(
+                        user=user, i=command[2]), channel)
+            elif len(command) > 2:
+                self.send('PRIVMSG', "{user}: '{i}' is not a number.".format(
                             user=user, i=command[2]), channel)
-                else:
-                    self.send('PRIVMSG', "{user}: '{i}' is not a number.".format(
-                            user=user, i=command[2]), channel)
-        elif command[0] == '!version' and len(command) != 1 and command[1] == settings.irc_nick:
-            self.send('PRIVMSG', '{user}: Version is {version}'.format(
+        elif command[0] == '!version' and len(command) != 1 and command[1] in names:
+            self.send('PRIVMSG', '{user}: Version is {version}.'.format(
                     user=user, version=settings.version), channel)
-        elif command[0] == '!pause' and len(command) != 1 and command[1] == settings.irc_nick:
+        elif command[0] == '!pause' and len(command) != 1 and command[1] in names:
             settings.upload_running = False
             settings.grab_running = False
-            self.send('PRIVMSG', '{user}: Paused, no new grabs or uploads will be started.'.format(user=user), channel)
-        elif command[0] == '!resume' and len(command) != 1 and command[1] == settings.irc_nick:
+            self.send('PRIVMSG', '{user}: No new grabs or uploads will be started.'.format(user=user), channel)
+        elif command[0] == '!resume' and len(command) != 1 and command[1] in names:
             settings.upload_running = True
             settings.grab_running = True
-            self.send('PRIVMSG', '{user}: Resumed, new grabs or uploads will be started.'.format(user=user), channel)
-        elif command[0] == '!EMERGENCY_STOP' and len(command) != 1 and command[1] in (settings.irc_nick, 'global'):
+            self.send('PRIVMSG', '{user}: New grabs or uploads will be started.'.format(user=user), channel)
+        elif command[0] == '!pause-upload' and len(command) != 1 and command[1] in names:
+            settings.upload_running = False
+            self.send('PRIVMSG', '{user}: No new uploads will be started.'.format(user=user), channel)
+        elif command[0] == '!resume-upload' and len(command) != 1 and command[1] in names:
+            settings.upload_running = False
+            self.send('PRIVMSG', '{user}: New uploads will be started.'.format(user=user), channel)
+        elif command[0] == '!pause-grab' and len(command) != 1 and command[1] in names:
+            settings.grab_running = False
+            self.send('PRIVMSG', '{user}: No new grabs will be started.'.format(user=user), channel)
+        elif command[0] == '!resume-grab' and len(command) != 1 and command[1] in names:
+            settings.grab_running = False
+            self.send('PRIVMSG', '{user}: New grabs will be started.'.format(user=user), channel)
+        elif command[0] == '!EMERGENCY_STOP' and len(command) != 1 and command[1] in names:
             self.send('PRIVMSG', '{user}: ABORTING.'.format(user=user), channel)
             settings.running = False

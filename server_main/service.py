@@ -93,7 +93,7 @@ class RunServices(threading.Thread):
         matching_services = []
         website = stripped(website)
         for key, value in settings.services.iteritems():
-            if stripped(value.service_urls[0]) == website:
+            if stripped(value.service_urls[0]).endswith(website):
                 matching_services.append(key)
         return matching_services
 
@@ -126,12 +126,15 @@ class Urls(threading.Thread):
         runs = 0
         while True:
             for file_ in os.listdir(settings.dir_new_urllists):
+                while not settings.get_urls_running:
+                    time.sleep(1)
                 urls_new_count = 0
                 urls_new = json.load(open(os.path.join(settings.dir_new_urllists,
                         file_)))
                 for url in urls_new:
-                    if url['service'] and url['service'] in settings.services and not url in settings.services[url['service']].service_log_urls:
-                        settings.services[url['service']].service_log_urls.append(url)
+                    if url['service'] in settings.services and not url in settings.services[url['service']].service_log_urls:
+                        if not url['live']:
+                            settings.services[url['service']].service_log_urls.append(url)
                         self.add_url(url)
                         urls_new_count += 1
                     elif not url['service'] in settings.services and not url in self.urls_video + self.urls_normal:
@@ -148,7 +151,7 @@ class Urls(threading.Thread):
             if runs == 60:
                 self.distribute_urls()
                 runs = 0
-            time.sleep(1)
+            time.sleep(60)
 
     def report_urls(self):
         settings.irc_bot.send('PRIVMSG', '{urls} URLs added in the last 15 minutes.'.format(
@@ -160,9 +163,9 @@ class Urls(threading.Thread):
         urls_normal = list(self.urls_normal)
         self.urls_video = list(self.urls_video[len(urls_video)+1:])
         self.urls_normal = list(self.urls_normal[len(urls_normal)+1:])
-        urls_video_new = [url["url"] for url in urls_video]
+        urls_video_new = [url['url'] for url in urls_video]
         urls_video = list(urls_video_new)
-        urls_normal_new = [url["url"] for url in urls_normal]
+        urls_normal_new = [url['url'] for url in urls_normal]
         urls_normal = list(urls_normal_new)
         lists = [{'sort': '-videos', 'list': urls_video}, {'sort': '', 'list': urls_normal}]
         for list_ in lists:

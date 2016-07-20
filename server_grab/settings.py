@@ -22,7 +22,7 @@ def init():
     version = 20160719.01
     irc_channel_bot = '#newsgbot'
     irc_channel_main = '#newsg'
-    irc_nick = 'newsbud'
+    irc_nick = 'ng-arkive'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
     dir_ready = 'ready'
