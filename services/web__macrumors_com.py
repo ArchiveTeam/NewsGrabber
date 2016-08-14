@@ -10,3 +10,4 @@ liveregex = [r'live-coverage',
 	    r'-live']
 
 
+wikidata = 'Q6722109'
