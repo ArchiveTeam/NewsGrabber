@@ -4,7 +4,11 @@ Discovery scripts to be used in combination with the main and grabber scripts of
 
 Setup
 -----
-To run these scripts you need to have `rsync` and for python `requests` installed and set up.
+To run these scripts you need to have `rsync` and for python `requests` and `psutil` installed and set up. To install the dependencies:
+```
+sudo apt-get install gcc python-dev python-pip rsync
+sudo pip install psutil requests
+```
 A file `target` with the rsync target of the main server needs to be created and located in the server_discovery dir.
 
 Discovered URLs
@@ -30,6 +34,7 @@ The discovery server can be managed through IRC. Available commands are listed h
 `{service_id}` is the name of a service. For example `web__7days_ae`.
 
 * `!status`: Get the status of the running scripts. Get an overview of whether all parts  of the discovery are still running.
+* `!server-stats {discovery_server}`: Get statistics on the system. Gives for CPU usage percent `total`, `user`, `nice`, `system`, `idle`, for virtual memory usage `total` and `percent` and for disk usage `total` and `percent`.
 * `!info {service_id}` / `information {service_id}`: Check if the discovery server is running service `service_id`.
 * `!imgrab {service_id}` / `immediate-grab {service_id}`: Send a URL from service `service_id` immediatly after it has been discovered to the main server. The main server will immediatly send this URL to a grabber.
 * `!imgrab-remove {service_id` / `immediate-grab-remove {service_id}`: Stop the service `service_id` from being grabbed immediatly.
