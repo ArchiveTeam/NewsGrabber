@@ -196,10 +196,10 @@ class Urls(threading.Thread):
             runs += 1
             if runs%15 == 0:
                 self.report_urls()
-            if runs == 20:
+            if runs == 60:
                 self.distribute_urls()
                 runs = 0
-            time.sleep(1)
+            time.sleep(60)
 
     def report_urls(self):
         settings.irc_bot.send('PRIVMSG', '{urls} URLs added in the last 15 minutes.'.format(
