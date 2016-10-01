@@ -92,8 +92,8 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: Getting server stats...'
                 .format(**locals()), channel)
             disk_usage = psutil.disk_usage('.')
-            cpu_percent = psutil.spu_percent(interval=5)
-            cpu_times_percent = psutil.cpu_times(interval=5)
+            cpu_percent = psutil.cpu_percent(interval=5)
+            cpu_times_percent = psutil.cpu_times_percent(interval=5)
             virtual_memory = psutil.virtual_memory()
             self.send('PRIVMSG', '{user}: CPU usage percent: '
                 'total {cpu_percent} - '
