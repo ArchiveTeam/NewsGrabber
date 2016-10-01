@@ -1,3 +1,5 @@
+import random
+
 def init():
     global version
     global irc_channel_bot
@@ -20,9 +22,9 @@ def init():
     global upload
 
     version = 20161002.01
-    irc_channel_bot = '#newsgbot'
-    irc_channel_main = '#newsg'
-    irc_nick = 'ng-arkive'
+    irc_channel_bot = '#newsgrabberbot'
+    irc_channel_main = '#newsgrabber'
+    irc_nick = 'g_' + str(random.randint(0, 5000))
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
     dir_ready = 'warcs_ready'

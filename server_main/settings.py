@@ -32,9 +32,9 @@ def init():
 
     # variables to be changed
     version = 20161002.01
-    irc_channel_bot = '#newsgbot'
-    irc_channel_main = '#newsg'
-    irc_nick = 'newsbud'
+    irc_channel_bot = '#newsgrabberbot'
+    irc_channel_main = '#newsgrabber'
+    irc_nick = 'newsbuddy'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
     access_key = 'access_key'
