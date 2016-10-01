@@ -8,6 +8,8 @@ def splitlist(list_, number):
         new_list = list_[int(last_number):int(last_number + (len(list_)/float(number)))]
         lists.append(new_list)
         last_number += len(list_)/float(number)
+    while len(lists) < number:
+        lists.append([])
     return lists
 
 def create_dir(name):

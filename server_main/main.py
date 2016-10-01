@@ -1,13 +1,13 @@
-import settings
 import os
-import service
 import threading
 import time
+
 import irc
 import log
 import upload
 import tools
-
+import service
+import settings
 
 def main():
     settings.init()
@@ -21,11 +21,10 @@ def main():
     tools.create_dir(settings.dir_donefiles)
     tools.create_dir(settings.dir_ready)
     tools.create_dir(settings.dir_last_upload)
+    tools.create_dir(settings.dir_dumped_url_data)
 
-    if not os.path.isfile('rsync_targets'):
-        settings.logger.log("Please add one or more rsync targets to file 'rsync_targets'", 'ERROR')
-    if not os.path.isfile('rsync_targets_discovery'):
-        settings.logger.log("Please add one or more discovery rsync targets to file 'rsync_targets_discovery'", 'ERROR')
+    if not os.path.isfile('targets.json'):
+        settings.logger.log("Please add one or more rsync targets to file 'targets'", 'ERROR')
 
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True

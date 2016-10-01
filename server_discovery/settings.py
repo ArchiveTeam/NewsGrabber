@@ -20,16 +20,18 @@ def init():
     global target
 
     # variables to be changed
-    version = 20160720.01
+    version = 20161002.01
     irc_channel_bot = '#newsgbot'
     irc_channel_main = '#newsg'
-    irc_nick = 'nd-arkive'
+    irc_nick = 'new1'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
     dir_assigned_services = 'assigned_services'
     log_file_name = 'log.log'
     target = 'target'
-    standard_regex_video = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?', r'^https?:\/\/[^\/]+\/.*[tT][vV]', r'^https?:\/\/[^\/]+\/.*movie']
+    standard_regex_video = [r'^https?:\/\/[^\/]+\/.*vid(?:eo)?',
+        r'^https?:\/\/[^\/]+\/.*[tT][vV]',
+        r'^https?:\/\/[^\/]+\/.*movie']
     standard_regex_live = [r'^https?:\/\/[^\/]+\/.*live']
 
     # variables to be changed by script

@@ -1,7 +1,9 @@
-import file
 import datetime
 import threading
+
+import file
 import settings
+
 
 class Log(threading.Thread):
     def __init__(self, file_name):

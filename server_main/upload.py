@@ -1,9 +1,11 @@
 import threading
 import os
 import time
-import internetarchive
-import settings
+
 import file
+import settings
+
+import internetarchive
 
 
 class Upload(threading.Thread):

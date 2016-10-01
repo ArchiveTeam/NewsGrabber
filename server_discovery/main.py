@@ -1,7 +1,8 @@
-import settings
 import os
-import service
 import time
+
+import service
+import settings
 import irc
 import log
 import tools

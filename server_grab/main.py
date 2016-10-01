@@ -1,12 +1,12 @@
+import os
+import time
+
 import tools
 import log
 import settings
 import irc
 import grab
 import upload
-import os
-import time
-
 
 def main():
     settings.init()
@@ -54,7 +54,6 @@ def main():
     #                settings.irc_channel_bot)
     #        settings.running = False
         time.sleep(1)
-
 
 if __name__ == '__main__':
     main()

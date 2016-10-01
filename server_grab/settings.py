@@ -19,15 +19,15 @@ def init():
     global grab
     global upload
 
-    version = 20160719.01
+    version = 20161002.01
     irc_channel_bot = '#newsgbot'
     irc_channel_main = '#newsg'
     irc_nick = 'ng-arkive'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
-    dir_ready = 'ready'
-    dir_new_lists = 'new_lists'
-    dir_old_lists = 'old_lists'
+    dir_ready = 'warcs_ready'
+    dir_new_lists = 'incoming_urls'
+    dir_old_lists = 'incoming_urls_old'
     log_file_name = 'log.log'
     max_concurrent_uploads = 16
     target_main = 'target'

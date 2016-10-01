@@ -58,5 +58,5 @@ class File(object):
     def write_json(self, data):
         """Write JSON to self.file_name."""
 
-        json.dump(data, open(self.file_name, 'w'), indent = 4, ensure_ascii = False)
+        json.dump(data, open(self.file_name, 'w'), ensure_ascii = False)
 

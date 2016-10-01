@@ -2,6 +2,7 @@ import threading
 import os
 import shutil
 import time
+
 import file
 import settings
 
@@ -37,6 +38,7 @@ class Upload(threading.Thread):
                 if grab_finished:
                     shutil.rmtree(dir_)
             self.upload()
+            time.sleep(10)
 
     def upload(self):
         for file in [file for file in os.listdir(settings.dir_ready) if file.endswith('.warc.gz')

@@ -1,5 +1,6 @@
-import settings
 import os
+
+import settings
 
 def create_dir(name):
     if not os.path.isdir(name):
