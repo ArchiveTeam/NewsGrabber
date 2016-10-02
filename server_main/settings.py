@@ -31,7 +31,7 @@ def init():
     global dir_dumped_url_data
 
     # variables to be changed
-    version = 20161002.05
+    version = 20161002.06
     irc_channel_bot = '#newsgrabberbot'
     irc_channel_main = '#newsgrabber'
     irc_nick = 'newsbuddy'

@@ -48,9 +48,9 @@ class Upload(threading.Thread):
                 while not settings.upload_running:
                     time.sleep(1)
                 time.sleep(1)
-                if concurrent_uploads > settings.max_concurrent_uploads or not self.upload_allowed():
+                if self.concurrent_uploads > settings.max_concurrent_uploads or not self.upload_allowed():
                     time.sleep(10)
-                concurrent_uploads += 1
+                self.concurrent_uploads += 1
                 open(os.path.join(settings.dir_ready, file+'.upload'), 'a').close()
                 date = re.search(r'([0-9]{4}-[0-9]{2}-[0-9]{2})', file).group(1)
                 if not file in self.uploads:
@@ -74,7 +74,7 @@ class Upload(threading.Thread):
                            'collection': 'archiveteam_newssites',
                            'date': date}
                 threading.thread(target=self.upload_single, args=(name, file, ia_args)).start()
-                concurrent_uploads -= 1
+                self.concurrent_uploads -= 1
                 os.remove(os.path.join(settings.dir_ready, file+'.upload'))
                 if os.path.isfile(os.path.join(settings.dir_ready, file)):
                     settings.irc_bot.send('PRIVMSG', '{name} uploaded unsuccessful.'.format(
