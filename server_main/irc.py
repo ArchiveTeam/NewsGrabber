@@ -251,7 +251,7 @@ class IRC(threading.Thread):
                         else 'are'
                     self.send('PRIVMSG', '{user}: Corresponding service '
                         '{is_are} {services}.'
-                        .format(user=user, 
+                        .format(user=user, is_are=is_are, 
                         services=', '.join(corresponding_services)),
                         channel)
                     self.send('PRIVMSG', "{user}: Use '!info <service>' to "
