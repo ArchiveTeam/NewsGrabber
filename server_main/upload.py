@@ -48,7 +48,7 @@ class Upload(threading.Thread):
                 while not settings.upload_running:
                     time.sleep(1)
                 time.sleep(1)
-                if self.concurrent_uploads > settings.max_concurrent_uploads or not self.upload_allowed():
+                while self.concurrent_uploads > settings.max_concurrent_uploads or not self.upload_allowed():
                     time.sleep(10)
                 self.concurrent_uploads += 1
                 open(os.path.join(settings.dir_ready, file+'.upload'), 'a').close()
