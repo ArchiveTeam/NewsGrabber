@@ -19,8 +19,8 @@ class Grab(threading.Thread):
     def grab(self):
         while True:
             for filename in os.listdir(settings.dir_new_lists):
-                if not settings.grab_running:
-                    continue
+                while not settings.grab_running:
+                    time.sleep(1)
                 print filename
                 filename_urls = os.path.join(settings.dir_old_lists, filename + '_urls')
                 filejson = file.File(os.path.join(settings.dir_new_lists, filename)).read_json()
