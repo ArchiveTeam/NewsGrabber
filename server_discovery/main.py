@@ -23,7 +23,7 @@ def main():
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True
     settings.irc_bot.start()
-    time.sleep(1)
+    time.sleep(30)
     settings.upload = service.Upload()
     settings.upload.daemon = True
     settings.upload.start()
