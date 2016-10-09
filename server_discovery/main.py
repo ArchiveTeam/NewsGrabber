@@ -18,7 +18,7 @@ def main():
     tools.create_dir(settings.dir_assigned_services)
 
     if not os.path.isfile(settings.target):
-        settings.logger.log("Please add one or more discovery rsync targets to file 'rsync_targets_discovery'", 'ERROR')
+        settings.logger.log("Please add one or more discovery rsync targets to file '{settings.target}'".format(**locals()), 'ERROR')
 
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True

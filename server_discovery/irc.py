@@ -135,12 +135,17 @@ class IRC(threading.Thread):
             settings.upload_running = False
             self.send('PRIVMSG', '{user}: No new grabs or uploads will be '
                 'started.'.format(**locals()), channel)
+        elif command[0] == '!resume' and check_name(command):
+            settings.run_services_running = True
+            settings.upload_running = True
+            self.send('PRIVMSG', '{user}: New grabs or uploads will be '
+                'started.'.format(**locals()), channel)
         elif command[0] == '!pause-upload' and check_name(command):
             settings.upload_running = False
             self.send('PRIVMSG', '{user}: No new uploads will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!resume-upload' and check_name(command):
-            settings.upload_running = False
+            settings.upload_running = True
             self.send('PRIVMSG', '{user}: New uploads will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!pause-grab' and check_name(command):
@@ -148,7 +153,7 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: No new grabs will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!resume-grab' and check_name(command):
-            settings.run_services_running = False
+            settings.run_services_running = True
             self.send('PRIVMSG', '{user}: New grabs will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!refresh' and len(command) == 3 \
@@ -163,11 +168,6 @@ class IRC(threading.Thread):
                 self.send('PRIVMSG', '{user}: Set refresh back to services '
                     'defaults.'
                     .format(user=user, refresh=command[2]), channel)
-        elif command[0] == '!resume' and check_name(command):
-            settings.run_services_running = True
-            settings.upload_running = True
-            self.send('PRIVMSG', '{user}: New grabs or uploads will be '
-                'started.'.format(**locals()), channel)
         elif command[0] == '!stop' and check_name(command):
             self.send('PRIVMSG', '{user}: Stopping...'
                 .format(**locals()), channel)

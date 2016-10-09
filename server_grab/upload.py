@@ -11,6 +11,7 @@ class Upload(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.concurrent_uploads = 0
+        self.max_concurrent_uploads = settings.max_concurrent_uploads
         self.target = file.File(settings.target_main)
         self.uploads = {}
 
@@ -40,11 +41,20 @@ class Upload(threading.Thread):
             self.upload()
             time.sleep(10)
 
+    def set_max_concurrent_uploads(self, change):
+        if self.max_concurrent_uploads + change > settings.max_concurrent_uploads:
+            return
+        if self.max_concurrent_uploads + change < 1:
+            return
+        self.max_concurrent_uploads += change
+
     def upload(self):
         for file in [file for file in os.listdir(settings.dir_ready) if file.endswith('.warc.gz')
                 and not os.path.isfile(os.path.join(settings.dir_ready, file+'.upload'))]:
+            while not settings.upload_running:
+                time.sleep(1)
             time.sleep(1)
-            while self.concurrent_uploads > settings.max_concurrent_uploads:
+            while self.concurrent_uploads > self.max_concurrent_uploads:
                 time.sleep(1)
             self.uploads[file] = threading.Thread(target=self.upload_single, args=(file,))
             self.uploads[file].daemon = True
@@ -59,4 +69,7 @@ class Upload(threading.Thread):
         os.remove(os.path.join(settings.dir_ready, file+'.upload'))
         if os.path.isfile(os.path.join(settings.dir_ready, file)):
             settings.irc_bot.send('PRIVMSG', '{name} synced unsuccessful to main server.'.format(
-                    name=file), settings.irc_channel_bot)
+                name=file), settings.irc_channel_bot)
+            set_max_concurrent_uploads(-1)
+        else:
+            set_max_concurrent_uploads(1)

@@ -234,9 +234,6 @@ class Service(threading.Thread):
                 tries += 1
             try:
                 response
-            except NameError:
-                pass
-            else:
                 tries = 10
                 oldextractedurls = []
                 extractedvideourls = []
@@ -297,4 +294,6 @@ class Service(threading.Thread):
                         if re.search(regex, extractedurl, re.I) and not extractedurlpercent in extractedurls:
                             extractedurls.append(extractedurlpercent)
                             break
+            except:
+                pass #bad URL
         return extractedurls

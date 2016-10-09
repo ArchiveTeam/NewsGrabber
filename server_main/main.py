@@ -23,8 +23,8 @@ def main():
     tools.create_dir(settings.dir_last_upload)
     tools.create_dir(settings.dir_dumped_url_data)
 
-    if not os.path.isfile('targets.json'):
-        settings.logger.log("Please add one or more rsync targets to file 'targets'", 'ERROR')
+    if not os.path.isfile(settings.targets):
+        settings.logger.log("Please add one or more rsync targets to file '{settings.targets}'".format(**locals()), 'ERROR')
 
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True

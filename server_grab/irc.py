@@ -112,7 +112,7 @@ class IRC(threading.Thread):
               and check_name(command):
             if len(command) > 2 and command[2].isdigit():
                 settings.max_concurrent_uploads = int(command[2])
-                self.send('PRIVMSG', '{user}: Concurrent uploads set to {i}.'
+                self.send('PRIVMSG', '{user}: Concurrent uploads limit set to {i}.'
                     .format(user=user, i=command[2]), channel)
             elif len(command) > 2:
                 self.send('PRIVMSG', "{user}: '{i}' is not a number."
@@ -135,7 +135,7 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: No new uploads will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!resume-upload' and check_name(command):
-            settings.upload_running = False
+            settings.upload_running = True
             self.send('PRIVMSG', '{user}: New uploads will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!pause-grab' and check_name(command):
@@ -143,7 +143,7 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: No new grabs will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!resume-grab' and check_name(command):
-            settings.grab_running = False
+            settings.grab_running = True
             self.send('PRIVMSG', '{user}: New grabs will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!stop' and check_name(command):

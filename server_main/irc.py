@@ -135,8 +135,8 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: No new URLs will be sorted or '
                 'uploads started.'.format(**locals()), channel)
         elif command[0] == '!resume' and check_name(command):
-            settings.get_urls_running = False
-            settings.upload_running = False
+            settings.get_urls_running = True
+            settings.upload_running = True
             self.send('PRIVMSG', '{user}: New URLs will be sorted or uploads '
                 'started.'.format(**locals()), channel)
         elif command[0] == '!pause-urls':
@@ -148,11 +148,11 @@ class IRC(threading.Thread):
             self.send('PRIVMSG', '{user}: New URLs will be sorted.'
                 .format(**locals()), channel)
         elif command[0] == '!pause-upload' and check_name(command):
-            settings.upload_running = True
+            settings.upload_running = False
             self.send('PRIVMSG', '{user}: No new upload will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!resume-upload' and check_name(command):
-            settings.upload_running = False
+            settings.upload_running = True
             self.send('PRIVMSG', '{user}: New upload will be started.'
                 .format(**locals()), channel)
         elif command[0] == '!version' and check_name(command):
