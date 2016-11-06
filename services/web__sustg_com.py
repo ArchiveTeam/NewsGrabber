@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160401.01
+version = 20161106.01
 
 urls = ['http://sustg.com/',
 	'http://sustg.com/the-review/',

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.theprovince.com/index.html',
 	'http://www.theprovince.com/news/index.html',

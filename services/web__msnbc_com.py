@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160124.01
+version = 20161106.01
 
 urls = ['http://www.msnbc.com/',
 	'http://www.msnbc.com/feeds/latest']

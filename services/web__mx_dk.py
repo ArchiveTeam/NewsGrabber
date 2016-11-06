@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160810.01
+version = 20161106.01
 
 urls = ['http://www.mx.dk/nyheder/',
 	'http://www.mx.dk/nyheder/kobenhavn/',

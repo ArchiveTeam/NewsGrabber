@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://ru.hawarnews.com/',
 	'http://ru.hawarnews.com/category/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8/',

@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160221.01
+version = 20161106.01
 
 urls = ['http://www.elcolombiano.com']
 regex = [r'^https?:\/\/[^\/]*elcolombiano\.com\/']	

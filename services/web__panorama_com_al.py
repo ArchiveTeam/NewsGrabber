@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20151228.01
+version = 20161106.01
 
 urls = ['http://www.panorama.com.al/category/lajmi-i-fundit/',
 	'http://www.panorama.com.al/category/opinion/',

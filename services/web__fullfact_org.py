@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160620.01
+version = 20161106.01
 
 urls = ['https://fullfact.org/',
 	'https://fullfact.org/europe/',

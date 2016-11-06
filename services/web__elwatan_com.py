@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160121.01
+version = 20161106.01
 
 urls = ['http://www.elwatan.com/',
 	'http://www.elwatan.com/actualite/rss.xml',

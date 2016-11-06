@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160402.01
+version = 20161106.01
 
 urls = ['http://motherboard.vice.com',
 	'http://motherboard.vice.com/nl',

@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160402.01
+version = 20161106.01
 
 urls = ['http://forum.ad/'
 	'http://forum.ad/feed/']

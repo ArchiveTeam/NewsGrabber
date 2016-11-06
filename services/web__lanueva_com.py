@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://www.lanueva.com/',
 	'http://www.lanueva.com/la-ciudad',

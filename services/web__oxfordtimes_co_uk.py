@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.oxfordtimes.co.uk/',
 	'http://www.oxfordtimes.co.uk/news/',

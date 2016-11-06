@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://24-ore.com/',
 	'http://24-ore.com/?feed=rss2']

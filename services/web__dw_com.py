@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.dw.com/en/top-stories/s-9097',
 	'http://rss.dw.com/rdf/rss-en-all',

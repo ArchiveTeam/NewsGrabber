@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://www.losandes.com.ar/',
 	'http://www.losandes.com.ar/rss',

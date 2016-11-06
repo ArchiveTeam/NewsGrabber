@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160402.01
+version = 20161106.01
 
 urls = ['http://fightland.vice.com',
 	'http://fightland.vice.com/video',

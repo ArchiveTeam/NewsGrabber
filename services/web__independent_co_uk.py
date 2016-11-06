@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.independent.co.uk/',
 	'http://rss.feedsportal.com/c/266/f/3495/index.rss']

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160316.01
+version = 20161106.01
 
 urls = ['http://www.ng.ru/',
 	'http://www.ng.ru/rss/']

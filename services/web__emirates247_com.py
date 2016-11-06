@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160103.01
+version = 20161106.01
 
 urls = ['http://www.emirates247.com/news',
 	'http://www.emirates247.com/videos',

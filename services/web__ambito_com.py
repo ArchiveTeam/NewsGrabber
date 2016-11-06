@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://www.ambito.com/',
 	'http://www.ambito.com/economia/',

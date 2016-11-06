@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://navbharattimes.indiatimes.com/',
 	'http://navbharattimes.indiatimes.com/india/articlelist/1564454.cms',

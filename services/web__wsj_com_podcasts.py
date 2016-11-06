@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.wsj.com/podcasts/',
 	'http://www.marketwatch.com/feeds/podcast/podcast.asp?count=10&doctype=116&column=Tech+Diary',

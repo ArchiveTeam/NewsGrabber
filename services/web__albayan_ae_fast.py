@@ -1,5 +1,5 @@
 refresh = 30
-version = 20160102.01
+version = 20161106.01
 
 urls = ['http://www.albayan.ae/1.448?ot=ot.AjaxPageLayout',
 	'http://www.albayan.ae/1.450?ot=ot.AjaxPageLayout',

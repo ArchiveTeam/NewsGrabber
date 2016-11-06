@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160627.01
+version = 20161106.01
 
 urls = ['http://www.notinet.icrt.cu/',
 	'http://www.notinet.icrt.cu/index.php?option=com_content&view=section&layout=blog&id=1&Itemid=50',

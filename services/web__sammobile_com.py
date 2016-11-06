@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160626.01
+version = 20161106.01
 
 urls = ['http://www.sammobile.com/',
 		'http://www.sammobile.com/news/',

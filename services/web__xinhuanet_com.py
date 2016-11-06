@@ -1,5 +1,5 @@
 refresh = 300
-version = 20151222.01
+version = 20161106.01
 
 urls = ['http://www.xinhuanet.com/',
 	'http://www.xinhuanet.com/politics/rs.htm',

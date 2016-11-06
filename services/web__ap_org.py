@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160130.01
+version = 20161106.01
 
 urls = ['http://bigstory.ap.org/latest']
 regex = [r'^https?:\/\/[^\/]*ap\.org']

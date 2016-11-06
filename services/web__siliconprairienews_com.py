@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160326.03
+version = 20161106.01
 
 urls = ['http://siliconprairienews.com',
 	'http://siliconprairienews.com/feed/']

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160403.02
+version = 20161106.01
 
 urls = ['http://economictimes.indiatimes.com/',
 	'http://economictimes.indiatimes.com/markets',

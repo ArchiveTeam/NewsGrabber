@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160328.01
+version = 20161106.01
 
 urls = ['http://www.lowyinstitute.org/',
 	'http://www.lowyinstitute.org/programs-and-projects/lowy-institute-papers',

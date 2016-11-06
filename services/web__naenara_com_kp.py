@@ -1,5 +1,5 @@
 refresh = 43200
-version = 20160215.01
+version = 20161106.01
 
 urls = ['http://www.naenara.com.kp/en/order/pytimes/?page=Home',
 	'http://www.naenara.com.kp/en/order/pytimes/?page=Politics',

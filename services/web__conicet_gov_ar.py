@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160328.01
+version = 20161106.01
 
 urls = ['http://www.conicet.gov.ar/',
 	'http://www.conicet.gov.ar/comunicacion/?lan=en',

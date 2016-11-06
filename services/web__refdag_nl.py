@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20151226.01
+version = 20161106.01
 
 urls = ['http://www.refdag.nl/nieuws/laatste-nieuws',
 	'http://www.refdag.nl/nieuws/video']

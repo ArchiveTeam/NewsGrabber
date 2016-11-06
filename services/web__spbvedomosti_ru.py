@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160322.01
+version = 20161106.01
 
 urls = ['http://spbvedomosti.ru/news/culture/',
 	'http://spbvedomosti.ru/news/gorod/',

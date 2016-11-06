@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160406.01
+version = 20161106.01
 
 urls = ['http://www.irna.ir',
 	      'http://www.irna.ir/fa/page/225/%D9%81%DB%8C%D9%84%D9%85-%D9%88-%D8%B5%D8%AF%D8%A7',

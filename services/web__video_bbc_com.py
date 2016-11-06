@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.bbc.com/news/video_and_audio',
 	'http://feeds.bbci.co.uk/news/video_and_audio/news_front_page/rss.xml?edition=uk',

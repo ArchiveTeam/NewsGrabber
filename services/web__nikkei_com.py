@@ -1,5 +1,5 @@
 refresh = 30
-version = 20151224.01
+version = 20161106.01
 
 urls = ['http://www.nikkei.com']
 regex = [r'^https?:\/\/[^\/]*nikkei\.com\/']	

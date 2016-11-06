@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160328.01
+version = 20161106.01
 
 urls = ['https://www.prosper.org.au/',
 	'https://www.prosper.org.au/category/events/',

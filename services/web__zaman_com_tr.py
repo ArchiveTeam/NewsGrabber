@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.zaman.com.tr/',
 	'http://www.zaman.com.tr/ekonomi/',

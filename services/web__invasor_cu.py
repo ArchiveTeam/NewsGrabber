@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160626.01
+version = 20161106.01
 
 urls = ['http://www.invasor.cu/',
 		'http://www.invasor.cu/cuba',

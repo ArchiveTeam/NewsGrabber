@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.iraq-amsi.net',
 	'http://www.iraq-amsi.net/ar/rss.php?cat=79',

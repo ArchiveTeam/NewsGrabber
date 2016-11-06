@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://agora.co.ao/',
 	'http://agora.co.ao/opiniao',

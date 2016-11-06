@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160406.01
+version = 20161106.01
 
 urls = ['http://www.thedailystar.net/',
 	      'http://www.thedailystar.net/newspaper',

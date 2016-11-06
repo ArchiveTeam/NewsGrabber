@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.cultofmac.com',
 	'http://cultofmac.com.feedsportal.com/c/33797/f/606249/index.rss']

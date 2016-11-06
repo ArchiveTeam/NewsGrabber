@@ -1,5 +1,5 @@
 refresh = 172800
-version = 20151224.01
+version = 20161106.01
 
 urls = ['http://www.outlookafghanistan.net/national.php',
 	'http://www.outlookafghanistan.net/international.php',

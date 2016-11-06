@@ -1,5 +1,5 @@
 refresh = 60
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://english.kyodonews.jp/',
 	'http://english.kyodonews.jp/rss/news.xml']

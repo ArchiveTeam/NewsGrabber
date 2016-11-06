@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20151221.01
+version = 20161106.01
 
 urls = ['http://www.aljazeera.com/news',
   'http://www.aljazeera.com/xml/rss/all.xml']

@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160121.01
+version = 20161106.01
 
 urls = ['http://web.kbcalgerie.tv/index.php']
 regex = [r'^https?:\/\/[^\/]*kbcalgerie\.tv']

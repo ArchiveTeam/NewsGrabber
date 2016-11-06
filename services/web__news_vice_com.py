@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160402.01
+version = 20161106.01
 
 urls = ['https://news.vice.com/',
 	'https://news.vice.com/shows',

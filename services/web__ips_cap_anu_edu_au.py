@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160328.01
+version = 20161106.01
 
 urls = ['http://ips.cap.anu.edu.au/sdsc/',
 	'http://ips.cap.anu.edu.au/sdsc/research',

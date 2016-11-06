@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20151226.01
+version = 20161106.01
 
 urls = ['https://www.nd.nl/',
 	'https://www.nd.nl/Rss/7UZxNfzclROjiEdYoo8k_A==/Feed.lynkx',

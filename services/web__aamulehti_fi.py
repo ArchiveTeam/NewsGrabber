@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160127.01
+version = 20161106.01
 
 urls = ['http://www.aamulehti.fi/Etusivu',
         'http://www.aamulehti.fi/rss/aamulehti_10_tuoreinta.rss',

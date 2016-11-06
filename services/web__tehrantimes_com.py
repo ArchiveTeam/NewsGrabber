@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160405.01
+version = 20161106.01
 
 urls = ['http://www.tehrantimes.com',
         'http://www.tehrantimes.com/service/social',

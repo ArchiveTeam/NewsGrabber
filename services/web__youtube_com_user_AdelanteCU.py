@@ -1,5 +1,5 @@
 refresh = 172800
-version = 20160626.01
+version = 20161106.01
 
 urls = ['https://www.youtube.com/user/AdelanteCU/videos']
 regex = [r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=']

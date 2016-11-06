@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.nknews.org',
 	'http://www.nknews.org/feed/']

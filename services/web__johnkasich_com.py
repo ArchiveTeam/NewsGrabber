@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160326.02
+version = 20161106.01
 
 urls = ['https://www.johnkasich.com/',
 	'https://johnkasich.com/feed/']

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.vendingtimes.com',
 	'http://www.vendingtimes.com/ME2/Console/XmlSyndication/Display/RSS.asp?xsid=C5A85B5307A5401BB870E3B041FFE602',

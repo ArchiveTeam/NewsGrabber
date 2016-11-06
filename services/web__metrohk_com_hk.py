@@ -1,5 +1,5 @@
 refresh = 300
-version = 20151223.01
+version = 20161106.01
 
 urls = ['http://www.metrohk.com.hk/index.php',
 	'http://www.metrohk.com.hk/?cmd=instantNews',

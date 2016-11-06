@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.bna.bh/portal/main',
 	'http://www.bna.bh/portal/main_rss/ar/feed.rss',

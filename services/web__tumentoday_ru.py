@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://tumentoday.ru/',
 	'http://tumentoday.ru/category/vlast-i-politika/',

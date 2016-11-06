@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160403.01
+version = 20161106.01
 
 urls = ['http://www.forbes.com/',
 	'http://www.forbes.com/home_usa/',

@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20162005.01
+version = 20161106.01
 
 urls = ['http://www.standaard.be',
   'http://www.standaard.be/rss/section/1f2838d4-99ea-49f0-9102-138784c7ea7c',

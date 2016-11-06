@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160622.01
+version = 20161106.01
 
 urls = ['http://nos.nl/',
 	'http://nos.nl/nieuws/archief/',

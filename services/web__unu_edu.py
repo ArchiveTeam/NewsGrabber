@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160328.01
+version = 20161106.01
 
 urls = ['http://unu.edu/',
 	'http://unu.edu/publications/articles',

@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160402.01
+version = 20161106.01
 
 urls = ['https://sports.vice.com',
 	'https://sports.vice.com/en_us',

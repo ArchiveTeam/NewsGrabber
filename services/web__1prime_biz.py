@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160322.01
+version = 20161106.01
 
 urls = ['http://www.1prime.biz/news/',
 	'http://www.1prime.biz/news/politics_economy/',

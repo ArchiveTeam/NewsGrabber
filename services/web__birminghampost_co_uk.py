@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.birminghampost.co.uk/',
 	'http://www.birminghampost.co.uk/?service=rss']

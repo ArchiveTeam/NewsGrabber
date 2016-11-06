@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://elraaed.com/ara/',
 	'http://elraaed.com/ara/feed/index.rss']

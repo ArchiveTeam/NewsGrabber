@@ -1,5 +1,5 @@
 refresh = 300
-version = 20151220.01
+version = 20161106.01
 
 urls = ['http://thestarphoenix.com',
 	'http://thestarphoenix.com/feed']

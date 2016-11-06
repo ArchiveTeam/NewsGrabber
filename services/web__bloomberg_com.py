@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160401.01
+version = 20161106.01
 
 urls = ['http://www.bloomberg.com/',
 	'http://www.bloomberg.com/europe',

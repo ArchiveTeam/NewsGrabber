@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160126.01
+version = 20161106.01
 
 urls = ['http://www.ibtimes.com.au',
 		'http://cn.ibtimes.com',

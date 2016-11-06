@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160102.01
+version = 20161106.01
 
 urls = ['http://www.alittihad.ae/',
 	'http://www.alittihad.ae/rss_feed.php?channel=1',

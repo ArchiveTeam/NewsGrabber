@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20151215.01
+version = 20161106.01
 
 urls = ['http://www.rodong.rep.kp/en/',
 	'http://www.rodong.rep.kp/ko/',

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160103.01
+version = 20161106.01
 
 urls = ['http://www.adsports.ae/',
 	'http://www.adsports.ae/video-gallery/',

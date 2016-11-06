@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160520.01
+version = 20161106.01
 
 urls = ['http://www.lesoir.be/',
   'http://www.lesoir.be/feed/La%20Une/destination_une_block',

@@ -1,5 +1,5 @@
 refresh = 1800
-version = 20160314.01
+version = 20161106.01
 
 urls = ['http://www.politifact.com',
 	    'http://www.politifact.com/feeds/statements/truth-o-meter/',

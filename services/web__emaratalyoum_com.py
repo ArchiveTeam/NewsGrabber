@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160102.01
+version = 20161106.01
 
 urls = ['http://www.emaratalyoum.com/public-life-1.533089?ot=ot.AjaxPageLayout',
 	'http://www.emaratalyoum.com/public-sports-1.533088?ot=ot.AjaxPageLayout',

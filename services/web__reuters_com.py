@@ -1,5 +1,5 @@
 refresh = 60
-version = 20160124.01
+version = 20161106.01
 
 urls = ['http://www.reuters.com',
         'http://af.reuters.com',

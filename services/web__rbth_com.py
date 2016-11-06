@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160320.01
+version = 20161106.01
 
 urls = ['http://rbth.com/',
 	'http://rbth.com/xml/index.xml']

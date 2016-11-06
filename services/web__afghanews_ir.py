@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.afghanews.ir/',
 	'http://www.afghanews.ir/RSS/Rss.Xml']

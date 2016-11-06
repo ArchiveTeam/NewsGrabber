@@ -1,5 +1,5 @@
 refresh = 30
-version = 20160326.02
+version = 20161106.01
 
 urls = ['https://www.rt.com/',
 	'https://www.rt.com/news/',

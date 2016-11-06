@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20151228.01
+version = 20161106.01
 
 urls = ['http://www.rtl7darts.nl/nieuws',
   'http://www.rtl7darts.nl/video']

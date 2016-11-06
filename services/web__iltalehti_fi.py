@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160127.01
+version = 20161106.01
 
 urls = ['http://www.iltalehti.fi/',
         'http://www.iltalehti.fi/rss.xml',

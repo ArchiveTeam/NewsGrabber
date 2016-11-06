@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160815.01
+version = 20161106.01
 
 urls = ['https://guccifer2.wordpress.com',
         'https://guccifer2.wordpress.com/feed/']

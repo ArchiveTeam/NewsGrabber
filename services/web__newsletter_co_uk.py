@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.newsletter.co.uk/',
 	'http://www.newsletter.co.uk/rss/cmlink/1.5002270',

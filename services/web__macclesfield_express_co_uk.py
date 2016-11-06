@@ -1,5 +1,5 @@
 refresh = 7200
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.macclesfield-express.co.uk/',
 	'http://www.macclesfield-express.co.uk/?service=rss']

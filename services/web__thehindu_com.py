@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.thehindu.com/',
 	'http://www.thehindu.com/?service=rss']

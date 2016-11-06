@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160103.01
+version = 20161106.01
 
 urls = ['http://yemen-nn.com/',
 	'http://yemen-nn.com/catshow/43/',

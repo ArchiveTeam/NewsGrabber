@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160322.01
+version = 20161106.01
 
 urls = ['http://kodima.rkperiodika.ru/',
 	'http://kodima.rkperiodika.ru/feed/']

@@ -1,5 +1,5 @@
 refresh = 3600
-version = 20160110.01
+version = 20161106.01
 
 urls = ['http://www.timescolonist.com',
 	'http://www.timescolonist.com/news',

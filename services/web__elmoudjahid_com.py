@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160306.01
+version = 20161106.01
 
 urls = ['http://www.elmoudjahid.com/',
 	    'http://feeds.feedburner.com/ElmoudjahidArticles']

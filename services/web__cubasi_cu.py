@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160626.01
+version = 20161106.01
 
 urls = ['http://www.cubasi.cu/',
 		'http://news.cubasi.cu/',

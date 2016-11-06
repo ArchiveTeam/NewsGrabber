@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://ar.farsnews.com/',
 	'http://ar.farsnews.com/feed/iran',

@@ -1,5 +1,5 @@
 refresh = 300
-version = 20151226.01
+version = 20161106.01
 
 urls = ['http://www.telegraaf.nl/',
 	'http://www.telegraaf.nl/rss/']

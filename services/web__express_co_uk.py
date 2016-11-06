@@ -1,5 +1,5 @@
 refresh = 300
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://www.express.co.uk/',
 	'http://feeds.feedburner.com/daily-express-news-showbiz?format=xml']

@@ -1,5 +1,5 @@
 refresh = 86400
-version = 20160118.01
+version = 20161106.01
 
 urls = ['http://data.gdeltproject.org/events/index.html',
 	'http://data.gdeltproject.org/gkg/index.html']

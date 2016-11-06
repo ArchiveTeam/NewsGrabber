@@ -1,5 +1,5 @@
 refresh = 21600
-version = 20160326.02
+version = 20161106.01
 
 urls = ['http://chosonsinbo.com/',
 	'http://chosonsinbo.com/feed/']
