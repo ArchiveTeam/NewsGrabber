@@ -1,11 +1,13 @@
 import threading
 import os
+import json
 import time
 
 import file
 import settings
 
 import internetarchive
+import requests
 
 
 class Upload(threading.Thread):
