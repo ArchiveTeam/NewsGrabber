@@ -1,4 +1,4 @@
-refresh = 2
+refresh = 30
 version = 20160326.02
 
 urls = ['http://video.asia.nikkei.com',

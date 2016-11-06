@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160320.01
 
 urls = ['https://www.youtube.com/user/argumentyfakty/videos']

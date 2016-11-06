@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160402.01
 
 urls = ['http://www.andorradifusio.ad/'

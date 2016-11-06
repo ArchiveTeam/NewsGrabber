@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160322.01
 
 urls = ['http://vmnews.ru/',

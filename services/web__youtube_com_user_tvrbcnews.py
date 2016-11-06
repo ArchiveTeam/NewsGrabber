@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20160316.01
 
 urls = ['https://www.youtube.com/user/tvrbcnews/videos']

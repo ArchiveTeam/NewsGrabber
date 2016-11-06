@@ -1,4 +1,4 @@
-refresh = 3
+refresh = 60
 version = 20151224.01
 
 urls = ['http://www.ariananet.com/']

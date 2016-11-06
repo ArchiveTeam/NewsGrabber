@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20160326.02
 
 urls = ['http://www.cleveland.com/interact/index.ssf',

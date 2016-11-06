@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160326.02
 
 urls = ['https://www.tedcruz.org/index.html',

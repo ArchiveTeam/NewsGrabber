@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160102.01
 
 urls = ['https://www.youtube.com/user/ATVvideoweb/videos']

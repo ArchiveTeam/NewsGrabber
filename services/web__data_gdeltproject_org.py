@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160118.01
 
 urls = ['http://data.gdeltproject.org/events/index.html',

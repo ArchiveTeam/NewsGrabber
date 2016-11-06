@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160103.01
 
 urls = ['https://www.youtube.com/user/AlArabiya/videos']

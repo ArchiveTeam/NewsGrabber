@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20160130.01
 
 urls = ['http://bigstory.ap.org/latest']

@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160123.01
 
 urls = ['http://www.alger-info.com/',

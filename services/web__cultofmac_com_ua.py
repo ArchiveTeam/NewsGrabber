@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151226.01
 
 urls = ['http://cultofmac.com.ua']

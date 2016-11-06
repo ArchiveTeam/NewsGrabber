@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160123.01
 
 urls = ['http://sawt-alahrar.net/',

@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160124.01
 
 urls = ['http://www.lesnouvellesnews.fr']

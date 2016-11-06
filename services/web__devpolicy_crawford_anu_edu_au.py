@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160328.01
 
 urls = ['https://devpolicy.crawford.anu.edu.au/',

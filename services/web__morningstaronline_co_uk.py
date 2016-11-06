@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160312.01
 
 urls = ['https://www.morningstaronline.co.uk/britain',

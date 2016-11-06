@@ -1,4 +1,4 @@
-refresh = 9
+refresh = 43200
 version = 20160215.01
 
 urls = ['http://www.naenara.com.kp/en/order/pytimes/?page=Home',

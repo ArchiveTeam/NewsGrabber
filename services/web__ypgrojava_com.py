@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160103.01
 
 urls = ['http://ypgrojava.com/?feed=rss2',

@@ -1,4 +1,4 @@
-refresh = 2
+refresh = 30
 version = 20151224.01
 
 urls = ['http://www.nikkei.com']

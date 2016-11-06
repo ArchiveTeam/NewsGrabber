@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160326.02
 
 urls = ['http://www.hinckleytimes.net/',

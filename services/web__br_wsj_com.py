@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160124.01
 
 urls = ['http://br.wsj.com/home-page']

@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20151222.1
 
 urls = ['http://www.haaretz.co.il/news',

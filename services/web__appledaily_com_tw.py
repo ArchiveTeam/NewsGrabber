@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20160216.01
 
 urls = ['http://www.appledaily.com.tw/',

@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160103.01
 
 urls = ['https://www.youtube.com/user/uaevideos/videos']

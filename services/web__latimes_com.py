@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160125.01
 
 urls = ['http://www.latimes.com']

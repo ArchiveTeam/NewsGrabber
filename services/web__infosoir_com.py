@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160123.01
 
 urls = ['http://www.infosoir.com/actualite.html',

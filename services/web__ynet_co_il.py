@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160103.01
 
 urls = ['http://www.ynetnews.com/home/0,7340,L-3083,00.html',

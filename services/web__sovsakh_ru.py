@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160320.01
 
 urls = ['http://sovsakh.ru/']

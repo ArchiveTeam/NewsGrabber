@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20151226.01
 
 urls = ['http://www.metronieuws.nl/alles',

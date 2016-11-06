@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151217.01
 
 urls = ['https://www.youtube.com/user/CCTVNEWSbeijing/videos']

@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160626.01
 
 urls = ['https://www.youtube.com/user/Invasorpress/videos']

@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151223.01
 
 urls = ['https://www.gov.uk/government/announcements.atom',

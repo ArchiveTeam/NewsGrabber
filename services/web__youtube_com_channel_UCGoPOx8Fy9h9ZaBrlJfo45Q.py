@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160320.01
 
 urls = ['https://www.youtube.com/channel/UCGoPOx8Fy9h9ZaBrlJfo45Q/videos']

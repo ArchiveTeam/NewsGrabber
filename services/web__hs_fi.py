@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160127.02
 
 urls = ['http://www.hs.fi/',

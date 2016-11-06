@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160815.01
 
 urls = ['https://guccifer2.wordpress.com',

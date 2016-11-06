@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20160403.01
 
 urls = ['http://www.elciudadanoweb.com/',

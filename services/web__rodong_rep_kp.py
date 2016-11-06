@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151215.01
 
 urls = ['http://www.rodong.rep.kp/en/',

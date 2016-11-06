@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20160326.03
 
 urls = ['http://www.theverge.com',

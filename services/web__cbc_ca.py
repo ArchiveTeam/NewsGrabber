@@ -1,4 +1,4 @@
-refresh = 2
+refresh = 30
 version = 20151221.01
 
 urls = ['http://www.cbc.ca',

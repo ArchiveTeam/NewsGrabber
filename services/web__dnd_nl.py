@@ -1,4 +1,4 @@
-refresh = 11
+refresh = 172800
 version = 20151224.01
 
 urls = ['http://www.dnd.nl/']

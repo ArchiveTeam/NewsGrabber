@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151224.01
 
 urls = ['https://torrentfreak.com',

@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160122.01
 
 urls = ['http://www.annasrdz.com/']

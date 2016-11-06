@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20151224.01
 
 urls = ['http://www.afghanistansun.com/']

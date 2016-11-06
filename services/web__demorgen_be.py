@@ -1,5 +1,5 @@
 
-refresh = 6
+refresh = 3600
 version = 20162005.01
 
 urls = ['http://www.demorgen.be',

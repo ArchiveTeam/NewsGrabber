@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20151222
 
 urls = ['http://www.ohio.com/cmlink/1.114425',

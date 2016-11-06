@@ -1,4 +1,4 @@
-refresh = 3
+refresh = 60
 version = 20160124.01
 
 urls = ['http://www.reuters.com',

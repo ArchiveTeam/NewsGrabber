@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20151225.01
 
 urls = ['http://www3.nhk.or.jp/news/index.html?page=mov']

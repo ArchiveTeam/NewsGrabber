@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160123.01
 
 urls = ['http://www.lemidi-dz.com/']

@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20151228.01
 
 urls = ['http://www.panorama.com.al/category/lajmi-i-fundit/',

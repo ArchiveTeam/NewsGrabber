@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20160402.01
 
 urls = ['http://fightland.vice.com',

@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160403.01
 
 urls = ['https://www.youtube.com/user/LVIcomar/videos']

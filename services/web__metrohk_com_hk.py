@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20151223.01
 
 urls = ['http://www.metrohk.com.hk/index.php',

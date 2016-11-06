@@ -1,4 +1,4 @@
-refresh = 9
+refresh = 43200
 version = 20160103.01
 
 urls = ['https://www.youtube.com/user/20fourMedia/videos']

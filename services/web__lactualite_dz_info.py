@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20160123.01
 
 urls = ['http://www.lactualite-dz.info/']

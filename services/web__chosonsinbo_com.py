@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160326.02
 
 urls = ['http://chosonsinbo.com/',

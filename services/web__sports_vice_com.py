@@ -1,4 +1,4 @@
-refresh = 8
+refresh = 21600
 version = 20160402.01
 
 urls = ['https://sports.vice.com',

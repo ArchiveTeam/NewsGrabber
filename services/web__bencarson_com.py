@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20151221.01
 
 urls = ['https://www.bencarson.com/news',

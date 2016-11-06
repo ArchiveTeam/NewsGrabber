@@ -1,4 +1,4 @@
-refresh = 11
+refresh = 172800
 version = 20160326.02
 
 urls = ['http://www.dutchinamerica.com/',

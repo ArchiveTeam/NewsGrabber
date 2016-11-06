@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20151215.01
 
 urls = ['http://www.uriminzokkiri.com/']

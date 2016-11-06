@@ -1,4 +1,4 @@
-refresh = 3
+refresh = 60
 version = 20160326.02
 
 urls = ['http://www.theglobeandmail.com',

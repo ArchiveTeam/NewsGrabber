@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20160620.01
 
 urls = ['https://fullfact.org/',

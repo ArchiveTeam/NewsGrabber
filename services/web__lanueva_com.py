@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20160403.01
 
 urls = ['http://www.lanueva.com/',

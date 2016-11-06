@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20151226.01
 
 urls = ['http://fd.nl/laatste-nieuws',

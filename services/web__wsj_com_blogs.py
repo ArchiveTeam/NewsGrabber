@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160124.01
 
 urls = ['http://blogs.wsj.com/bankruptcy/feed/',

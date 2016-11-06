@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160403.02
 
 urls = ['http://economictimes.indiatimes.com/',

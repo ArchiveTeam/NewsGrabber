@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20151217.01
 
 urls = ['https://www.youtube.com/user/PBSNewsHour/videos']

@@ -1,4 +1,4 @@
-refresh = 4
+refresh = 300
 version = 20150814.01
 
 urls = ['http://www.thesun.co.uk/sol/homepage/']

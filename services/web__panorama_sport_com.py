@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20151228.01
 
 urls = ['http://www.panorama-sport.com/']

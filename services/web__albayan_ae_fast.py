@@ -1,4 +1,4 @@
-refresh = 2
+refresh = 30
 version = 20160102.01
 
 urls = ['http://www.albayan.ae/1.448?ot=ot.AjaxPageLayout',

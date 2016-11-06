@@ -1,4 +1,4 @@
-refresh = 9
+refresh = 43200
 version = 20160326.02
 
 urls = ['http://www.cameroonpostline.com',

@@ -1,4 +1,4 @@
-refresh = 10
+refresh = 86400
 version = 20151221.02
 
 urls = ['https://www.youtube.com/user/arstechnicavideos/videos']

@@ -1,4 +1,4 @@
-refresh = 6
+refresh = 3600
 version = 20160326.02
 
 urls = ['http://www.elbilad.net/',

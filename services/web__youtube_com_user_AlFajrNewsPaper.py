@@ -1,4 +1,4 @@
-refresh = 11
+refresh = 172800
 version = 20160103.01
 
 urls = ['https://www.youtube.com/user/AlFajrNewsPaper/videos']

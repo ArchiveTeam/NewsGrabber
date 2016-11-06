@@ -1,4 +1,4 @@
-refresh = 7
+refresh = 7200
 version = 20160221.01
 
 urls = ['http://www.elcolombiano.com']

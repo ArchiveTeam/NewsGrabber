@@ -1,4 +1,4 @@
-refresh = 9
+refresh = 43200
 version = 20160328.01
 
 urls = ['http://www.internationalaffairs.org.au/',

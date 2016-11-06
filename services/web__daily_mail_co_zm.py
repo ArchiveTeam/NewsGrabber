@@ -1,4 +1,4 @@
-refresh = 5
+refresh = 1800
 version = 20160306.01
 
 urls = ['https://www.daily-mail.co.zm']
