@@ -43,6 +43,7 @@ class Upload(threading.Thread):
 
     def set_max_concurrent_uploads(self, change):
         if self.max_concurrent_uploads + change > settings.max_concurrent_uploads:
+            self.max_concurrent_uploads = settings.max_concurrent_uploads
             return
         if self.max_concurrent_uploads + change < 1:
             return

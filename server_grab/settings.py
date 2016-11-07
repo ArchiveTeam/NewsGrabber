@@ -21,7 +21,7 @@ def init():
     global grab
     global upload
 
-    version = 20161107.01
+    version = 20161107.02
     irc_channel_bot = '#newsgrabberbot'
     irc_channel_main = '#newsgrabber'
     irc_nick = 'g_' + str(random.randint(0, 5000))
