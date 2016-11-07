@@ -1,8 +1,6 @@
 def init():
     global version
     global logger
-    global access_key
-    global secret_key
     global irc_bot
     global irc_channel_bot
     global irc_channel_main
@@ -29,16 +27,15 @@ def init():
     global max_item_size
     global max_url_age
     global dir_dumped_url_data
+    global keys
 
     # variables to be changed
-    version = 20161106.01
+    version = 20161107.01
     irc_channel_bot = '#newsgrabberbot'
     irc_channel_main = '#newsgrabber'
     irc_nick = 'newsbuddy'
     irc_server_name = 'irc.underworld.no'
     irc_server_port = 6667
-    access_key = 'access_key'
-    secret_key = 'secret_key'
     dir_new_urllists = 'incoming_urls'
     dir_old_urllists = 'incoming_urls_old'
     dir_donefiles = 'recovery_url_data'
@@ -49,6 +46,7 @@ def init():
     targets = 'targets.json'
     targets_grab = 'rsync_targets'
     targets_discovery = 'rsync_targets_discovery'
+    keys = 'keys'
     max_url_age = 1209600 # 2 weeks
     max_concurrent_uploads = 16
     max_item_size = 10737418240 # 10 GB

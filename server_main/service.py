@@ -169,12 +169,12 @@ class Urls(threading.Thread):
     def get_urls_new(self):
         runs = 0
         while True:
-            for file_ in os.listdir(settings.dir_new_urllists):
+            for f in os.listdir(settings.dir_new_urllists):
                 while not settings.get_urls_running:
                     time.sleep(1)
                 urls_new_count = 0
                 urls_new = json.load(open(os.path.join(
-                    settings.dir_new_urllists, file_)))
+                    settings.dir_new_urllists, f)))
                 for url in urls_new:
                     if url['service'] in settings.services \
                           and not url in [u['url'] for u in \
@@ -189,10 +189,10 @@ class Urls(threading.Thread):
                         self.add_url(url)
                         urls_new_count += 1
                 self.count(urls_new_count)
-                settings.logger.log('Loaded {urls} URL(s) from file {file}'.format(
-                        urls=urls_new_count, file=file_))
-                os.rename(os.path.join(settings.dir_new_urllists, file_),
-                        os.path.join(settings.dir_old_urllists, file_))
+                settings.logger.log('Loaded {urls} URL(s) from file {f}'.format(
+                        urls=urls_new_count, f=f))
+                os.rename(os.path.join(settings.dir_new_urllists, f),
+                        os.path.join(settings.dir_old_urllists, f))
             runs += 1
             if runs%15 == 0:
                 self.report_urls()

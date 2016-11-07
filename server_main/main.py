@@ -25,6 +25,8 @@ def main():
 
     if not os.path.isfile(settings.targets):
         settings.logger.log("Please add one or more rsync targets to file '{settings.targets}'".format(**locals()), 'ERROR')
+    if not os.path.isfile(settings.keys):
+        settings.logger.log("Please add you keys by running 'add_keys.py'.", 'ERROR')
 
     settings.irc_bot = irc.IRC()
     settings.irc_bot.daemon = True
