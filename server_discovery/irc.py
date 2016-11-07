@@ -126,7 +126,7 @@ class IRC(threading.Thread):
                     .format(**locals()), channel)
         elif command[0] == '!clear' and check_name(command):
             settings.run_services.clear()
-            self.send('PRIVMSG', '{user}: Cleared lists.')
+            self.send('PRIVMSG', '{user}: Cleared lists.'.format(**locals()))
         elif command[0] == '!version' and check_name(command):
             self.send('PRIVMSG', '{user}: Version is {version}.'
                 .format(user=user, version=settings.version), channel)
