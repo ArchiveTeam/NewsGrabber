@@ -70,6 +70,6 @@ class Upload(threading.Thread):
         if os.path.isfile(os.path.join(settings.dir_ready, file)):
             settings.irc_bot.send('PRIVMSG', '{name} synced unsuccessful to main server.'.format(
                 name=file), settings.irc_channel_bot)
-            set_max_concurrent_uploads(-1)
+            self.set_max_concurrent_uploads(-1)
         else:
-            set_max_concurrent_uploads(1)
+            self.set_max_concurrent_uploads(1)
