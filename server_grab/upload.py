@@ -34,7 +34,7 @@ class Upload(threading.Thread):
                     for file in files:
                         warc_num = int(file[-13:-8])
                         warc_num_second = str(warc_num + 1).zfill(5)
-                        if file[:-13] + warc_num_second + '.warc.gz' in file:
+                        if file[:-13] + warc_num_second + '.warc.gz' in files:
                             os.rename(os.path.join(dir_, file), os.path.join(settings.dir_ready, file))
                 if grab_finished:
                     shutil.rmtree(dir_)
