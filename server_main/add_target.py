@@ -4,6 +4,10 @@ import sys
 
 def main():
     targets = {}
+
+    if os.path.isfile('targets.json_old') and not os.path.isfile('targets.json'):
+        os.rename('targets.json_old', 'targets.json')
+
     if os.path.isfile('targets.json'):
         targets = json.load(open('targets.json', 'r'))
         os.rename('targets.json', 'targets.json_old')
