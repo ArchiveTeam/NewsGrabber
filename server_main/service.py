@@ -177,7 +177,7 @@ class Urls(threading.Thread):
                     settings.dir_new_urllists, f)))
                 for url in urls_new:
                     if url['service'] in settings.services \
-                          and not url in [u['url'] for u in \
+                          and not url['url'] in [u['url'] for u in \
                           settings.services[url['service']].service_log_urls]:
                         if not url['live']:
                             settings.services[url['service']].service_log_urls.append(
