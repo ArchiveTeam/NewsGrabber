@@ -19,8 +19,6 @@ class Upload(threading.Thread):
         threading.Thread.__init__(self)
         self.concurrent_uploads = 0
         self.max_item_size = settings.max_item_size
-        self.access_key = settings.access_key
-        self.secret_key = settings.secret_key
         self.uploads_file = file.File(os.path.join(settings.dir_last_upload, 'uploads.json'))
         self.uploads = {}
         self.items_file = file.File(os.path.join(settings.dir_last_upload, 'items.json'))
@@ -79,8 +77,8 @@ class Upload(threading.Thread):
                 threading.Thread(target=self.upload_single, args=(name, f, ia_args)).start()
 
     def upload_single(self, name, f, ia_args):
-        with open(settings.keys, 'r') as f:
-            access_key, secret_key = f.read().strip().split(':')
+        with open(settings.keys, 'r') as keys:
+            access_key, secret_key = keys.read().strip().split(':')
         try:
             internetarchive.upload('archiveteam_newssites_{name}'.format(name=name),
                 os.path.join(settings.dir_ready, f),
@@ -102,8 +100,10 @@ class Upload(threading.Thread):
                 name=f), settings.irc_channel_bot)
 
     def upload_allowed(self):
+        with open(settings.keys, 'r') as keys:
+            access_key, secret_key = keys.read().strip().split(':')
         response = requests.get('https://s3.us.archive.org/?check_limit=1&accesskey='
-                +self.access_key)
+                +access_key)
         if response.status_code == 200:
             try:
                 data = json.loads(response.text)
