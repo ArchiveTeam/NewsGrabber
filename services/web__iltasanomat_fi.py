@@ -59,8 +59,8 @@ urls = ['http://www.iltasanomat.fi',
         'http://www.ruokala.net/uutiset/rss',
         'http://www.ruokala.net/ajankohtaista/rss',
         'http://www.ruokala.net/reseptit/rss',
+		'http://www.iltasanomat.fi/rss/digitoday.xml',
         'http://www.iltasanomat.fi/rss/lemmikit.xml']
 regex = [r'^http?:\/\/[^\/]*www.iltasanomat\.fi']
 videoregex = []
 liveregex = []
-
